@@ -3,14 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @ORM\Table(name="`user`")
  */
 class User implements UserInterface
 {
@@ -53,7 +50,7 @@ class User implements UserInterface
     private $birthDate;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=255)
      */
     private $phone;
 
@@ -61,16 +58,6 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $licenceNumber;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Subscription::class, mappedBy="user")
-     */
-    private $subscriptions;
-
-    public function __construct()
-    {
-        $this->subscriptions = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -201,45 +188,20 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getLicenceNumber(): ?string
+    public function getLicence(): ?string
     {
-        return $this->licenceNumber;
+        return $this->licence;
     }
 
-    public function setLicenceNumber(?string $licenceNumber): self
+    public function setLicence(?string $licence): self
     {
-        $this->licenceNumber = $licenceNumber;
+        $this->licence = $licence;
 
         return $this;
     }
 
-    /**
-     * @return Collection|Subscription[]
-     */
-    public function getSubscriptions(): Collection
+    public function __toString()
     {
-        return $this->subscriptions;
-    }
-
-    public function addSubscription(Subscription $subscription): self
-    {
-        if (!$this->subscriptions->contains($subscription)) {
-            $this->subscriptions[] = $subscription;
-            $subscription->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSubscription(Subscription $subscription): self
-    {
-        if ($this->subscriptions->removeElement($subscription)) {
-            // set the owning side to null (unless already changed)
-            if ($subscription->getUser() === $this) {
-                $subscription->setUser(null);
-            }
-        }
-
-        return $this;
+        return $this->email;
     }
 }
