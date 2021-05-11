@@ -188,14 +188,14 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getLicence(): ?string
+    public function getLicenceNumber(): ?string
     {
-        return $this->licence;
+        return $this->licenceNumber;
     }
 
-    public function setLicence(?string $licence): self
+    public function setLicenceNumber(?string $licenceNumber): self
     {
-        $this->licence = $licence;
+        $this->licenceNumber = $licenceNumber;
 
         return $this;
     }
