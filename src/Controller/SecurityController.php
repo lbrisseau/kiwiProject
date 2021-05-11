@@ -21,9 +21,9 @@ class SecurityController extends AbstractController
         // }
         
         if ($security->isGranted('ROLE_ADMIN')){
-            return $this->redirectToRoute('');
+            return $this->redirectToRoute('subscription_index');
         } elseif ($security->isGranted('ROLE_USER')){
-            return $this->redirectToRoute('');
+            return $this->redirectToRoute('subscription_index');
         }
 
         // get the login error if there is one
