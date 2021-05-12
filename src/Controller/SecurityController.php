@@ -15,7 +15,8 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 /**
  * @Route(host="www.auribail-mx-park.local")
- */class SecurityController extends AbstractController
+ */
+class SecurityController extends AbstractController
 {
     /**
      * @Route("/login", name="app_login")
