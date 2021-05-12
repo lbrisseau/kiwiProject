@@ -7,6 +7,7 @@ use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Faker;
 
 class AppFixtures extends Fixture
 {
@@ -24,16 +25,23 @@ class AppFixtures extends Fixture
 
         for ($count = 0; $count < 20; $count++) {
             $user = new User;
-            $user->setEmail("toto".$count."@toto.com");
+            $faker = Faker\Factory::create('fr_FR');
+            
 
-            //encodage et définition du mot de passe "toto"
-            $password = $this->encoder->encodePassword($user, "toto");
+            $firstName = $faker->firstName();
+            $lastName = $faker->lastName();
+            $email = $faker->freeEmail();
+
+            $user->setFirstName($firstName);
+            $user->setLastName($lastName);
+            $user->setEmail($email);
+
+            //encodage et définition du mot de passe
+            $password = $this->encoder->encodePassword($user, $firstName);
             $user->setPassword($password);
 
-            $user->setFirstName("Toto ".$count);
-            $user->setLastName("Toto");
-            $user->setPhone("123456");
-            $user->setBirthDate(new DateTime());
+            $user->setPhone($faker->phoneNumber());
+            $user->setBirthDate($faker->dateTimeThisCentury());
             $user->setRoles(["ROLE_USER"]);
 
             $manager->persist($user);
