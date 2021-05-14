@@ -50,7 +50,7 @@ body {
 }
 @media only screen and (min-width: 768px) {
   .my-scroll-down-arrow {
-    display: contents;
+    display: block;
     position: absolute;
     bottom: 3vh;
     right: 5vh;
