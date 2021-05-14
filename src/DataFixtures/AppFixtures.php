@@ -22,6 +22,28 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
+        $user = new User;
+        $faker = Faker\Factory::create('fr_FR');
+
+        $firstName = 'admin';
+        $lastName = 'ADMIN';
+        $email = 'admin@admin.com';
+
+        $user->setFirstName($firstName);
+        $user->setLastName($lastName);
+        $user->setEmail($email);
+
+        //encodage et définition du mot de passe
+        $password = $this->encoder->encodePassword($user, $firstName);
+        $user->setPassword($password);
+
+        $user->setPhone($faker->phoneNumber());
+        $user->setBirthDate($faker->dateTimeThisCentury());
+        $user->setRoles(["ROLE_ADMIN"]);
+
+        $manager->persist($user);
+        $manager->flush();
+        
         // Alimentation de la table user
 
         for ($count = 0; $count < 40; $count++) {
@@ -48,6 +70,7 @@ class AppFixtures extends Fixture
             $manager->persist($user);
         }
         $manager->flush();
+
         // Alimentation de la table event
 
         $date = new DateTime();
