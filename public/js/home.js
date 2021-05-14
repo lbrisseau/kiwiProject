@@ -1,9 +1,9 @@
-// J'ajoute ceci pour le tooltip
+// tooltip function
 $(document).ready(function(){
 	$("[data-toggle='tooltip']").tooltip();   
 });
 
-// J'ajoute ceci pour la carte
+// map function
 // Initialize and add the map
 function initMap() {
 	// The location of terrain
@@ -19,3 +19,26 @@ function initMap() {
 		map: map,
 	});
 }
+
+// Scroll icon function
+let el = document.querySelector(".scroll-container");
+el.addEventListener("scroll", function () {
+	console.log(window.screen.width);
+	if (window.screen.width >= 925)
+	{
+		let scrollHeight = el.scrollHeight - el.clientHeight;
+		let currentHeight = el.scrollTop;
+
+		if (currentHeight > scrollHeight - 10)
+		{
+			document.querySelector('.my-scroll-down-arrow').style.display = 'none';
+		} 
+		else
+		{
+			document.querySelector('.my-scroll-down-arrow').style.display = 'block';
+		}
+	}
+	else{
+		document.querySelector('.my-scroll-down-arrow').style.display = 'none';
+	}
+});

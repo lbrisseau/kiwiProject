@@ -1,7 +1,6 @@
 html {
-  /* Style du scroll : */
+  /* Scroll style: */
 
-  /*scroll-snap-type: y mandatory;*/
   overflow: hidden;
 }
 body {
@@ -15,7 +14,7 @@ body {
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
   overflow-y: scroll;
-  /* scrollbar invisible : */
+  /* invisible scrollbar: */
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
@@ -23,19 +22,7 @@ body {
 .scroll-container::-webkit-scrollbar {
   display: none;
 }
-/*	.arrows {
-    text-decoration: none;
-    display: inline-block;
-    padding: 8px 16px;
-    color: black;
-    border-radius: 50%;
-    background-color: #fcfbf3;
 
-    &:hover{
-        color: #fcfbf3;
-        background-color: black;
-    }
-    }*/
 .my-nav-color {
   background-color: #fcfbf3;
 }
@@ -47,10 +34,10 @@ body {
 }
 .my-scroll-down-arrow {
   display: none;
+  visibility: collapse;
 }
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 925px) {
   .my-scroll-down-arrow {
-    display: block;
     position: absolute;
     bottom: 3vh;
     right: 5vh;
@@ -85,10 +72,20 @@ body {
 }
 
 /* Style du scroll : */
-.page {
-  scroll-snap-align: start;
-  height: 100vh;
+@media only screen and (min-width: 768px) {
+  .page {
+    scroll-snap-align: start;
+    height: 100vh;
+  }
 }
+@media only screen and (max-width: 768px) {
+  .pageMobile {
+    scroll-snap-align: start;
+    height: 98vh;
+    padding-top: 15vh;
+  }
+}
+
 footer {
   scroll-snap-align: end;
 }

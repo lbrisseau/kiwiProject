@@ -1,10 +1,10 @@
 'use strict';
 let dt = new Date();
-let tooltip_text = "motocross<br>10h30-16h30" // "" texte vide pour retirer le tooltip
+let tooltip_text = "motocross<br>10h30-16h30" // "" empty text to hide the tooltip
 let jour_event = 25;
 let mois_event = 4; // Mois - 1
 let annee_event = 2021;
-// lien de l'événement google
+// google event
 let lien = "https://calendar.google.com/event?action=TEMPLATE&amp;tmeid=MHZvZTZ1MzZ1MXNqZGxlYzBldGs2bWtuNnAgbm8za3B1Zm8zaGE5MnBkOTRiMTlrdGUwa29AZw&amp;tmsrc=no3kpufo3ha92pd94b19kte0ko%40group.calendar.google.com"
 
 

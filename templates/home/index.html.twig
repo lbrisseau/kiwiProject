@@ -14,7 +14,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
 	<!-- bootstrap.js -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js" integrity="sha512-XKa9Hemdy1Ui3KSGgJdgMyYlUg1gM+QhL6cnlyTe2qzMCYm4nAZ1PsVerQzTTXzonUR+dmswHqgJPuwCq1MaAg==" crossorigin="anonymous"></script>
-    <script src="js/home.js" type="text/javascript"></script>
+    
 {% endblock %}
 
 {% block body %}
@@ -32,7 +32,7 @@
         {% endblock %}
 		
 		<!-- Le carousel de posters :) -->
-		<div class="carousel slide pt-2 mt-2 mb-0 d-none d-md-block" id="my-carousel">
+		<div class="carousel slide pt-2 mt-2 mb-0 d-none d-lg-block" id="my-carousel">
 			<ul class="carousel-indicators">
 				<li data-slide-to="0" data-target="#my-carousel" class="active">
 				</li>
@@ -95,8 +95,9 @@
 				<span class="sr-only">Next</span>
 			</a>
 		</div>
-		<div class="row mb-3 text-center">
-			<div class="offset-md-2 col-md-4 my-2">
+		{# <div class="pt-2 mt-2 mb-0 d-lg-none"></div> #}
+		<div class="row p-5 p-lg-0 mb-3 text-center">
+			<div class="col-md-6 offset-lg-2 col-lg-4 my-3 pageMobile">
 				<div class="card h-100">
 					<div class="card-body p-1 m-2">
 						<h1 class="card-title h3">Événement</h1>
@@ -128,7 +129,7 @@
 					<div class="card-footer"><button class="btn btn-primary">S'inscrire</button></div>
 				</div>
 			</div>
-			<div class="col-md-4 my-2">
+			<div class="col-md-6 col-lg-4 my-3 pageMobile">
 				<div class="card h-100">
 					<div class="card-body p-1 m-2">
 						<h1 class="card-title h3">Les lieux</h1>
@@ -152,8 +153,8 @@
 			<a href="#" class="arrows">&#8250;</a> #}
 		</section>
 
-		<section class="container page" id="club"></section>
-		<section class="container page" id="evenement"></section>
+		<section class="container page pageMobile" id="club"></section>
+		<section class="container page pageMobile" id="evenement"></section>
 		<!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 		<!-- PAGE CLUB -->
 		<section class="container page pt-5" id="contact">
@@ -223,7 +224,7 @@
 			</div>
 			<!-- Les cartes avec quelques films : -->
 			<div class="row text-center">
-				<div class="offset-md-2 col-md-4 my-3">
+				<div class="offset-md-2 col-md-4 my-3 pageMobile">
 					<div class="card h-100">
 						<div class="card-body">
 							<h1 class="card-title">Événement</h1>
@@ -231,7 +232,7 @@
 						<div class="card-footer"><button class="btn btn-primary">S'inscrire</button></div>
 					</div>
 				</div>
-				<div class="col-md-4 mt-3 my-3">
+				<div class="col-md-4 mt-3 my-3 pageMobile">
 					<div class="card h-100">
 						<div class="card-body">
 							<h1 class="card-title">Les lieux</h1>
@@ -244,7 +245,7 @@
 
 		<!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 		<!-- Eeeet le footer ! -->
-		<footer class="page-footer my-footer my-nav-color text-dark py-5 w-100">
+		<footer class="page-footer my-footer my-nav-color text-dark py-5 w-100" id="myFooter">
 			<div class="container">
 				<div class="row">
 					<div class="col-md-6 d-none d-md-block">
@@ -313,4 +314,6 @@
     <!-- This was at the bottom of the body so if calendar doesn't work, move it -->
 	<!-- Essential or the calendar disappear -->
 	<script src="js/calendar.js" type="text/javascript"></script>
+	{# Trying to get the scroll icon function to work made me move this link here: #}
+	<script src="js/home.js" type="text/javascript"></script>
 {% endblock %}
