@@ -42,6 +42,21 @@ body {
 .my-footer {
   font-size: 0.8rem;
 }
+.my-img {
+  filter: brightness(50%);
+}
+.my-scroll-down-arrow {
+  display: none;
+}
+@media only screen and (min-width: 768px) {
+  .my-scroll-down-arrow {
+    display: contents;
+    position: absolute;
+    bottom: 3vh;
+    right: 5vh;
+  }
+}
+
 /* Style de la navbar : */
 /* - boutons actifs ou non : */
 .navbar-nav li > a {
@@ -49,7 +64,7 @@ body {
   transition: background-color 0.2s, color 0.2s;
 }
 .navbar-nav li > a:hover {
-    color: #757575;
+  color: #757575;
 }
 .navbar-nav li.active > a {
   color: #fff;
@@ -61,12 +76,14 @@ body {
 .navbar-brand {
   max-height: 70px;
 }
+
 /* Essentiel pour la carte : */
 /* Set the size of the div element that contains the map */
 #map {
   height: 270px;
   width: 100%;
 }
+
 /* Style du scroll : */
 .page {
   scroll-snap-align: start;
