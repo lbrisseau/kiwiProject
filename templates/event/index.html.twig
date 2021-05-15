@@ -7,7 +7,7 @@
     <div class="row">
     <div class="col-10 offset-1">
       <h1>Liste des Entrainements</h1>
-
+      <a class="btn btn-primary mb-3" href="{{ path('event_new') }}">Create new</a>
       <table class="table table-striped">
         <thead>
           <tr>
@@ -32,8 +32,8 @@
               <td>{{ event.startAllSubs }}</td>
               <td>{{ event.endSubs }}</td>
               <td>
-                <a href="{{ path('admin_event_show', {'id': event.id}) }}">show</a>
-                <a href="{{ path('admin_event_edit', {'id': event.id}) }}">edit</a>
+                <a class="btn btn-primary btn-sm mb-1" href="{{ path('event_show', {'id': event.id}) }}">show</a>
+                <a class="btn btn-warning btn-sm" href="{{ path('event_edit', {'id': event.id}) }}">edit</a>
               </td>
             </tr>
           {% else %}
@@ -43,8 +43,6 @@
           {% endfor %}
         </tbody>
       </table>
-
-      <a href="{{ path('admin_event_new') }}">Create new</a>
       </div>
     </div>
   </div>
