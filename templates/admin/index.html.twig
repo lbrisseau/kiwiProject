@@ -1,0 +1,43 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block title %}MX Park | Admin{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <div class="row">
+      <div class="col-10 offset-1">
+        <h1 class="mt-5">Contenu à définir</h1>
+        <h1 class="mt-5">Ex : Inscriptions Prochain Entrainement</h1>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>SubsDate</th>
+              <th>ValidationState</th>
+              <th>actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for subscription in subscriptions %}
+              <tr>
+                <td>{{ subscription.id }}</td>
+                <td>{{ subscription.subsDate ? subscription.subsDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ subscription.validationState ? 'Yes' : 'No' }}</td>
+                <td>
+                  <a href="{{ path('subscription_show', {'id': subscription.id}) }}">show</a>
+                  <a href="{{ path('subscription_edit', {'id': subscription.id}) }}">edit</a>
+                </td>
+              </tr>
+            {% else %}
+              <tr>
+                <td colspan="4">no records found</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+        <a href="{{ path('subscription_new') }}">Create new</a>
+      </div>
+    </div>
+  </div>
+{% endblock %}

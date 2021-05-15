@@ -1,0 +1,61 @@
+
+body {
+  font-family: "Lexend", sans-serif;
+  background-color: #eaeae3;
+}
+
+.my-nav-color {
+  background-color: #fde3e7;
+}
+.my-footer {
+  font-size: 0.8rem;
+}
+.my-img {
+  filter: brightness(50%);
+}
+
+/* Style de la navbar : */
+/* - boutons actifs ou non : */
+.navbar-nav li > a {
+  color: #333;
+  transition: background-color 0.2s, color 0.2s;
+}
+.navbar-nav li > a:hover {
+  color: #757575;
+}
+.navbar-nav li.active > a {
+  color: #fff;
+}
+/* - comme le logo prend trop de place : */
+.my-logo {
+  max-height: 60px;
+}
+.navbar-brand {
+  max-height: 70px;
+}
+
+/* Essentiel pour la carte : */
+/* Set the size of the div element that contains the map */
+#map {
+  height: 270px;
+  width: 100%;
+}
+
+/* Style du scroll : */
+@media only screen and (min-width: 768px) {
+  .page {
+    scroll-snap-align: start;
+    height: 100vh;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .pageMobile {
+    scroll-snap-align: start;
+    height: 98vh;
+    padding-top: 15vh;
+  }
+}
+
+footer {
+  scroll-snap-align: end;
+}
