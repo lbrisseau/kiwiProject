@@ -32,12 +32,15 @@ body {
 .my-img {
   filter: brightness(50%);
 }
-.my-scroll-down-arrow {
-  display: none;
-  visibility: collapse;
-}
-@media only screen and (min-width: 925px) {
+@media only screen and (max-width: 924px) {
   .my-scroll-down-arrow {
+    display: none;
+    visibility: collapse;
+  }
+}
+@media only screen and (min-width: 924px) {
+  .my-scroll-down-arrow {
+    display: block;
     position: absolute;
     bottom: 3vh;
     right: 5vh;
