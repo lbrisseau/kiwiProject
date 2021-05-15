@@ -1,45 +1,51 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin-base.html.twig' %}
 
-{% block title %}Event index{% endblock %}
+{% block title %}MX Park | Admin | Liste Entrainements{% endblock %}
 
 {% block body %}
-    <h1>Event index</h1>
+  <div class="container">
+    <div class="row">
+    <div class="col-10 offset-1">
+      <h1>Liste des Entrainements</h1>
 
-    <table class="table">
+      <table class="table table-striped">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Date</th>
-                <th>Name</th>
-                <th>Type</th>
-                <th>StartMemberSubs</th>
-                <th>StartAllSubs</th>
-                <th>EndSubs</th>
-                <th>actions</th>
-            </tr>
+          <tr>
+            <th>Id</th>
+            <th>Date</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>StartMemberSubs</th>
+            <th>StartAllSubs</th>
+            <th>EndSubs</th>
+            <th>actions</th>
+          </tr>
         </thead>
         <tbody>
-        {% for event in events %}
+          {% for event in events %}
             <tr>
-                <td>{{ event.id }}</td>
-                <td>{{ event.date ? event.date|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ event.name }}</td>
-                <td>{{ event.type ? 'Yes' : 'No' }}</td>
-                <td>{{ event.startMemberSubs }}</td>
-                <td>{{ event.startAllSubs }}</td>
-                <td>{{ event.endSubs }}</td>
-                <td>
-                    <a href="{{ path('event_show', {'id': event.id}) }}">show</a>
-                    <a href="{{ path('event_edit', {'id': event.id}) }}">edit</a>
-                </td>
+              <td>{{ event.id }}</td>
+              <td>{{ event.date ? event.date|date('Y-m-d H:i:s') : '' }}</td>
+              <td>{{ event.name }}</td>
+              <td>{{ event.type ? 'Yes' : 'No' }}</td>
+              <td>{{ event.startMemberSubs }}</td>
+              <td>{{ event.startAllSubs }}</td>
+              <td>{{ event.endSubs }}</td>
+              <td>
+                <a href="{{ path('admin_event_show', {'id': event.id}) }}">show</a>
+                <a href="{{ path('admin_event_edit', {'id': event.id}) }}">edit</a>
+              </td>
             </tr>
-        {% else %}
+          {% else %}
             <tr>
-                <td colspan="8">no records found</td>
+              <td colspan="8">no records found</td>
             </tr>
-        {% endfor %}
+          {% endfor %}
         </tbody>
-    </table>
+      </table>
 
-    <a href="{{ path('event_new') }}">Create new</a>
+      <a href="{{ path('admin_event_new') }}">Create new</a>
+      </div>
+    </div>
+  </div>
 {% endblock %}
