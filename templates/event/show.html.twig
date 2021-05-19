@@ -20,7 +20,7 @@
                 <td>{{ event.name }}</td>
             </tr>
             <tr>
-                <th>Type</th>
+                <th>Evenement Adulte</th>
                 <td>{{ event.type ? 'Yes' : 'No' }}</td>
             </tr>
             <tr>
@@ -38,9 +38,9 @@
         </tbody>
     </table>
 
-    <a  class="btn btn-primary" href="{{ path('event_index') }}">back to list</a>
+    <a  class="btn btn-primary" href="{{ path('event_index') }}"><i class="fas fa-arrow-circle-left"></i></a>
 
-    <a  class="btn btn-warning" href="{{ path('event_edit', {'id': event.id}) }}">edit</a>
+    <a  class="btn btn-warning" href="{{ path('event_edit', {'id': event.id}) }}"><i class="far fa-edit"></i></a>
 
     {{ include('event/_delete_form.html.twig') }}
 {% endblock %}

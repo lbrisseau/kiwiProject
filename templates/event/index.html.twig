@@ -11,34 +11,26 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th>Id</th>
             <th>Date</th>
             <th>Name</th>
-            <th>Type</th>
-            <th>StartMemberSubs</th>
-            <th>StartAllSubs</th>
-            <th>EndSubs</th>
+            <th>Type Adulte ?</th>
             <th>actions</th>
           </tr>
         </thead>
         <tbody>
           {% for event in events %}
             <tr>
-              <td>{{ event.id }}</td>
-              <td>{{ event.date ? event.date|date('Y-m-d H:i:s') : '' }}</td>
+              <td>{{ event.date ? event.date|date('d-m-Y H:i:s') : '' }}</td>
               <td>{{ event.name }}</td>
               <td>{{ event.type ? 'Yes' : 'No' }}</td>
-              <td>{{ event.startMemberSubs }}</td>
-              <td>{{ event.startAllSubs }}</td>
-              <td>{{ event.endSubs }}</td>
               <td>
-                <a class="btn btn-primary btn-sm mb-1" href="{{ path('event_show', {'id': event.id}) }}">show</a>
-                <a class="btn btn-warning btn-sm" href="{{ path('event_edit', {'id': event.id}) }}">edit</a>
+                <a class="btn btn-primary btn-sm" href="{{ path('event_show', {'id': event.id}) }}"><i class="fas fa-info-circle"></i></a>
+                <a class="btn btn-warning btn-sm" href="{{ path('event_edit', {'id': event.id}) }}"><i class="far fa-edit"></i></a>
               </td>
             </tr>
           {% else %}
             <tr>
-              <td colspan="8">no records found</td>
+              <td colspan="4">no records found</td>
             </tr>
           {% endfor %}
         </tbody>
