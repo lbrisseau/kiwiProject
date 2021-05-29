@@ -3,9 +3,19 @@
 {% block title %}New Event{% endblock %}
 
 {% block body %}
-    <h1>Create new Event</h1>
-
-    {{ include('event/_form.html.twig') }}
-
-    <a class="btn btn-primary" href="{{ path('event_index') }}"><i class="fas fa-arrow-circle-left"></i></a>
+  <div class="container">
+    <div class="row">
+      <div class="col-10 mx-auto">
+        <div class="d-flex  mt-4 mb-2">
+          <h1 class="h2">Création Entrainement</h1>
+          <p class="ml-auto">
+            <a class="btn btn-primary" href="{{ path('event_index') }}">
+              <i class="fas fa-arrow-circle-left"></i>
+            </a>
+          </p>
+        </div>
+        {{ include('event/_form.html.twig') }}
+      </div>
+    </div>
+  </div>
 {% endblock %}

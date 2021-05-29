@@ -3,44 +3,57 @@
 {% block title %}Event{% endblock %}
 
 {% block body %}
-    <h1>Event</h1>
+  <div class="container">
+    <div class="row">
+      <div class="col-10 mx-auto">
+        <div class="d-flex  my-4">
+          <h1 class="h2">Détail Entrainement du
+            {{ event.date ? event.date|date('d-m-Y') : '' }}
+          </h1>
+          <p class="ml-auto">
+            <a class="btn btn-primary" href="{{ path('event_index') }}">
+              <i class="fas fa-arrow-circle-left"></i>
+            </a>
+            <a class="btn btn-warning" href="{{ path('event_edit', {'id': event.id}) }}">
+              <i class="far fa-edit"></i>
+            </a>
+          </p>
+        </div>
+        <table class="table table-striped">
+          <tbody>
+            <tr>
+              <th>Id</th>
+              <td>{{ event.id }}</td>
+            </tr>
+            <tr>
+              <th>Date</th>
+              <td>{{ event.date ? event.date|date('d-m-Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+              <th>Nom</th>
+              <td>{{ event.name }}</td>
+            </tr>
+            <tr>
+              <th>Entrainement Adulte ?</th>
+              <td>{{ event.type ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+              <th>Nb de jours avant ouverture des inscriptions<br>(pour les membres)</th>
+              <td>{{ event.startMemberSubs }}</td>
+            </tr>
+            <tr>
+              <th>Nb de jours avant ouverture des inscriptions<br>(pour tous)</th>
+              <td>{{ event.startAllSubs }}</td>
+            </tr>
+            <tr>
+              <th>Nb de jours avant fermeture des inscriptions</th>
+              <td>{{ event.endSubs }}</td>
+            </tr>
+          </tbody>
+        </table>
+        {{ include('event/_delete_form.html.twig') }}
+      </div>
+    </div>
+  </div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ event.id }}</td>
-            </tr>
-            <tr>
-                <th>Date</th>
-                <td>{{ event.date ? event.date|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ event.name }}</td>
-            </tr>
-            <tr>
-                <th>Evenement Adulte</th>
-                <td>{{ event.type ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>StartMemberSubs</th>
-                <td>{{ event.startMemberSubs }}</td>
-            </tr>
-            <tr>
-                <th>StartAllSubs</th>
-                <td>{{ event.startAllSubs }}</td>
-            </tr>
-            <tr>
-                <th>EndSubs</th>
-                <td>{{ event.endSubs }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a  class="btn btn-primary" href="{{ path('event_index') }}"><i class="fas fa-arrow-circle-left"></i></a>
-
-    <a  class="btn btn-warning" href="{{ path('event_edit', {'id': event.id}) }}"><i class="far fa-edit"></i></a>
-
-    {{ include('event/_delete_form.html.twig') }}
 {% endblock %}

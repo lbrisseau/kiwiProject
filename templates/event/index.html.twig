@@ -5,36 +5,44 @@
 {% block body %}
   <div class="container">
     <div class="row">
-    <div class="col-10 offset-1">
-      <h1>Liste des Entrainements</h1>
-      <a class="btn btn-primary mb-3" href="{{ path('event_new') }}">Create new</a>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Name</th>
-            <th>Type Adulte ?</th>
-            <th>actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for event in events %}
+      <div class="col-10 mx-auto">
+        <div class="d-flex  mt-4 mb-2">
+          <h1 class="h2">Liste des Entrainements</h1>
+          <p class="ml-auto">
+            <a class="btn btn-success" href="{{ path('event_new') }}">Nouvel Entrainement</a>
+          </p>
+        </div>       
+        <table class="table table-striped">
+          <thead>
             <tr>
-              <td>{{ event.date ? event.date|date('d-m-Y H:i:s') : '' }}</td>
-              <td>{{ event.name }}</td>
-              <td>{{ event.type ? 'Yes' : 'No' }}</td>
-              <td>
-                <a class="btn btn-primary btn-sm" href="{{ path('event_show', {'id': event.id}) }}"><i class="fas fa-info-circle"></i></a>
-                <a class="btn btn-warning btn-sm" href="{{ path('event_edit', {'id': event.id}) }}"><i class="far fa-edit"></i></a>
-              </td>
+              <th>Date</th>
+              <th>Nom</th>
+              <th>Adulte ?</th>
+              <th>Actions</th>
             </tr>
-          {% else %}
-            <tr>
-              <td colspan="4">no records found</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {% for event in events %}
+              <tr>
+                <td>{{ event.date ? event.date|date('d-m-Y H:i:s') : '' }}</td>
+                <td>{{ event.name }}</td>
+                <td>{{ event.type ? 'Yes' : 'No' }}</td>
+                <td>
+                  <a class="btn btn-primary btn-sm" href="{{ path('event_show', {'id': event.id}) }}">
+                    <i class="fas fa-info-circle"></i>
+                  </a>
+                  <a class="btn btn-warning btn-sm" href="{{ path('event_edit', {'id': event.id}) }}">
+                    <i class="far fa-edit"></i>
+                  </a>
+                </td>
+              </tr>
+            {% else %}
+              <tr>
+                <td colspan="4">no records found</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

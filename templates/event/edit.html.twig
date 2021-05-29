@@ -3,11 +3,27 @@
 {% block title %}Edit Event{% endblock %}
 
 {% block body %}
-    <h1>Edit Event</h1>
+  <div class="container">
+    <div class="row">
+      <div class="col-10 mx-auto">
+        <div class="d-flex  my-4">
+          <h1 class="h2">Modification Entrainement du
+            {{ event.date ? event.date|date('d-m-Y') : '' }}
+          </h1>
+          <p class="ml-auto">
+            <a class="btn btn-primary" href="{{ path('event_index') }}">
+              <i class="fas fa-arrow-circle-left"></i>
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-10 mx-auto">
+          {{ include('event/_form.html.twig', {'button_label': 'Update'}) }}
+          {{ include('event/_delete_form.html.twig') }}
+      </div>
+    </div>
 
-    {{ include('event/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a class="btn btn-primary" href="{{ path('event_index') }}"><i class="fas fa-arrow-circle-left"></i></a>
-
-    {{ include('event/_delete_form.html.twig') }}
+  </div>
 {% endblock %}
