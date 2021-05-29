@@ -95,6 +95,11 @@
 				<span class="sr-only">Next</span>
 			</a>
 		</div>
+		{# TODO what if title is too long? vary width of cards #}
+		{# TODO cards size on large tablets #}
+		{# TODO burger disappearing when click #}
+		{# TODO tooltip not bootstrap #}
+		{# TODO API key in .env instead #}
 		<div class="row p-5 p-lg-0 mb-3 text-center">
 			<div class="col-md-6 offset-lg-2 col-lg-4 my-3 pageMobile">
 				<div class="card h-100">
@@ -135,12 +140,14 @@
 						<!--The div element for the map -->
 						<div class="mx-auto" id="map"></div>
 						<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
-						<!-- changer la clé api au besoin : "https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" -->
 						<script async
-						src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZG093ECrqEPEZIdP2E4cvWrvKG5wlsCY&callback=initMap">
-					</script>
+							src="https://maps.googleapis.com/maps/api/js?key={{my_api_key}}&callback=initMap">
+						</script>
+						{# Interesting #}
+						<!-- oh wow -->
+					</div>
+					<div class="card-footer"><button class="btn btn-primary">Voir plus !</button></div>
 				</div>
-				<div class="card-footer"><button class="btn btn-primary">Voir plus !</button></div>
 			</div>
 		</div>
 		<div class="row my-scroll-down-arrow">
