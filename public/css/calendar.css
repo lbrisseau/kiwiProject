@@ -162,7 +162,7 @@
  }
  
  #icalendarDateStr {
-     font-size: 13px;
+     font-size: 0.9rem;
      color: rgba(255, 255, 255, .9);
      text-transform: uppercase;
  }
@@ -179,9 +179,9 @@
      align-items: center;
      background-color: rgba(0, 0, 0, .1);
      border-radius: 50%;
-     width: 30px;
-     height: 30px;
-     font-size: 15px;
+     width: 2rem;
+     height: 2rem;
+     font-size: 0.95rem;
      line-height: 1;
      -webkit-transition: .3s;
      transition: .3s;
