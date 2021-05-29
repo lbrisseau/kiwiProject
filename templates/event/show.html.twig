@@ -38,16 +38,16 @@
               <td>{{ event.type ? 'Yes' : 'No' }}</td>
             </tr>
             <tr>
-              <th>Nb de jours avant ouverture des inscriptions<br>(pour les membres)</th>
-              <td>{{ event.startMemberSubs }}</td>
+              <th>Inscription Membres</th>
+              <td>{{ event.startMemberSubs }} jours avant la session</td>
             </tr>
             <tr>
-              <th>Nb de jours avant ouverture des inscriptions<br>(pour tous)</th>
-              <td>{{ event.startAllSubs }}</td>
+              <th>Inscription (autres)</th>
+              <td>{{ event.startAllSubs }} jours avant la session</td>
             </tr>
             <tr>
-              <th>Nb de jours avant fermeture des inscriptions</th>
-              <td>{{ event.endSubs }}</td>
+              <th>Fermeture Inscriptions</th>
+              <td>{{ event.endSubs }} jours avant la session</td>
             </tr>
           </tbody>
         </table>
