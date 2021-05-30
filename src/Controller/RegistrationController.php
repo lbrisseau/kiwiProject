@@ -8,19 +8,20 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class RegistrationController extends AbstractController
 {
     /**
      * @Route("/registration", name="registration")
      */
-    public function registration(Request $request, EntityManagerInterface $em)
+    public function registration(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
     {
         $form = $this->createForm(RegistrationType::class);
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted())
+        if ($form->isSubmitted() && $form->isValid())
         {
             $user = new User();
             $user->setFirstName($form->get('firstName')->getData());
@@ -32,10 +33,13 @@ class RegistrationController extends AbstractController
             $user->setRoles($form->get('roles')->getData());
             $user->setPassword($form->get('password')->getData());
 
+            $password = $encoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($password);
+
             $em->persist($user);
             $em->flush();
 
-            die('Redirection page accueil');
+            return $this->redirectToRoute('home');
         }
 
         return $this->render('registration/registration.html.twig', [
