@@ -95,58 +95,52 @@
 				<span class="sr-only">Next</span>
 			</a>
 		</div>
-		{# TODO what if title is too long? vary width of cards #}
 		{# TODO cards size on large tablets #}
 		{# TODO burger disappearing when click #}
-		{# TODO tooltip not bootstrap #}
-		<div class="row p-5 p-lg-0 mb-3 text-center">
-			<div class="col-md-6 offset-lg-2 col-lg-4 my-3 pageMobile">
-				<div class="card h-100">
-					<div class="card-body p-1 m-2">
-						<h1 class="card-title h3">Événement</h1>
-						<!-- Intégration du calendrier (la date est en rouge et contient le lien vers l'événement sur google agenda) -->
-						<div class="icalendar mx-auto">
-							<div class="icalendar__month">
-								<div class="icalendar__prev" onclick="moveDate('prev')">
-									<span>&#10094</span> <!-- petite flèche vers la gauche -->
-								</div>
-								<div class="icalendar__current-date">
-									<h2 id="icalendarMonth"></h2>
-								</div>
-								<div class="icalendar__next" onclick="moveDate('next')">
-									<span>&#10095</span> <!-- petite flèche vers la droite -->
-								</div>
-							</div>
-							<div class="icalendar__week-days">
-								<div>Lun</div>
-								<div>Mar</div>
-								<div>Mer</div>
-								<div>Jeu</div>
-								<div>Ven</div>
-								<div>Sam</div>
-								<div>Dim</div>
-							</div>
-							<div class="icalendar__days"></div>
-						</div>
-					</div>
-					<div class="card-footer"><button class="btn btn-primary">S'inscrire</button></div>
-				</div>
-			</div>
-			<div class="col-md-6 col-lg-4 my-3 pageMobile">
-				<div class="card h-100">
-					<div class="card-body p-1 m-2">
-						<h1 class="card-title h3">Les lieux</h1>
-						<!--The div element for the map -->
-						<div class="mx-auto" id="map"></div>
-						<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
-						<script async
-							src="https://maps.googleapis.com/maps/api/js?key={{my_api_key}}&callback=initMap">
-						</script>
-					</div>
-					<div class="card-footer"><button class="btn btn-primary">Voir plus !</button></div>
-				</div>
-			</div>
-		</div>
+		<div class="flex-container">
+    		<div class="flex-card pageMobile my-3">
+    		    <h1 class="flex-title">Événement</h1>
+    		    <!-- Intégration du calendrier (la date est en rouge et contient le lien vers l'événement sur google agenda) -->
+    		    <div class="flex-element">
+    		        <div class="icalendar">
+    		            <div class="icalendar__month">
+    		                <div class="icalendar__prev" onclick="moveDate('prev')">
+    		                    <span>&#10094</span> <!-- petite flèche vers la gauche -->
+    		                </div>
+    		                <div class="icalendar__current-date">
+    		                    <h2 id="icalendarMonth"></h2>
+    		                </div>
+    		                <div class="icalendar__next" onclick="moveDate('next')">
+    		                    <span>&#10095</span> <!-- petite flèche vers la droite -->
+    		                </div>
+    		            </div>
+    		            <div class="icalendar__week-days">
+    		                <div>Lun</div>
+    		                <div>Mar</div>
+    		                <div>Mer</div>
+    		                <div>Jeu</div>
+    		                <div>Ven</div>
+    		                <div>Sam</div>
+    		                <div>Dim</div>
+    		            </div>
+    		            <div class="icalendar__days"></div>
+    		        </div>
+    		    </div>
+    		    <div class="flex-footer"><button class="btn btn-primary">S'inscrire</button></div>
+    		</div>
+			<div class="flex-card pageMobile my-3">
+  		    	<h1 class="flex-title">Les lieux</h1>
+  		    	<div class="flex-element">
+  		        	<!--The div element for the map -->
+					<div id="map"></div>
+					<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+					<script async
+						src="https://maps.googleapis.com/maps/api/js?key={{my_api_key}}&callback=initMap">
+					</script>
+  		    	</div>
+  		    	<div class="flex-footer"><button class="btn btn-primary">Voir plus !</button></div>
+  			</div>
+  		</div>
 		<div class="row my-scroll-down-arrow">
 			<div class="col-12 d-flex flex-column align-text-right" >
 				<i class="fas fa-arrow-down p-1"></i>

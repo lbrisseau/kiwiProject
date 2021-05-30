@@ -1,8 +1,3 @@
-// tooltip function
-$(document).ready(function(){
-	$("[data-toggle='tooltip']").tooltip();   
-});
-
 // map function
 // Initialize and add the map
 function initMap() {
@@ -14,10 +9,10 @@ function initMap() {
 		center: terrain
 	});
 	// The marker, positioned at terrain
-	// const marker = new google.maps.Marker({
-	// 	position: terrain,
-	// 	map: map,
-	// });
+	const marker = new google.maps.Marker({
+		position: terrain,
+		map: map,
+	});
 }
 
 // Scroll icon function
