@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer mon compte | MX Trail{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="css/forms.css">
+{% endblock %}
+
+
+{%block body %}
+    <div class="container">
+        <h1>Créer mon compte</h1>
+        {% form_theme regForm 'bootstrap_4_layout.html.twig' %}
+        {{ form(regForm)}}
+    </div>
+{% endblock %}
+
