@@ -34,13 +34,16 @@ class RegistrationType extends AbstractType
         ])
         ->add('licenceNumber', null, [
             'label' => 'Numéro de licence',
-            'help' => 'Il n\'est pas impératif de renseigner votre numéro de licence lors de la création de votre compte. En revanche il sera requis pour s\'insrire aux évènements.',
+            'help' => 'Il n\'est pas obligatoire de renseigner votre numéro de licence lors de la création de votre compte. En revanche il sera indispensable pour s\'insrire aux évènements.',
         ])
         ->add('roles', HiddenType::class, [
             'empty_data' => ["ROLE_USER"],
         ])
         ->add('password', PasswordType::class, [
             'label' => 'Mot de passe',
+        ])
+        ->add('confirmPassword', PasswordType::class, [
+            'label' => 'Confirmation du mot de passe',
         ])
         ->add('Valider', SubmitType::class)
         ;
