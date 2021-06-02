@@ -1,13 +1,31 @@
 {% extends 'admin-base.html.twig' %}
 
-{% block title %}Edit User{% endblock %}
+{% block title %}MX Park | Admin | Modif membre{% endblock %}
 
 {% block body %}
-    <h1>Edit User</h1>
+  <div class="container">
+    <div class="row">
+      <div class="col-10 mx-auto">
+        <div class="d-flex  my-4">
+          <h1 class="h2">Modification profil de
+            {{ user.firstName }}
+            {{ user.lastName }}
+          </h1>
+          <p class="ml-auto">
+            <a class="btn btn-primary" href="{{ path('user_index') }}">
+              <i class="fas fa-arrow-circle-left"></i>
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-10 mx-auto">
+        {{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
+        {{ include('user/_delete_form.html.twig') }}
+      </div>
+    </div>
 
-    {{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
+  </div>
 
-    <a class="btn btn-primary" href="{{ path('user_index') }}"><i class="fas fa-arrow-circle-left"></i></a>
-
-    {{ include('user/_delete_form.html.twig') }}
 {% endblock %}

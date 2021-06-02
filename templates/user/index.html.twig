@@ -3,45 +3,58 @@
 {% block title %}MX Park | Admin | Membres{% endblock %}
 
 {% block body %}
-  <div class="row">
-    <div class="col-10 offset-1">
-      <h1>Liste des membres</h1>
-      <a class="btn btn-primary mb-3" href="{{ path('user_new') }}">Create new</a>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Email</th>
-            <th>Roles</th>
-            <th>FirstName</th>
-            <th>LastName</th>
-            <th>BirthDate</th>
-            <th>actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for user in users %}
+  <div class="container">
+    <div class="row">
+      <div class="col-10 mx-auto">
+        <div class="d-flex  mt-4 mb-2">
+          <h1 class="h2">Liste des membres</h1>
+          {# <p class="ml-auto">
+            <a class="btn btn-success" href="{{ path('user_new') }}">Crée un membre</a>
+          </p> #}
+        </div>
+        <table class="table table-striped">
+          <thead>
             <tr>
-              <td>
-                <p class="text-break">{{ user.email }}</p>
-              </td>
-              <td>
-                <p class="text-break">{{ user.roles ? user.roles|json_encode : '' }}</p>
-              </td>
-              <td>{{ user.firstName }}</td>
-              <td>{{ user.lastName }}</td>
-              <td>{{ user.birthDate ? user.birthDate|date('Y-m-d') : '' }}</td>
-              <td>
-                <a class="btn btn-primary btn-sm" href="{{ path('user_show', {'id': user.id}) }}"><i class="fas fa-info-circle"></i></a>
-                <a class="btn btn-warning btn-sm" href="{{ path('user_edit', {'id': user.id}) }}"><i class="far fa-edit"></i></a>
-              </td>
+              <th>Nom</th>
+              <th>Prénom</th>
+              <th>Age</th>
+              <th>Role</th>
+              <th>Actions</th>
             </tr>
-          {% else %}
-            <tr>
-              <td colspan="6">no records found</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {% for user in users %}
+              <tr>
+                <td>{{ user.lastName }}</td>
+                <td>{{ user.firstName }}</td>
+                <td>
+                  {% set age = date().diff(date(user.birthDate)).y %}
+                  {{ age }} ans
+                </td>
+                <td>
+                  <p class="text-break">
+                    {% set string = user.roles | join(', ') %}
+                    {% set string = string | replace({'ROLE_': ''}) %}
+                    {{ string }}
+                  </p>
+                </td>
+                <td>
+                  <a class="btn btn-primary btn-sm" href="{{ path('user_show', {'id': user.id}) }}">
+                    <i class="fas fa-info-circle"></i>
+                  </a>
+                  <a class="btn btn-warning btn-sm" href="{{ path('user_edit', {'id': user.id}) }}">
+                    <i class="far fa-edit"></i>
+                  </a>
+                </td>
+              </tr>
+            {% else %}
+              <tr>
+                <td colspan="6">no records found</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 
