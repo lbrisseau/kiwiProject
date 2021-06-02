@@ -11,7 +11,20 @@
     <div class="container">
         <h1>Créer mon compte</h1>
         {% form_theme regForm 'bootstrap_4_layout.html.twig' %}
-        {{ form(regForm)}}
+        {{ form_start(regForm)}}
+
+
+        {{ form_row(regForm.firstName) }}
+        {{ form_row(regForm.lastName) }}
+        {{ form_row(regForm.email) }}
+        {{ form_row(regForm.birthDate) }}
+        {{ form_row(regForm.phone) }}
+        {{ form_row(regForm.licenceNumber) }}
+        {{ form_row(regForm.password) }}
+        {{ form_row(regForm.Valider) }}
+
+        {{ form_end(regForm)}}
+
     </div>
 {% endblock %}
 

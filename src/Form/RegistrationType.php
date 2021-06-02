@@ -7,9 +7,10 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class RegistrationType extends AbstractType
 {
@@ -39,11 +40,13 @@ class RegistrationType extends AbstractType
         ->add('roles', HiddenType::class, [
             'empty_data' => ["ROLE_USER"],
         ])
-        ->add('password', PasswordType::class, [
-            'label' => 'Mot de passe',
-        ])
-        ->add('confirmPassword', PasswordType::class, [
-            'label' => 'Confirmation du mot de passe',
+        ->add('password', RepeatedType::class, [
+            'type' => PasswordType::class,
+            'invalid_message' => 'Les deux mots de passe saisis ne sont pas identiques.',
+            'options' => ['attr' => ['class' => 'password-field']],
+            'required' => true,
+            'first_options'  => ['label' => 'Mot de passe'],
+            'second_options' => ['label' => 'Confirmation du mot de passe'],
         ])
         ->add('Valider', SubmitType::class)
         ;

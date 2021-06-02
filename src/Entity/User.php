@@ -41,11 +41,6 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @Assert\EqualTo(propertyPath="password", message="Vous n'avez pas saisi le même mot de passe.")
-     */
-    public $confirmPassword;
-
-    /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
      */
