@@ -13,7 +13,6 @@
         {% form_theme regForm 'bootstrap_4_layout.html.twig' %}
         {{ form_start(regForm)}}
 
-
         {{ form_row(regForm.firstName) }}
         {{ form_row(regForm.lastName) }}
         {{ form_row(regForm.email) }}
@@ -21,7 +20,8 @@
         {{ form_row(regForm.phone) }}
         {{ form_row(regForm.licenceNumber) }}
         {{ form_row(regForm.password) }}
-        {{ form_row(regForm.Valider) }}
+        
+        <button type="submit" class="btn btn-primary">Créer mon compte</button>
 
         {{ form_end(regForm)}}
 
