@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     /**
-     * @Route("/", name="home")
+     * @Route("/", name="home", defaults={"_fragment"="accueil"}, requirements={"_fragment": "accueil|club|evenement|contact"})
      */
     public function index(Request $request, ContactNotification $notification): Response
     {
@@ -28,7 +28,7 @@ class HomeController extends AbstractController
         {
             $notification->notify($contact);
             $this->addFlash('success', "Votre message a bien été envoyé.");
-            // return $this->redirectToRoute("home");
+            return $this->redirectToRoute("home", ['_fragment' => 'contact']);
         }
         // Normal rendering:
         return $this->render('home/index.html.twig', [

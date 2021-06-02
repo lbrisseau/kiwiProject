@@ -6,36 +6,36 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Contact {
     /**
      * @var string|null
-     * @Assert\NotBlank()
-     * @Assert\Length(min=2,max=100)
+     * @Assert\NotBlank(message="Par quel doux prénom vous faites vous appeler ?")
+     * @Assert\Length(min=2,max=100,minMessage="Drôle de prénom ! Je veux plus de 2 caractères.", maxMessage="Drôle de prénom ! Je veux moins de 100 caractères.")
      */
     private $firstName;
 
     /**
      * @var string|null
-     * @Assert\NotBlank()
-     * @Assert\Length(min=2,max=100)
+     * @Assert\NotBlank(message="Quel est votre petit nom ?")
+     * @Assert\Length(min=2,max=100,minMessage="Drôle de nom ! Je veux plus de 2 caractères.", maxMessage="Drôle de nom ! Je veux moins de 100 caractères.")
      */
     private $lastName;
 
     /**
      * @var string|null
-     * @Assert\NotBlank()
-     * @Assert\Email()
+     * @Assert\NotBlank(message="J'ai besoin de votre adresse email !")
+     * @Assert\Email(message="J'ai besoin de votre adresse email !")
      */
     private $email;
 
     /**
      * @var string|null
-     * @Assert\NotBlank()
-     * @Assert\Length(min=2,max=100)
+     * @Assert\NotBlank(message="Pourquoi souhaitez-vous nous contacter ?")
+     * @Assert\Length(min=2,max=100,minMessage="Soyez concis.e, mais pas trop : entre 2 et 100 caractères.", maxMessage="Soyez concis.e, mais pas trop : entre 2 et 100 caractères.")
      */
     private $subject;
 
     /**
      * @var string|null
-     * @Assert\NotBlank()
-     * @Assert\Length(min=10)
+     * @Assert\NotBlank(message="La concision est une qualité, mais là il y a de l'abus.")
+     * @Assert\Length(min=10,minMessage="La concision est une qualité, mais là il y a de l'abus.")
      */
     private $message;
     
