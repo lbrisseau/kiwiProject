@@ -34,7 +34,7 @@ class ContactNotification {
             ->replyTo($contact->getEmail())
             //->priority(Email::PRIORITY_HIGH)
             ->subject($contact->getSubject())
-            // ->text('Sending emails is fun again!')
+            ->text($contact->getMessage())
             ->html($this->renderer->render('emails/contact.html.twig', [
                 'contact' => $contact
             ]));
