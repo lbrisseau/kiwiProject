@@ -81,8 +81,9 @@ class AppFixtures extends Fixture
 
             $manager->persist($event);
             $tabEvent[] = $event;
+            $manager->flush();
         }
-        $manager->flush();
+        
 
         // Alimentation de la table user
 
