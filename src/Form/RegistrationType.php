@@ -42,11 +42,13 @@ class RegistrationType extends AbstractType
         ])
         ->add('password', RepeatedType::class, [
             'type' => PasswordType::class,
-            'invalid_message' => 'Les deux mots de passe saisis ne sont pas identiques.',
+            'invalid_message' => 'Les mots de passe saisis ne sont pas identiques.',
             'options' => ['attr' => ['class' => 'password-field']],
-            'required' => true,
             'first_options'  => ['label' => 'Mot de passe'],
             'second_options' => ['label' => 'Confirmation du mot de passe'],
+        ])
+        ->add('save', SubmitType::class, [
+            'label' => 'Créer mon compte',
         ])
         ;
     }
