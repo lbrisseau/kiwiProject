@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Event;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Validator\Constraints\DateTime as ConstraintsDateTime;
 
 /**
  * @method Event|null find($id, $lockMode = null, $lockVersion = null)
@@ -24,8 +26,18 @@ class EventRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('e')
             ->orderBy('e.date', 'DESC')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
+    }
+
+    public function findFourNext()
+    {
+        return $this->createQueryBuilder('e')
+            ->where('e.date > :now')
+            ->orderBy('e.date', 'ASC')
+            ->setParameter('now', new DateTime('now'))
+            ->setMaxResults( 4 )
+            ->getQuery()
+            ->getResult();
     }
 
     // /**

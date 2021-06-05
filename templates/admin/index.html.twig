@@ -5,27 +5,30 @@
 {% block body %}
   <div class="container">
     <div class="row">
-      <div class="col-10 offset-1">
-        <h1 class="mt-5">Contenu à définir</h1>
-        <h1 class="mt-5">Ex : Inscriptions Prochain Entrainement</h1>
-        <table class="table">
+      <div class="col-9">
+        <h1>Prochains Entrainements</h1>
+         <table class="table table-striped">
           <thead>
             <tr>
-              <th>Id</th>
-              <th>SubsDate</th>
-              <th>ValidationState</th>
-              <th>actions</th>
+              <th>Date</th>
+              <th>Nom</th>
+              <th>Type</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {% for subscription in subscriptions %}
+            {% for event in events %}
               <tr>
-                <td>{{ subscription.id }}</td>
-                <td>{{ subscription.subsDate ? subscription.subsDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ subscription.validationState ? 'Yes' : 'No' }}</td>
+                <td>{{ event.date ? event.date|date('d/m/Y H:i:s') : '' }}</td>
+                <td>{{ event.name }}</td>
+                <td>{{ event.type ? 'Adulte' : 'Kids' }} </td>
                 <td>
-                  <a href="{{ path('subscription_show', {'id': subscription.id}) }}">show</a>
-                  <a href="{{ path('subscription_edit', {'id': subscription.id}) }}">edit</a>
+                  <a class="btn btn-primary btn-sm" href="{{ path('event_show', {'id': event.id}) }}">
+                    <i class="fas fa-info-circle"></i>
+                  </a>
+                  <a class="btn btn-warning btn-sm" href="{{ path('event_edit', {'id': event.id}) }}">
+                    <i class="far fa-edit"></i>
+                  </a>
                 </td>
               </tr>
             {% else %}
@@ -35,8 +38,8 @@
             {% endfor %}
           </tbody>
         </table>
-
-        <a href="{{ path('subscription_new') }}">Create new</a>
+      </div>
+      <div class="col-3">
       </div>
     </div>
   </div>
