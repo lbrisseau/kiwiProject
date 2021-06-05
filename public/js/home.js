@@ -31,6 +31,5 @@ el.addEventListener("scroll", function () {
 // Allow the arrow to actually have an impact on the scroll on click
 let arrow = document.querySelector('.my-scroll-down-arrow');
 arrow.addEventListener("click", function () {
-	console.log("started from the bottom now we here");
 	el.scrollBy(0, window.innerHeight);
 });
