@@ -47,6 +47,27 @@
             </tr>
           </tbody>
         </table>
+        <h2 class="my-4">Liste des inscrits</h2>
+        <table class="table table-striped">
+          <thead>
+              <th>Nom</th>
+              <th>Prénom</th>
+              <th>Inscription Validée ?</th>
+          </thead>
+          <tbody>
+            {% for user in users %}
+            <tr>
+              <td>{{ user.firstname }}</td>
+              <td>{{ user.name }}</td>
+              <td>{{ user.validationstate ? 'Oui' : 'Non' }}</td>
+            </tr>
+            {% else %}
+              <tr>
+                <td colspan="3">no records found</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
         {{ include('event/_delete_form.html.twig') }}
       </div>
     </div>

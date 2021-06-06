@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Event;
 use App\Form\EventType;
 use App\Repository\EventRepository;
+use App\Repository\SubscriptionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -51,10 +52,11 @@ class EventController extends AbstractController
     /**
      * @Route("/{id}", name="event_show", methods={"GET"})
      */
-    public function show(Event $event): Response
+    public function show(Event $event, SubscriptionRepository $sub): Response
     {
         return $this->render('event/show.html.twig', [
             'event' => $event,
+            'users' => $sub->findUsers($event),
         ]);
     }
 
