@@ -9,23 +9,28 @@
 
 {%block body %}
     <div class="container">
-        <h1>Créer mon compte</h1>
-        {% form_theme regForm 'bootstrap_4_layout.html.twig' %}
+        <div class="row">
+            <div class="offset-3 col-6">
 
-        {{ form_start(regForm)}}
+                <h1>Créer mon compte</h1>
 
-            {{ form_errors(regForm) }}
+                {{ form_start(form)}}
+
+                    {{ form_errors(form) }}
     
-            {{ form_row(regForm.firstName) }}
-            {{ form_row(regForm.lastName) }}
-            {{ form_row(regForm.email) }}
-            {{ form_row(regForm.birthDate) }}
-            {{ form_row(regForm.phone) }}
-            {{ form_row(regForm.licenceNumber) }}
-            {{ form_row(regForm.password) }}
-        
-        {{ form_end(regForm)}}
+                    {{ form_row(form.firstName) }}
+                    {{ form_row(form.lastName) }}
+                    {{ form_row(form.email) }}
+                    {{ form_row(form.birthDate) }}
+                    {{ form_row(form.phone) }}
+                    {{ form_row(form.licenceNumber) }}
+                    {{ form_row(form.password) }}
 
+                    <button type="submit" class="btn btn-primary">Créer mon compte</button>
+        
+                {{ form_end(form)}}
+            </div>
+        </div>
     </div>
 {% endblock %}
 

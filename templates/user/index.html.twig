@@ -8,10 +8,12 @@
       <div class="col-10 mx-auto">
         <div class="d-flex  mt-4 mb-2">
           <h1 class="h2">Liste des membres</h1>
+          <input id="myInput" class="form-control col-6 ml-auto" type="text" placeholder="Recherche...">
           {# <p class="ml-auto">
             <a class="btn btn-success" href="{{ path('user_new') }}">Crée un membre</a>
           </p> #}
         </div>
+        
         <table class="table table-striped">
           <thead>
             <tr>
@@ -22,7 +24,7 @@
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="myTable">
             {% for user in users %}
               <tr>
                 <td>{{ user.lastName }}</td>
