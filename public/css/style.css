@@ -128,6 +128,13 @@ body {
   padding: 5px;
   background-color: rgb(245, 245, 245);
 }
+.d-flex{
+  flex-direction: column;
+}
+.flex-gauge{
+  padding: 10px;
+  padding-bottom: 0px;
+}
 
 /* ****************************************** Responsiveness ! ************************************* */
 /* Here is some responsiveness for the indicative arrow */

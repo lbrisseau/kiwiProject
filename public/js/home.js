@@ -37,19 +37,20 @@ arrow.addEventListener("click", function () {
 // This changes the shape of the divider according to wrap behaviour
 let detectWrap = function (className)
 {
-  let first = null;
+  let firsts = document.querySelectorAll("div.flex-container div."+className+":first-of-type");
+  let first = [];
   let inline = [];
   let block = [];
   let prevItem = null;
   let items = document.getElementsByClassName(className);
   for ([key, item] of Object.entries(items)) {
-	if (prevItem == null)
+	let index = Array.prototype.indexOf.call(firsts, item); //if the item is in my NodeList of firsts, I set it appart
+	if (prevItem==null || index!=-1)
 	{
-	  first = item;
+		first.push(item);
 	}
-    else if (prevItem.getBoundingClientRect().top < item.getBoundingClientRect().top)
+	else if (prevItem.getBoundingClientRect().top < item.getBoundingClientRect().top)
 	{
-	  console.log(prevItem.getBoundingClientRect().top + " < " + item.getBoundingClientRect().top);
 	  block.push(item);
     }
 	else
