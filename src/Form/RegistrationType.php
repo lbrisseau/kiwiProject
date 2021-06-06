@@ -8,9 +8,10 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType; 
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class RegistrationType extends AbstractType
 {
@@ -42,13 +43,17 @@ class RegistrationType extends AbstractType
         ])
         ->add('password', RepeatedType::class, [
             'type' => PasswordType::class,
+            'required' => true,
+            'mapped' => false,
             'invalid_message' => 'Les mots de passe saisis ne sont pas identiques.',
             'options' => ['attr' => ['class' => 'password-field']],
             'first_options'  => ['label' => 'Mot de passe'],
             'second_options' => ['label' => 'Confirmation du mot de passe'],
-        ])
-        ->add('save', SubmitType::class, [
-            'label' => 'Créer mon compte',
+            'constraints' => [
+                new NotBlank(),
+                new Length(['min' => 8])
+
+            ],
         ])
         ;
     }
