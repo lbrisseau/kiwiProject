@@ -71,6 +71,46 @@ body {
 .my-img {
   filter: brightness(50%);
 }
+/* Or lightened for the same reason */
+/* .super-light-bg {
+  background: 
+    radial-gradient(circle, transparent 40%, var(--color-v) 75%),
+    linear-gradient(to right, var(--color), var(--color)),
+    var(--image);
+  background-position: center center;
+  background-size: cover;
+  background-blend-mode: 
+    var(--blend-top, normal),
+    var(--blend-bottom, saturation),
+    normal;
+  
+  --image: url('/build/wallpaper-motocross.jpg');
+  --color-v: black;
+  --color: grey; // hsla(343,100%,50%,.5);
+  width: 100vw;
+} */
+.super-light-bg {
+  position: relative;
+}
+.super-light-bg::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100vw;
+  background-image: url('/build/wallpaper-motocross.jpg');
+  filter: opacity(15%);
+  /* Full height */
+  height: 100%;
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.super-light-bg-inside {
+  /* This will make it stack on top of the ::before */
+  position: relative;
+}
 /* Borders for the divider */
 .line-left {
   /* text-align: justify;
@@ -160,6 +200,13 @@ body {
     display: none !important;
   }
 }
+
+ /* Turn off parallax scrolling for all tablets and phones. Increase/decrease the pixels if needed */
+ @media only screen and (max-device-width: 1366px) {
+  .super-light-bg::before {
+    background-attachment: scroll;
+  }
+} 
 
 /* Snap scroll: */
 @media only screen and (min-width: 768px) {
