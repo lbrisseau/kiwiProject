@@ -11,8 +11,9 @@ body {
 }
 .scroll-container {
   width: 100%;
+  /* This line is essential, unless you want all the scroll functions to shut down: */
   height: 95vh;
-  /* height: 60000px !important; */
+  /* height: 680px; */
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
   overflow-y: scroll;
@@ -70,6 +71,17 @@ body {
 .my-img {
   filter: brightness(50%);
 }
+/* Borders for the divider */
+.line-left {
+  /* text-align: justify;
+  text-align-last: left; */
+  border-left: 2px dotted rgb(0, 0, 0);
+}
+.line-top {
+  /* text-align: justify;
+  text-align-last: left; */
+  border-top: 2px dotted rgb(0, 0, 0);
+}
 
 /* ******************************** Page content style (with flex!): ************************** */
 .flex-section{
@@ -77,8 +89,10 @@ body {
   flex-direction: column;
   justify-content: center;
   margin-top: 5vh;
-  height: 95vh;
-  /* min-height: 500px; */
+  /* this line + the equivalent in media-query page will seriously mess with the responsiveness
+    (sections overlapping because of relative measure vh): */
+  /* height: 95vh; */
+  min-height: 500px;
 }
 .flex-container{
   display: flex;
@@ -144,8 +158,10 @@ body {
 @media only screen and (min-width: 768px) {
   .page {
     scroll-snap-align: start;
-    height: 100vh;
-    /* min-height: 700px; */
+    /* this line + the equivalent in flex-section will seriously mess with the responsiveness
+    (sections overlapping because of relative measure vh): */
+    /* height: 100vh;  */
+    min-height: 700px; 
   }
 }
 @media only screen and (max-width: 768px) {
