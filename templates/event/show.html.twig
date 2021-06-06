@@ -50,16 +50,16 @@
         <h2 class="my-4">Liste des inscrits</h2>
         <table class="table table-striped">
           <thead>
-              <td>Nom</td>
-              <td>Prénom</td>
-              <td>Inscription Validée ?</td>
+              <th>Nom</th>
+              <th>Prénom</th>
+              <th>Inscription Validée ?</th>
           </thead>
           <tbody>
             {% for user in users %}
             <tr>
               <td>{{ user.firstname }}</td>
               <td>{{ user.name }}</td>
-              <td>{{ user.validationstate }}</td>
+              <td>{{ user.validationstate ? 'Oui' : 'Non' }}</td>
             </tr>
             {% else %}
               <tr>

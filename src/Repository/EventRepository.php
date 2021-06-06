@@ -31,13 +31,27 @@ class EventRepository extends ServiceEntityRepository
 
     public function findFourNext()
     {
-        return $this->createQueryBuilder('e')
-            ->where('e.date > :now')
-            ->orderBy('e.date', 'ASC')
-            ->setParameter('now', new DateTime('now'))
-            ->setMaxResults( 4 )
-            ->getQuery()
-            ->getResult();
+        $date = new DateTime('now');
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = '
+        SELECT
+            *,
+            (
+            SELECT
+            COUNT(s.user_id)
+            FROM subscription s
+            WHERE s.event_id = e.id
+            ) AS nbusers
+        FROM event e
+        WHERE e.date > :now
+        ORDER BY e.date ASC
+        LIMIT 4
+        ';
+        $stmt = $conn->prepare($sql);
+        $stmt->executeQuery(['now' => $date->format('Y-m-d')]);
+
+        // returns an array of arrays (i.e. a raw data set)
+        return $stmt->fetchAllAssociative();
     }
 
     // /**
