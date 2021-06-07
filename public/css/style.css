@@ -71,24 +71,6 @@ body {
 .my-img {
   filter: brightness(50%);
 }
-/* Or lightened for the same reason */
-/* .super-light-bg {
-  background: 
-    radial-gradient(circle, transparent 40%, var(--color-v) 75%),
-    linear-gradient(to right, var(--color), var(--color)),
-    var(--image);
-  background-position: center center;
-  background-size: cover;
-  background-blend-mode: 
-    var(--blend-top, normal),
-    var(--blend-bottom, saturation),
-    normal;
-  
-  --image: url('/build/wallpaper-motocross.jpg');
-  --color-v: black;
-  --color: grey; // hsla(343,100%,50%,.5);
-  width: 100vw;
-} */
 .super-light-bg {
   position: relative;
 }
@@ -108,6 +90,28 @@ body {
   background-size: cover;
 }
 .super-light-bg-inside {
+  /* This will make it stack on top of the ::before */
+  position: relative;
+}
+.genius-light-bg {
+  position: relative;
+}
+.genius-light-bg::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100vw;
+  background-image: url('/build/motocross-sky.jpg');
+  filter: opacity(50%);
+  /* Full height */
+  height: 100%;
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.genius-light-bg-inside {
   /* This will make it stack on top of the ::before */
   position: relative;
 }
