@@ -9,7 +9,6 @@ use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -26,9 +25,7 @@ class RegistrationFormType extends AbstractType
             ->add('lastName', null, [
                 'label' => 'Nom de famille',
             ])
-            ->add('email', null, [
-                'label' => 'Adresse email',
-            ])
+            ->add('email')
             ->add('birthDate', BirthdayType::class, [
                 'label' => 'Date de naissance',
                 'format' => 'dd MM yyyy',
@@ -41,28 +38,13 @@ class RegistrationFormType extends AbstractType
                 'help' => 'Il n\'est pas obligatoire de renseigner votre numéro de licence lors de la création de votre compte. En revanche il sera indispensable pour s\'insrire aux évènements.',
             ])
             ->add('agreeTerms', CheckboxType::class, [
-                'label' => 'J\'accepte les conditions générales d\'utilisation.',
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
-                        'message' => 'Vous devez accepter les CGU.',
+                        'message' => 'You should agree to our terms.',
                     ]),
                 ],
             ])
-            // ->add('plainPassword', RepeatedType::class, [
-            //     'type' => PasswordType::class,
-            //     // 'required' => true,
-            //     'mapped' => false,
-            //     'invalid_message' => 'Les mots de passe saisis ne sont pas identiques.',
-            //     'options' => ['attr' => ['class' => 'password-field']],
-            //     'first_options'  => ['label' => 'Mot de passe'],
-            //     'second_options' => ['label' => 'Confirmation du mot de passe'],
-            //     'constraints' => [
-            //         new NotBlank(),
-            //         new Length(['min' => 8])
-    
-            //     ],
-            // ])
             ->add('plainPassword', RepeatedType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
