@@ -1,15 +1,22 @@
-// Scroll function to avoid weird home page on load
+// ..................................................ON LOAD........................................................
+// Scroll functions to avoid weird home page on load
 let el = document.querySelector(".scroll-container");
 $(document).ready(function () {
   if (el.scrollTop == 0) {
     let accueil = document.querySelector("#accueil");
     accueil.scrollIntoView({
       behavior: "smooth",
-      block: "start",
+      block: "center",
       inline: "nearest",
     });
   }
+  // Call to below function offsetAnchor to arrive at the right place when reloading page
+  offsetAnchor();
+  // Calculate stuff for the nice dividers (see below functions detectWrap and grid)
+  grid();
 });
+
+// ..................................................ARROW........................................................
 // Scroll icon function
 el.addEventListener("scroll", function () {
   // console.log(window.screen.width);
@@ -29,12 +36,18 @@ el.addEventListener("scroll", function () {
       "collapse";
   }
 });
+
 // Allow the arrow to actually have an impact on the scroll on click
+function onclickArrow ()
+{
+  el.scrollTop += window.innerHeight;
+}
 let arrow = document.querySelector(".my-scroll-down-arrow");
-arrow.addEventListener("click", function () {
-  el.scrollBy(0, window.innerHeight);
-});
+arrow.addEventListener("click", onclickArrow, false);
+
+// ..................................................DIVIDER........................................................
 // This changes the shape of the divider according to wrap behaviour
+// Function that classifies my items
 let detectWrap = function (className)
 {
   let firsts = document.querySelectorAll("div.flex-container div."+className+":first-of-type");
@@ -61,7 +74,7 @@ let detectWrap = function (className)
   }
   return {"first": first, "inline": inline, "block": block};
 };
-
+// Function that remove and add classes to the items according to the classification
 function grid()
 {
   var wrappedItems = detectWrap("flex-divider");
@@ -78,11 +91,31 @@ function grid()
     item.classList.add("line-top");
   }
 }
-
+// Call to previous function on window resize
 window.onresize = function (event)
 {
   grid();
 };
 
-//when document ready
-document.addEventListener("DOMContentLoaded", function () { grid(); });
+// .............................................CENTER PAGE ON SECTIONS..................................................
+// Here are some functions that should help with anchor scroll centering
+// The function actually applying the offset
+function offsetAnchor() {
+  if (location.hash.length !== 0) {
+    let section = document.querySelector(location.hash);
+    console.log(location.hash);
+    section.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+      inline: "nearest",
+    });
+  }
+}
+// Captures click events of all <a> elements with href starting with #
+$(document).on('click', 'a[href^="#"]', function(event) {
+  // Click events are captured before hashchanges. Timeout
+  // causes offsetAnchor to be called after the page jump.
+  window.setTimeout(function() {
+    offsetAnchor();
+  }, 1);
+});
