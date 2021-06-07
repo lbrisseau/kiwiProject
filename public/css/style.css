@@ -194,6 +194,7 @@ body {
     position: absolute;
     bottom: 3vh;
     right: 5vh;
+    z-index: 100;
   }
 }
 /* Responsive carousel */
@@ -215,11 +216,11 @@ body {
 /* Snap scroll: */
 @media only screen and (min-width: 768px) {
   .page {
-    scroll-snap-align: start;
+    scroll-snap-align: center;
     /* this line + the equivalent in flex-section will seriously mess with the responsiveness
     (sections overlapping because of relative measure vh): */
     /* height: 100vh;  */
-    min-height: 700px; 
+    min-height: 800px; /*700*/
   }
 }
 @media only screen and (max-width: 768px) {
