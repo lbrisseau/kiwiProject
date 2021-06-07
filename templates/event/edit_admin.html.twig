@@ -1,0 +1,29 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block title %}MX Park | Admin | Modif session{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <div class="row">
+      <div class="col-10 mx-auto">
+        <div class="d-flex  my-4">
+          <h1 class="h2">Modification entrainement du
+            {{ event.date ? event.date|date('d-m-Y') : '' }}
+          </h1>
+          <p class="ml-auto">
+            <a class="btn btn-primary" href="{{ path('event_index') }}">
+              <i class="fas fa-arrow-circle-left"></i>
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-10 mx-auto">
+          {{ include('event/_form.html.twig', {'button_label': 'Update'}) }}
+          {{ include('event/_delete_form.html.twig') }}
+      </div>
+    </div>
+
+  </div>
+{% endblock %}
