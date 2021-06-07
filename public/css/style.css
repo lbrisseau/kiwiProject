@@ -102,7 +102,7 @@ body {
   top: 0; left: 0;
   width: 100vw;
   background-image: url('/build/motocross-sky.jpg');
-  filter: opacity(50%);
+  filter: opacity(20%);
   /* Full height */
   height: 100%;
   /* Create the parallax scrolling effect */
