@@ -39,9 +39,10 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
+                'label' => 'J\'accepte les conditions générales d\'utilisation d\'Auribail MX Park.',
                 'constraints' => [
                     new IsTrue([
-                        'message' => 'You should agree to our terms.',
+                        'message' => 'Vous devez accepter nos CGU pour vous inscrire sur le site.',
                     ]),
                 ],
             ])
@@ -56,11 +57,11 @@ class RegistrationFormType extends AbstractType
                 'second_options' => ['label' => 'Confirmation du mot de passe'],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter a password',
+                        'message' => 'Merci de saisir un mot de passe',
                     ]),
                     new Length([
-                        'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        'min' => 8,
+                        'minMessage' => 'Votre mot de passe doit contenir un minimum de {{ limit }} caractères',
                         // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),
@@ -76,3 +77,4 @@ class RegistrationFormType extends AbstractType
         ]);
     }
 }
+
