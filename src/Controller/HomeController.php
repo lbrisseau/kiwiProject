@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Contact;
 use App\Form\ContactType;
 use App\Notification\ContactNotification;
+use App\Repository\EventRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +19,7 @@ class HomeController extends AbstractController
     /**
      * @Route("/", name="home", defaults={"_fragment"="accueil"}, requirements={"_fragment": "accueil|club|evenement|contact"})
      */
-    public function index(Request $request, ContactNotification $notification): Response
+    public function index(Request $request, ContactNotification $notification, EventRepository $eventRepo): Response
     {
         // Contact form management:
         $contact = new Contact();
@@ -32,7 +33,9 @@ class HomeController extends AbstractController
         }
         // Normal rendering:
         return $this->render('home/index.html.twig', [
-            'formContact' => $formContact->createView()
+            'formContact' => $formContact->createView(),
+            'event' => $eventRepo->findNext(),
+            'kids' => $eventRepo->findNextKid()
         ]);
     }
 }

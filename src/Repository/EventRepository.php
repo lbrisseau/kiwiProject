@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Event;
+use DateInterval;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Validator\Constraints\DateTime as ConstraintsDateTime;
 
@@ -52,6 +54,42 @@ class EventRepository extends ServiceEntityRepository
 
         // returns an array of arrays (i.e. a raw data set)
         return $stmt->fetchAllAssociative();
+    }
+
+    public function findNext()
+    {
+        $date = new DateTime('now');
+        $nextDate = new DateTime('now');
+        $nextDate->add(new DateInterval('P1M'));
+        return $this->createQueryBuilder('e')
+            ->leftJoin('e.subscriptions', 's', Expr\Join::WITH, 's.event = e.id')
+            ->select('e.name, e.date, COUNT(s.user) AS nbusers')
+            ->andWhere('e.date >= :date')
+            ->andWhere('e.date < :nextDate')
+            ->andWhere('e.type = 1')
+            ->setParameters(array('date'=> $date, 'nextDate' => $nextDate))
+            ->orderBy('e.date', 'ASC')
+            ->getQuery()
+            ->getSingleResult()
+        ;
+    }
+
+    public function findNextKid()
+    {
+        $date = new DateTime('now');
+        $nextDate = new DateTime('now');
+        $nextDate->add(new DateInterval('P1M'));
+        return $this->createQueryBuilder('e')
+            ->leftJoin('e.subscriptions', 's', Expr\Join::WITH, 's.event = e.id')
+            ->select('e.name, e.date, COUNT(s.user) AS nbusers')
+            ->andWhere('e.date >= :date')
+            ->andWhere('e.date < :nextDate')
+            ->andWhere('e.type = 0')
+            ->setParameters(array('date'=> $date, 'nextDate' => $nextDate))
+            ->orderBy('e.date', 'ASC')
+            ->getQuery()
+            ->getSingleResult()
+        ;
     }
 
     // /**
