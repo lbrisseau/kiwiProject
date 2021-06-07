@@ -25,15 +25,16 @@ class SubscriptionRepository extends ServiceEntityRepository
         $conn = $this->getEntityManager()->getConnection();
         $sql = '
         SELECT
-            u.first_name AS firstname,
-            u.last_name AS name,
-            u.birth_date AS birthdate,
-            s.subs_date AS subsdate,
-            s.validation_state AS validationstate
+        u.first_name AS firstname,
+        u.last_name AS name,
+        u.birth_date AS birthdate,
+        s.subs_date AS subsdate,
+        s.validation_state AS validationstate
         FROM user u
         INNER JOIN subscription s ON u.id = s.user_id
         INNER JOIN event e ON e.id = s.event_id
         WHERE e.id = :eventId
+        ORDER BY s.subs_date ASC
         ';
         $stmt = $conn->prepare($sql);
         $stmt->execute(['eventId' => $event->getId()]);
