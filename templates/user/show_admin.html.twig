@@ -1,0 +1,68 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block title %}MX Park | Admin | Détail membre{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <div class="row">
+      <div class="col-10 mx-auto">
+        <div class="d-flex  my-4">
+          <h1 class="h2">
+            Détail profil de 
+            {{ user.firstName }}
+            {{ user.lastName }}
+          </h1>
+          <p class="ml-auto">
+            <a class="btn btn-primary" href="{{ path('user_index') }}">
+              <i class="fas fa-arrow-circle-left"></i>
+            </a>
+            <a class="btn btn-warning" href="{{ path('user_edit', {'id': user.id}) }}">
+              <i class="far fa-edit"></i>
+            </a>
+          </p>
+        </div>
+        <table class="table table-striped">
+          <tbody>
+            <tr>
+              <th>Prénom</th>
+              <td>{{ user.firstName }}</td>
+            </tr>
+            <tr>
+              <th>Nom</th>
+              <td>{{ user.lastName }}</td>
+            </tr>
+            <tr>
+              <th>Age</th>
+              <td> {% set age = date().diff(date(user.birthDate)).y %}
+                  {{ age }} ans</td>
+            </tr>
+            <tr>
+              <th>Date de naissance</th>
+              <td>{{ user.birthDate ? user.birthDate|date('d/m/Y') : '' }}</td>
+            </tr>
+            <tr>
+              <th>Role</th>
+              <td>{% set string = user.roles | join(', ') %}
+                    {% set string = string | replace({'ROLE_': ''}) %}
+                    {{ string }}</td>
+            </tr>
+            <tr>
+              <th>Email</th>
+              <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+              <th>Tel</th>
+              <td>{{ user.phone }}</td>
+            </tr>
+            <tr>
+              <th>Licence</th>
+              <td>{{ user.licenceNumber }}</td>
+            </tr>
+          </tbody>
+        </table>
+        {{ include('user/_delete_form_admin.html.twig') }}
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

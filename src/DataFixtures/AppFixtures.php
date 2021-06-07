@@ -63,8 +63,6 @@ class AppFixtures extends Fixture
             $newDate = $date->add(new DateInterval('P7D'));
 
             $event->setDate($newDate);
-            $event->setName($newDate->format('Y-m-d'));
-
             if ($count & 1) {
                 // si $count est impair
                 $event->setType(true);
@@ -116,20 +114,21 @@ class AppFixtures extends Fixture
         $manager->flush();
 
         // Alimentation de la table Subscription
+        $dateSub = new DateTime('now');
 
         for ($count = 0; $count < $nbUsers; $count++) {
             $sub = new Subscription;
             $user = $tabUser[$count];
-            $nbEvent = count($tabEvent)-1;
-            $event = $tabEvent[rand(0,$nbEvent)];
+            $indexEvent = count($tabEvent)-1;
+            $event = $tabEvent[rand(0,$indexEvent)];
             $sub->setEvent($event);
             $sub->setUser($user);
-            $sub->setSubsDate($date);
+            $newDateSub = $dateSub->add(new DateInterval('PT30S'));
+            $sub->setSubsDate($newDateSub);
             $sub->setValidationState(false);
 
             $manager->persist($sub);
+            $manager->flush();
         }
-
-        $manager->flush();
     }
 }
