@@ -207,8 +207,11 @@ body {
 }
 
  /* Turn off parallax scrolling for all tablets and phones. Increase/decrease the pixels if needed */
- @media only screen and (max-device-width: 1366px) {
+ @media only screen and (max-device-width: 1200px) {
   .super-light-bg::before {
+    background-attachment: scroll;
+  }
+  .genius-light-bg::before {
     background-attachment: scroll;
   }
 } 
@@ -228,9 +231,7 @@ body {
     padding-top: 10vh;
   }
   .pageMobile {
-    scroll-snap-align: end;
-    min-height: 300px;
-    /* margin: 5vh; */
+    scroll-snap-align: start;
   }
 }
 footer {
