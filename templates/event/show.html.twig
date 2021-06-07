@@ -35,37 +35,43 @@
             </tr>
             <tr>
               <th>Inscription Membres</th>
-              <td>{{ event.startMemberSubs }} jours avant la session</td>
+              <td>{{ event.startMemberSubs }}
+                jours avant la session</td>
             </tr>
             <tr>
               <th>Inscription (autres)</th>
-              <td>{{ event.startAllSubs }} jours avant la session</td>
+              <td>{{ event.startAllSubs }}
+                jours avant la session</td>
             </tr>
             <tr>
               <th>Fermeture Inscriptions</th>
-              <td>{{ event.endSubs }} jours avant la session</td>
+              <td>{{ event.endSubs }}
+                jours avant la session</td>
             </tr>
           </tbody>
         </table>
         <h2 class="my-4">Liste des inscrits</h2>
         <table class="table table-striped">
           <thead>
-              <th>Nom</th>
-              <th>Prénom</th>
-              <th>Date Inscription</th>
-              <th>Inscription Validée ?</th>
+            <th>#</th>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Date Inscription</th>
+            <th>Inscription Validée ?</th>
           </thead>
           <tbody>
-            {% for user in users %}
-            <tr>
-              <td>{{ user.firstname }}</td>
-              <td>{{ user.name }}</td>
-              <td>{{ user.subsdate ? user.subsdate|date('d/m/Y H:i:s') : ''  }}</td>
-              <td>{{ user.validationstate ? 'Oui' : 'Non' }}</td>
-            </tr>
+            {% for key,user in users %}
+              {% if key == 14 %} <tr class="table-danger"><td colspan="5">Liste d'attente</td></tr> {% endif %}
+              <tr {% if key > 13 %}class="table-danger"{% endif %}>
+                <td>{{ key + 1 }}</td>
+                <td>{{ user.firstname }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.subsdate ? user.subsdate|date('d/m/Y H:i:s') : ''  }}</td>
+                <td>{{ user.validationstate ? 'Oui' : 'Non' }}</td>
+              </tr>
             {% else %}
               <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="5">Pas d'inscription</td>
               </tr>
             {% endfor %}
           </tbody>
