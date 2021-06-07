@@ -11,13 +11,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/admin/event")
- */
+
 class EventController extends AbstractController
 {
     /**
-     * @Route("/", name="event_index", methods={"GET"})
+     * @Route("/admin/event/", name="event_index", methods={"GET"})
      */
     public function index(EventRepository $eventRepository): Response
     {
@@ -27,7 +25,7 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="event_new", methods={"GET","POST"})
+     * @Route("/admin/event/new", name="event_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -50,7 +48,7 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="event_show", methods={"GET"})
+     * @Route("/admin/event/{id}", name="event_show", methods={"GET"})
      */
     public function show(Event $event, SubscriptionRepository $sub): Response
     {
@@ -61,7 +59,7 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="event_edit", methods={"GET","POST"})
+     * @Route("/admin/event/{id}/edit", name="event_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Event $event): Response
     {
@@ -81,7 +79,7 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="event_delete", methods={"POST"})
+     * @Route("/admin/event/{id}", name="event_delete", methods={"POST"})
      */
     public function delete(Request $request, Event $event): Response
     {
