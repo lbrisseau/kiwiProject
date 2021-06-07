@@ -2,16 +2,22 @@
 // Scroll functions to avoid weird home page on load
 let el = document.querySelector(".scroll-container");
 $(document).ready(function () {
+  let whereToBlock = "";
+  if (window.matchMedia("(min-width: 1000px)").matches) {
+    whereToBlock = "center";
+  } else {
+    whereToBlock = "start";
+  }
   if (el.scrollTop == 0) {
     let accueil = document.querySelector("#accueil");
     accueil.scrollIntoView({
       behavior: "smooth",
-      block: "center",
+      block: whereToBlock,
       inline: "nearest",
     });
   }
   // Call to below function offsetAnchor to arrive at the right place when reloading page
-  offsetAnchor();
+  offsetAnchor(whereToBlock);
   // Calculate stuff for the nice dividers (see below functions detectWrap and grid)
   grid();
 });
@@ -100,22 +106,27 @@ window.onresize = function (event)
 // .............................................CENTER PAGE ON SECTIONS..................................................
 // Here are some functions that should help with anchor scroll centering
 // The function actually applying the offset
-function offsetAnchor() {
+function offsetAnchor(whereToBlock) {
   if (location.hash.length !== 0) {
     let section = document.querySelector(location.hash);
-    console.log(location.hash);
     section.scrollIntoView({
       behavior: "smooth",
-      block: "center",
+      block: whereToBlock,
       inline: "nearest",
     });
   }
 }
 // Captures click events of all <a> elements with href starting with #
 $(document).on('click', 'a[href^="#"]', function(event) {
+  let whereToBlock = "";
+  if (window.matchMedia("(min-width: 1000px)").matches) {
+    whereToBlock = "center";
+  } else {
+    whereToBlock = "start";
+  }
   // Click events are captured before hashchanges. Timeout
   // causes offsetAnchor to be called after the page jump.
   window.setTimeout(function() {
-    offsetAnchor();
+    offsetAnchor(whereToBlock);
   }, 1);
 });

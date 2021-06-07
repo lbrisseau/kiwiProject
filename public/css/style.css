@@ -2,12 +2,13 @@
 html {
   /* Scroll style: */
   overflow: hidden;
+  /* padding-top: 15vh; */
 }
 body {
   font-family: "Lexend", sans-serif;
   background-color: #eaeae3;
   overflow: hidden;
-  padding-top: 5vh;
+  padding-top: 10vh;
 }
 .scroll-container {
   width: 100%;
@@ -206,18 +207,8 @@ body {
   }
 }
 
- /* Turn off parallax scrolling for all tablets and phones. Increase/decrease the pixels if needed */
- @media only screen and (max-device-width: 1200px) {
-  .super-light-bg::before {
-    background-attachment: scroll;
-  }
-  .genius-light-bg::before {
-    background-attachment: scroll;
-  }
-} 
-
 /* Snap scroll: */
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 1000px) {
   .page {
     scroll-snap-align: center;
     /* this line + the equivalent in flex-section will seriously mess with the responsiveness
@@ -226,12 +217,26 @@ body {
     min-height: 800px; /*700*/
   }
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 1000px) {
   .flex-container{
     padding-top: 10vh;
   }
+  .pageMobileCard {
+    scroll-snap-align: center;
+    /* min-height: 300px; */
+    /* margin-bottom: 5vh; */
+  }
   .pageMobile {
-    scroll-snap-align: start;
+    scroll-snap-align: center;
+    /* min-height: 300px; */
+    padding-top: 2vh;
+  }
+  /* Turn off parallax scrolling for all tablets and phones. Increase/decrease the pixels if needed */
+  .super-light-bg::before {
+    background-attachment: scroll;
+  }
+  .genius-light-bg::before {
+    background-attachment: scroll;
   }
 }
 footer {
