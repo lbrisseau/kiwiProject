@@ -32,12 +32,12 @@
                 </td>
               </tr>
               <tr>
-                <td>Nombre d'inscrits</td>
+                <td></td>
                 <td>
                   {% set pourcent = (event.nbusers)/75*100 %}
                   <div class="progress">
                     <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: {{ pourcent }}%" aria-valuenow="{{ event.nbusers }}" aria-valuemin="0" aria-valuemax="100">
-                      {{ event.nbusers }}
+                      {{ event.nbusers }} inscrits
                     </div>
                   </div></td>
               </tr>
