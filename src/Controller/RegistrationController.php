@@ -3,9 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\RegistrationType;
+use App\Form\RegistrationFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -13,37 +14,33 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class RegistrationController extends AbstractController
 {
     /**
-     * @Route("/registration", name="registration")
+     * @Route("/register", name="app_register")
      */
-    public function registration(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
+    public function register(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder): Response
     {
-        $form = $this->createForm(RegistrationType::class);
-
+        $user = new User();
+        $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
-            $user = new User();
-            $user->setFirstName($form->get('firstName')->getData());
-            $user->setLastName($form->get('lastName')->getData());
-            $user->setEmail($form->get('email')->getData());
-            $user->setBirthDate($form->get('birthDate')->getData());
-            $user->setPhone($form->get('phone')->getData());
-            $user->setLicenceNumber($form->get('licenceNumber')->getData());
-            $user->setRoles($form->get('roles')->getData());
-            $user->setPassword($form->get('password')->getData());
+        if ($form->isSubmitted() && $form->isValid()) {
+            // encode the plain password
+            $user->setPassword(
+                $passwordEncoder->encodePassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                )
+            );
 
-            $password = $encoder->encodePassword($user, $user->getPassword());
-            $user->setPassword($password);
-
+            $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
+            // do anything else you need here, like send an email
 
             return $this->redirectToRoute('home');
         }
 
-        return $this->render('registration/registration.html.twig', [
-            'form' => $form->createView()
+        return $this->render('registration/register.html.twig', [
+            'registrationForm' => $form->createView(),
         ]);
     }
 }
