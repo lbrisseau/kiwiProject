@@ -56,6 +56,9 @@
 						</li>
 						<li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
 							{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+								{% if is_granted('ROLE_ADMIN') %}
+								<a class="btn btn-warning mb-1" href="{{ path('admin') }}">Espace Admin</a>
+								{% endif %}
 							    <button class="btn btn-primary mb-1">Mon compte</button>
 								<button class="btn btn-danger mb-1"><i class="fas fa-sign-out-alt"></i></button>
 							{% else %}
