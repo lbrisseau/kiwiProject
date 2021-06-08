@@ -23,7 +23,7 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        
+
         $nbUsers = 100;
         $nbEvents = 5;
 
@@ -47,7 +47,6 @@ class AppFixtures extends Fixture
         $user->setPhone($faker->phoneNumber());
         $user->setBirthDate($faker->dateTimeThisCentury());
         $user->setRoles(["ROLE_ADMIN"]);
-
         $manager->persist($user);
         $manager->flush();
 
@@ -81,7 +80,7 @@ class AppFixtures extends Fixture
             $tabEvent[] = $event;
             $manager->flush();
         }
-        
+
 
         // Alimentation de la table user
 
@@ -107,6 +106,10 @@ class AppFixtures extends Fixture
             $user->setPhone($faker->phoneNumber());
             $user->setBirthDate($faker->dateTimeThisCentury());
             $user->setRoles(["ROLE_USER"]);
+            $aleat = rand(1, 10);
+            if ($aleat > 2) {
+                $user->setLicenceNumber('28539567');
+            }
             $manager->persist($user);
 
             $tabUser[] = $user;
@@ -119,14 +122,18 @@ class AppFixtures extends Fixture
         for ($count = 0; $count < $nbUsers; $count++) {
             $sub = new Subscription;
             $user = $tabUser[$count];
-            $indexEvent = count($tabEvent)-1;
-            $event = $tabEvent[rand(0,$indexEvent)];
+            $indexEvent = count($tabEvent) - 1;
+            $event = $tabEvent[rand(0, $indexEvent)];
             $sub->setEvent($event);
             $sub->setUser($user);
             $newDateSub = $dateSub->add(new DateInterval('PT30S'));
             $sub->setSubsDate($newDateSub);
-            $sub->setValidationState(false);
-
+            $licence = $user->getLicenceNumber();
+            if (isset($licence)) {
+                $sub->setValidationState(true);
+            } else {
+                $sub->setValidationState(false);
+            }
             $manager->persist($sub);
             $manager->flush();
         }
