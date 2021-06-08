@@ -7,6 +7,8 @@
     {# Run `composer require symfony/webpack-encore-bundle`
        and uncomment the following Encore helpers to start using Symfony UX #}
 
+	<link rel="icon" href="build/motocross-fav.png" type="image/png" sizes="32x32">
+
     <link rel="stylesheet" href="css/style.css" type="text/css">
 
     {% block stylesheets %}
@@ -59,8 +61,8 @@
 								{% if is_granted('ROLE_ADMIN') %}
 									<a class="btn btn-warning mb-1" href="{{ path('admin') }}">Espace Admin</a>
 								{% endif %}
-							    <a href="{{ path('profil_edit', {id: app.user.id}) }}" class="btn btn-primary mb-1"><i class="far fa-user"></i> Mon compte</a>
-								<a href="{{ path('app_logout') }}" class="btn btn-danger mb-1"><i class="fas fa-sign-out-alt"></i></a>
+							    <a href="{{ path('profil_edit', {id: app.user.id}) }}" class="btn btn-primary mb-1 text-light"><i class="far fa-user"></i> Mon compte</a>
+								<a href="{{ path('app_logout') }}" class="btn btn-danger mb-1 text-light"><i class="fas fa-sign-out-alt"></i></a>
 							{% else %}
 								<button class="btn btn-primary mb-1" data-toggle="modal" data-target="#myModal">Se connecter</button>
 							{% endif %}
