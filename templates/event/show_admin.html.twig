@@ -50,7 +50,14 @@
             </tr>
           </tbody>
         </table>
-        <h2 class="my-4">Liste des inscrits</h2>
+        <div class="d-flex align-items-center">
+          <p class="h2 my-4">Liste des inscrits</p>
+          <div class="ml-auto">
+            <button class="btn btn-primary">
+              Clôture des inscriptions
+            </button>
+          </div>
+        </div>
         <table class="table table-striped">
           <thead>
             <th>#</th>
@@ -65,13 +72,13 @@
             {% else %}
               {% set limit = 75 %}
             {% endif %}
-            {% for key,user in users %}
+            {% for key, user in users %}
               {% if key == limit %}
-              <tr class="table-danger">
-                <td colspan="5" class="h2">Liste d'attente</td>
+                <tr class="table-danger">
+                  <td colspan="5" class="h2">Liste d'attente</td>
                 </tr>
               {% endif %}
-              <tr {% if key > (limit - 1) %}class="table-danger"{% endif %}>
+              <tr {% if key > (limit - 1) %} class="table-danger" {% endif %}>
                 <td>{{ key + 1 }}</td>
                 <td>{{ user.firstname }}</td>
                 <td>{{ user.name }}</td>
