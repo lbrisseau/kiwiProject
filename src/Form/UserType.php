@@ -37,7 +37,7 @@ class UserType extends AbstractType
                     ],
                 ],
             ])
-            ->add('email')
+            
             ->add('phone', TextType::class, [
                 'label' => 'Tel',
             ])

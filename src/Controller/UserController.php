@@ -74,8 +74,8 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $password = $encoder->encodePassword($user, $user->getPassword());
-            $user->setPassword($password);
+            // $password = $encoder->encodePassword($user, $user->getPassword());
+            // $user->setPassword($password);
 
             $this->getDoctrine()->getManager()->flush();
 
@@ -113,12 +113,17 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $password = $encoder->encodePassword($user, $user->getPassword());
-            $user->setPassword($password);
+            // $password = $encoder->encodePassword($user, $user->getPassword());
+            // $user->setPassword($password);
+            if ($this->isGranted('ROLE_MEMBER')) {
+                $user->setRoles(['ROLE_MEMBER','ROLE_USER']);
+            } else {
+                $user->setRoles(['ROLE_USER']);
+            }
 
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('user_index');
+            return $this->redirectToRoute('home');
         }
 
         return $this->render('user/edit.html.twig', [
