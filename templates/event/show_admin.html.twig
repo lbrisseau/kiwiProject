@@ -60,9 +60,18 @@
             <th>Inscription Validée ?</th>
           </thead>
           <tbody>
+            {% if event.type == false %}
+              {% set limit = 15 %}
+            {% else %}
+              {% set limit = 75 %}
+            {% endif %}
             {% for key,user in users %}
-              {% if key == 14 %} <tr class="table-danger"><td colspan="5">Liste d'attente</td></tr> {% endif %}
-              <tr {% if key > 13 %}class="table-danger"{% endif %}>
+              {% if key == limit %}
+              <tr class="table-danger">
+                <td colspan="5" class="h2">Liste d'attente</td>
+                </tr>
+              {% endif %}
+              <tr {% if key > (limit - 1) %}class="table-danger"{% endif %}>
                 <td>{{ key + 1 }}</td>
                 <td>{{ user.firstname }}</td>
                 <td>{{ user.name }}</td>
