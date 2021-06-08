@@ -256,17 +256,29 @@
     			        <div class="row pageMobile">
     			            <div class="col-md-6 mb-2">
 								{{form_label(formContact.firstName)}}
-								{{form_widget(formContact.firstName)}}
+								{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+							    	{{form_widget(formContact.firstName, {'value' : app.user.firstName})}}
+								{% else %}
+									{{form_widget(formContact.firstName)}}
+								{% endif %}
     			            </div>
 							<div class="col-md-6 mb-2">
 								{{form_label(formContact.lastName)}}
-								{{form_widget(formContact.lastName)}}
+								{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+							    	{{form_widget(formContact.lastName, {'value' : app.user.lastName})}}
+								{% else %}
+									{{form_widget(formContact.lastName)}}
+								{% endif %}
     			            </div>
     			        </div>
 						<div class="row pageMobile"> 
 							<div class="col-md-12 mb-2">
 								{{form_label(formContact.email)}}
-								{{form_widget(formContact.email)}}
+								{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+							    	{{form_widget(formContact.email, {'value' : app.user.email})}}
+								{% else %}
+									{{form_widget(formContact.email)}}
+								{% endif %}
 							</div>
 						</div>
     			        <div class="row">
