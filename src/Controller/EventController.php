@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Event;
+use App\Entity\Subscription;
 use App\Form\EventType;
 use App\Repository\EventRepository;
 use App\Repository\SubscriptionRepository;
@@ -83,12 +84,34 @@ class EventController extends AbstractController
      */
     public function delete(Request $request, Event $event): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$event->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $event->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($event);
             $entityManager->flush();
         }
 
         return $this->redirectToRoute('event_index');
+    }
+
+    /**
+     * @Route("/admin/event/{id}/validate", name="event_validate", methods={"POST"})
+     */
+    public function validate(Request $request, Event $event)
+    {
+        if ($this->isCsrfTokenValid('delete' . $event->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+
+            $tabSubs = $event->getSubscriptions();
+            //var_dump($tabSubs);
+            foreach ($tabSubs as $sub) {
+                if ($sub->getValidationState() == false) {
+                    $entityManager->remove($sub);
+                    $entityManager->flush();
+                }
+            }
+        }
+        return $this->redirectToRoute('event_show', [
+            'id' => $event->getId(),
+        ]);
     }
 }
