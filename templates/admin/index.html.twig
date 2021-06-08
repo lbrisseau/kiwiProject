@@ -42,8 +42,8 @@
                   {% set pourcent = (event.nbusers) / limit * 100 %}
 
                   <div class="progress">
-                    <div class="progress-bar progress-bar-striped {% if pourcent >= limit %} bg-danger {% else %} bg-info {% endif %}" role="progressbar" style="width: {{ pourcent }}%" aria-valuenow="{{ event.nbusers }}" aria-valuemin="0" aria-valuemax="100">
-                      {% if pourcent >= limit %}
+                    <div class="progress-bar progress-bar-striped {% if event.nbusers >= limit %} bg-danger {% else %} bg-info {% endif %}" role="progressbar" style="width: {{ pourcent }}%" aria-valuenow="{{ event.nbusers }}" aria-valuemin="0" aria-valuemax="100">
+                      {% if event.nbusers >= limit %}
                         Complet
                       {% else %}
                         {{ event.nbusers }}

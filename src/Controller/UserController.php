@@ -74,8 +74,8 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $password = $encoder->encodePassword($user, $user->getPassword());
-            $user->setPassword($password);
+            // $password = $encoder->encodePassword($user, $user->getPassword());
+            // $user->setPassword($password);
 
             $this->getDoctrine()->getManager()->flush();
 
@@ -107,18 +107,23 @@ class UserController extends AbstractController
     /**
      * @Route("/user/{id}/edit", name="profil_edit", methods={"GET","POST"})
      */
-    public function editProfil(Request $request, User $user, $id,  UserPasswordEncoderInterface $encoder): Response
+    public function editProfil(Request $request, User $user, UserPasswordEncoderInterface $encoder): Response
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $password = $encoder->encodePassword($user, $user->getPassword());
-            $user->setPassword($password);
+            // $password = $encoder->encodePassword($user, $user->getPassword());
+            // $user->setPassword($password);
+            if ($this->isGranted('ROLE_MEMBER')) {
+                $user->setRoles(['ROLE_MEMBER','ROLE_USER']);
+            } else {
+                $user->setRoles(['ROLE_USER']);
+            }
 
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('user_index');
+            return $this->redirectToRoute('home');
         }
 
         return $this->render('user/edit.html.twig', [
