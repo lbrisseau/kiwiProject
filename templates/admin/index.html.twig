@@ -34,12 +34,24 @@
               <tr>
                 <td></td>
                 <td>
-                  {% set pourcent = (event.nbusers)/75*100 %}
+                  {% if event.type == false %}
+                    {% set limit = 15 %}
+                  {% else %}
+                    {% set limit = 75 %}
+                  {% endif %}
+                  {% set pourcent = (event.nbusers) / limit * 100 %}
+
                   <div class="progress">
-                    <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: {{ pourcent }}%" aria-valuenow="{{ event.nbusers }}" aria-valuemin="0" aria-valuemax="100">
-                      {{ event.nbusers }} inscrits
+                    <div class="progress-bar progress-bar-striped {% if pourcent >= limit %} bg-danger {% else %} bg-info {% endif %}" role="progressbar" style="width: {{ pourcent }}%" aria-valuenow="{{ event.nbusers }}" aria-valuemin="0" aria-valuemax="100">
+                      {% if pourcent >= limit %}
+                        Complet
+                      {% else %}
+                        {{ event.nbusers }}
+                        inscrits
+                      {% endif %}
                     </div>
-                  </div></td>
+                  </div>
+                </td>
               </tr>
             {% else %}
               <tr>
