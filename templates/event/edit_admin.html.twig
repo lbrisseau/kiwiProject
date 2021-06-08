@@ -11,17 +11,25 @@
             {{ event.date ? event.date|date('d-m-Y') : '' }}
           </h1>
           <p class="ml-auto">
-            <a class="btn btn-primary" href="{{ path('event_index') }}">
-              <i class="fas fa-arrow-circle-left"></i>
-            </a>
+            {% if origin is defined %}
+              {% if (origin == 'admin') %}
+                <a class="btn btn-primary" href="{{ path('admin') }}">
+                  <i class="fas fa-arrow-circle-left"></i>
+                </a>
+              {% endif %}
+            {% else %}
+              <a class="btn btn-primary" href="{{ path('event_index') }}">
+                <i class="fas fa-arrow-circle-left"></i>
+              </a>
+            {% endif %}
           </p>
         </div>
       </div>
     </div>
     <div class="row">
       <div class="col-10 mx-auto">
-          {{ include('event/_form_admin.html.twig', {'button_label': 'Update'}) }}
-          {{ include('event/_delete_form_admin.html.twig') }}
+        {{ include('event/_form_admin.html.twig', {'button_label': 'Update'}) }}
+        {{ include('event/_delete_form_admin.html.twig') }}
       </div>
     </div>
 

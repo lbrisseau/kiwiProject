@@ -51,12 +51,22 @@ class EventController extends AbstractController
     /**
      * @Route("/admin/event/{id}", name="event_show", methods={"GET"})
      */
-    public function show(Event $event, SubscriptionRepository $sub): Response
+    public function show(Event $event, SubscriptionRepository $sub, Request $request): Response
     {
-        return $this->render('event/show_admin.html.twig', [
-            'event' => $event,
-            'users' => $sub->findUsers($event),
-        ]);
+        $param = $request->query->get('from');
+        var_dump($param);
+        if ($param == 'admin') {
+            return $this->render('event/show_admin.html.twig', [
+                'event' => $event,
+                'users' => $sub->findUsers($event),
+                'origin' => 'admin'
+            ]);
+        } else {
+            return $this->render('event/show_admin.html.twig', [
+                'event' => $event,
+                'users' => $sub->findUsers($event),
+            ]);
+        }
     }
 
     /**
@@ -64,19 +74,39 @@ class EventController extends AbstractController
      */
     public function edit(Request $request, Event $event): Response
     {
+        $param = $request->query->get('from');
+        var_dump($param);
+
+
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('event_index');
+            if ($param == 'admin') {
+                return $this->redirectToRoute('admin');
+            } else {
+                return $this->redirectToRoute('event_index');
+            }
+            
         }
 
-        return $this->render('event/edit_admin.html.twig', [
-            'event' => $event,
-            'form' => $form->createView(),
-        ]);
+
+        if ($param == 'admin') {
+            return $this->render('event/edit_admin.html.twig', [
+                'event' => $event,
+                'form' => $form->createView(),
+                'origin' => 'admin'
+            ]);
+        } else {
+            return $this->render('event/edit_admin.html.twig', [
+                'event' => $event,
+                'form' => $form->createView(),
+            ]);
+        }
+
+
+        
     }
 
     /**

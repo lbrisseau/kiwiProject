@@ -23,10 +23,10 @@
                 <td>{{ event.name }}</td>
                 <td>{{ event.type ? 'Adulte' : 'Kids' }}</td>
                 <td>
-                  <a class="btn btn-primary btn-sm" href="{{ path('event_show', {'id': event.id}) }}">
+                  <a class="btn btn-primary btn-sm" href="{{ path('event_show', {'id': event.id, 'from':'admin'}) }}">
                     <i class="fas fa-info-circle"></i>
                   </a>
-                  <a class="btn btn-warning btn-sm" href="{{ path('event_edit', {'id': event.id}) }}">
+                  <a class="btn btn-warning btn-sm" href="{{ path('event_edit', {'id': event.id, 'from':'admin'}) }}">
                     <i class="far fa-edit"></i>
                   </a>
                 </td>
