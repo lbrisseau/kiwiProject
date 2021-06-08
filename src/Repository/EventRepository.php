@@ -63,7 +63,7 @@ class EventRepository extends ServiceEntityRepository
         $nextDate->add(new DateInterval('P1M'));
         return $this->createQueryBuilder('e')
             ->leftJoin('e.subscriptions', 's', Expr\Join::WITH, 's.event = e.id')
-            ->select('e.name, e.date, COUNT(s.user) AS nbusers')
+            ->addSelect('COUNT(s.user) AS nbusers')
             ->andWhere('e.date >= :date')
             ->andWhere('e.date < :nextDate')
             ->andWhere('e.type = 1')
@@ -81,7 +81,7 @@ class EventRepository extends ServiceEntityRepository
         $nextDate->add(new DateInterval('P1M'));
         return $this->createQueryBuilder('e')
             ->leftJoin('e.subscriptions', 's', Expr\Join::WITH, 's.event = e.id')
-            ->select('e.name, e.date, COUNT(s.user) AS nbusers')
+            ->addSelect('COUNT(s.user) AS nbusers')
             ->andWhere('e.date >= :date')
             ->andWhere('e.date < :nextDate')
             ->andWhere('e.type = 0')
