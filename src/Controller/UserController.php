@@ -14,6 +14,9 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserController extends AbstractController
 {
+
+    ////////////////////////////////  ADMIN   ////////////////////////////////
+
     /**
      * @Route("/admin/user/", name="user_index", methods={"GET"})
      */
@@ -97,5 +100,30 @@ class UserController extends AbstractController
         }
 
         return $this->redirectToRoute('user_index');
+    }
+
+    ////////////////////////////////  USER   ////////////////////////////////
+
+    /**
+     * @Route("/user/{id}/edit", name="profil_edit", methods={"GET","POST"})
+     */
+    public function editProfil(Request $request, User $user, UserPasswordEncoderInterface $encoder): Response
+    {
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $password = $encoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($password);
+
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('user_index');
+        }
+
+        return $this->render('user/edit.html.twig', [
+            'user' => $user,
+            'form' => $form->createView(),
+        ]);
     }
 }
