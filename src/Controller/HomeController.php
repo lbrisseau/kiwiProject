@@ -62,16 +62,24 @@ class HomeController extends AbstractController
             $event = $eventRepo->findNext()[0];
         }
         $isThereSubs = $subsRepo->findOne($user, $event);
-        $subs = new Subscription();
-        $formSubs = $this->createForm(SubscriptionType::class, $subs);
-        $formSubs->handleRequest($request);
-        $subs->setSubsDate(new DateTime());
-        $subs->setValidationState(!is_null($user->getLicenceNumber()));
-        $subs->setEvent($event);
-        $subs->setUser($user);
-        $manager->persist($subs);
-        $manager->flush();
-        $this->addFlash('success', "Vous êtes inscrit.e à l'événement.");
+        if (is_null($isThereSubs))
+        {
+            $subs = new Subscription();
+            $formSubs = $this->createForm(SubscriptionType::class, $subs);
+            $formSubs->handleRequest($request);
+            $subs->setSubsDate(new DateTime());
+            $subs->setValidationState(!is_null($user->getLicenceNumber()));
+            $subs->setEvent($event);
+            $subs->setUser($user);
+            $manager->persist($subs);
+            $manager->flush();
+            $this->addFlash('success', "Vous êtes désormais inscrit.e à l'événement.");
+        }
+        else
+        {
+            $this->addFlash('success', "Vous êtes déjà inscrit.e à l'événement.");
+        }
         return $this->redirectToRoute("home");
     }
+    // DELETE FROM `subscription` WHERE `subscription`.`id` = 102;
 }
