@@ -8,6 +8,7 @@ use App\Form\ContactType;
 use App\Form\SubscriptionType;
 use App\Notification\ContactNotification;
 use App\Repository\EventRepository;
+use App\Repository\SubscriptionRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -46,27 +47,27 @@ class HomeController extends AbstractController
     /**
      * @Route("/subs", name="subscriptionManager")
      */
-    public function subscriptionManager(Request $request, EventRepository $eventRepo, EntityManagerInterface $manager)
+    public function subscriptionManager(Request $request, EventRepository $eventRepo, SubscriptionRepository $subsRepo, EntityManagerInterface $manager)
     {
         // New subscription management:
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
+        $adultDate = new DateTime('-18Y');
+        if ($user->getBirthDate() > $adultDate)
+        {
+            $event = $eventRepo->findNextKid()[0];
+        }
+        else
+        {
+            $event = $eventRepo->findNext()[0];
+        }
+        $isThereSubs = $subsRepo->findOne($user, $event);
         $subs = new Subscription();
         $formSubs = $this->createForm(SubscriptionType::class, $subs);
         $formSubs->handleRequest($request);
         $subs->setSubsDate(new DateTime());
         $subs->setValidationState(!is_null($user->getLicenceNumber()));
-        $adultDate = new DateTime('-18Y');
-        // var_dump($subs);
-        // exit;
-        if ($user->getBirthDate() > $adultDate)
-        {
-            $subs->setEvent($eventRepo->findNextKid()[0]);
-        }
-        else
-        {
-            $subs->setEvent($eventRepo->findNext()[0]);
-        }
+        $subs->setEvent($event);
         $subs->setUser($user);
         $manager->persist($subs);
         $manager->flush();

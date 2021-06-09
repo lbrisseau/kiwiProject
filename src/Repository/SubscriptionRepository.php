@@ -43,6 +43,17 @@ class SubscriptionRepository extends ServiceEntityRepository
         return $stmt->fetchAllAssociative();
     }
 
+    public function findOne($user, $event)
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.user = :user')
+            ->andWhere('s.event = :event')
+            ->setParameters(array('user'=> $user, 'event' => $event))
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
 
     // /**
     //  * @return Subscription[] Returns an array of Subscription objects
