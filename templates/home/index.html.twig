@@ -17,10 +17,25 @@
     
 {% endblock %}
 
+{% block navbarButtons %}
+<li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+	<a class="nav-link" href="#accueil" id="navaccueil">Accueil<span class="sr-only"></span></a>
+</li>
+<li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+	<a class="nav-link" href="#club" id="navclub">Le Club</a>
+</li>
+<li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+	<a class="nav-link" href="#evenement" id="navevenement">Événement</a>
+</li>
+<li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+	<a class="nav-link" href="#contact" id="navcontact">Contact</a>
+</li>
+{% endblock %}
+
 {% block body %}
 		{# Alert for a successful mail sending #}
 		{% for message in app.flashes('success') %}
-		    <div class="flash-success alert alert-success alert-dismissible fade show" role="alert">
+		    <div class="flash-success alert alert-success alert-dismissible fade show mt-3" role="alert">
 		        {{ message }}
 				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
@@ -29,7 +44,7 @@
 		{% endfor %}
 		{# Alert for the cancelling of an event or such things #}
 		{% for message in app.flashes('issueEvent') %}
-		    <div class="flash-issueEvent alert alert-primary alert-dismissible fade show" role="alert">
+		    <div class="flash-issueEvent alert alert-primary alert-dismissible fade show mt-3" role="alert">
 		        {{ message }}
 				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
@@ -327,6 +342,7 @@
     			</div>
 			</div>
 		</section>
+{% endblock %}
 
 		<!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 		<!-- Eeeet le footer ! -->
@@ -412,9 +428,7 @@
 					</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-					{{ form_start(formSubs) }}
-					<button type="formSubs.submit()" class="btn btn-primary">Inscription</button>
-					{{ form_end(formSubs, {'render_rest': false}) }}
+					<a href="{{ path('subscriptionManager') }}" class="btn btn-primary text-light">Inscription</a>
 				</div>
 				{% endif %}
 			</div>
