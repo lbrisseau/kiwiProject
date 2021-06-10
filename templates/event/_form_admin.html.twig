@@ -1,11 +1,6 @@
 {{ form_start(form) }}
 
-    {{ form_row(form.date) }}
-    {{ form_row(form.name) }}
-    {{ form_row(form.type) }}
-    {{ form_row(form.startMemberSubs, {'value': settings.defaultStartMemberSubs }) }}
-    {{ form_row(form.startAllSubs, {'value': settings.defaultStartAllSubs }) }}
-    {{ form_row(form.endSubs, {'value': settings.defaultEndSubs }) }}
+    {{ form_widget(form) }}
 <div class="row">
   <div class="ml-auto">
     <button class="btn btn-warning mb-2 mr-3">Sauvegarder
