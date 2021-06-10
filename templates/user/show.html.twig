@@ -1,27 +1,31 @@
-{% extends 'admin-base.html.twig' %}
+{% extends 'base.html.twig' %}
 
-{% block title %}MX Park | Admin | Détail membre{% endblock %}
+{% block title %}MX Park | Mes informations{% endblock %}
 
 {% block body %}
-  <div class="container">
+  <div class="container mt-5">
     <div class="row">
       <div class="col-10 mx-auto">
         <div class="d-flex  my-4">
           <h1 class="h2">
-            Détail profil de 
+            Profil de
             {{ user.firstName }}
             {{ user.lastName }}
           </h1>
+
           <p class="ml-auto">
-            <a class="btn btn-primary" href="{{ path('user_index') }}">
+            <a class="btn btn-primary" href="{{ path('home') }}">
               <i class="fas fa-arrow-circle-left"></i>
             </a>
-            <a class="btn btn-warning" href="{{ path('user_edit', {'id': user.id}) }}">
+            <a class="btn btn-warning" href="{{ path('profil_edit', {'id': user.id}) }}">
               <i class="far fa-edit"></i>
             </a>
           </p>
         </div>
-        <table class="table table-striped">
+
+        <div class="my-4">
+        <h2 class="h4 mb-4"><i class="far fa-address-card"></i> Mes informations</h2>
+        <table class="table table-striped mb-5">
           <tbody>
             <tr>
               <th>Prénom</th>
@@ -41,12 +45,6 @@
               <td>{{ user.birthDate ? user.birthDate|date('d/m/Y') : '' }}</td>
             </tr>
             <tr>
-              <th>Role</th>
-              <td>{% set string = user.roles | join(', ') %}
-                    {% set string = string | replace({'ROLE_': ''}) %}
-                    {{ string }}</td>
-            </tr>
-            <tr>
               <th>Email</th>
               <td>{{ user.email }}</td>
             </tr>
@@ -60,7 +58,13 @@
             </tr>
           </tbody>
         </table>
-        {{ include('user/_delete_form.html.twig') }}
+        </div>
+
+        <div class="my-4">
+          <h2 class="h4 mb-4"><i class="far fa-calendar-alt"></i> Mes entraînements</h2>
+          <p class="text-black-50">Vous n'êtes actuellement inscrit à aucun entraînement.</p>
+        </div>
+
       </div>
     </div>
   </div>
