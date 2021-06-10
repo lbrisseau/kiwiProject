@@ -9,6 +9,7 @@ use App\Form\SubscriptionType;
 use App\Notification\ContactNotification;
 use App\Repository\EventRepository;
 use App\Repository\SubscriptionRepository;
+use DateInterval;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -52,6 +53,19 @@ class HomeController extends AbstractController
                 $currentEvent = $eventRepo->findNext()[0];
             }
             $isThereSubs = $subsRepo->findOne($user, $currentEvent);
+            $dateEvent = clone $currentEvent->getDate();
+            $dateStartMember = clone $currentEvent->getDate();
+            $dateStartAll = clone $currentEvent->getDate();
+            $dateEnd = clone $currentEvent->getDate();
+            $dateStartMember->sub(new DateInterval('P'.$currentEvent->getStartMemberSubs().'D'));
+            $dateStartAll->sub(new DateInterval('P'.$currentEvent->getStartAllSubs().'D'));
+            $dateEnd->sub(new DateInterval('P'.$currentEvent->getEndSubs().'D'));
+            var_dump($currentEvent);
+            var_dump($dateEvent);
+            var_dump($dateStartMember);
+            var_dump($dateStartAll);
+            var_dump($dateEnd);
+            exit;
         }
         // Normal rendering:
         return $this->render('home/index.html.twig', [
@@ -121,6 +135,5 @@ class HomeController extends AbstractController
         $entityManager->flush();
         $this->addFlash('success', "Vous êtes désinscrit.e de l'événement.");
         return $this->redirectToRoute("home");
-        // DELETE FROM `subscription` WHERE `subscription`.`id` = 102;
     }
 }

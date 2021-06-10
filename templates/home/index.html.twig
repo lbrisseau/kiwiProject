@@ -126,6 +126,7 @@
 		{# TODO bonus background scroll bug #}
 		{# TODO bonus taille de police titres responsive #}
 		{# TODO csrf token check on delete? #}
+		{# TODO enlever licence registration de l'entity settings #}
 		{# NOTA BENE on considère qu'il existe toujours de prochains événements #}
 		<div class="flex-container pageMobile">
     		<div class="flex-card pageMobileCard">
@@ -157,7 +158,7 @@
     		        </div>
     		    </div>
     		    <div class="flex-footer">
-					{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+					{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
 						{% if isThereSubs is empty %}
 						<button class="btn btn-primary" data-toggle="modal" data-target="#subsModal">S'inscrire</button>
 						{% else %}
