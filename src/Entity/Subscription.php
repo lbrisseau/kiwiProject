@@ -19,13 +19,13 @@ class Subscription
 
     /**
      * @ORM\ManyToOne(targetEntity=Event::class, inversedBy="subscriptions")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $event;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="subscriptions")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $user;
 
