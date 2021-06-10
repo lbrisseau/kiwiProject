@@ -165,7 +165,7 @@
 						<button class="btn btn-danger" data-toggle="modal" data-target="#unsubsModal">Se désinscrire</button>
 						{% endif %}
 					{% else %}
-						<button class="btn btn-primary" data-toggle="modal" data-target="#myModal">S'inscrire</button>
+						<button class="btn btn-primary" data-toggle="modal" data-target="#authModal">S'inscrire</button>
 					{% endif %}
 				</div>
     		</div>
@@ -220,14 +220,14 @@
 						<div class="pageMobile text-center">
 							<h1 class="mb-2">Entraînement de motocross</h1>
 							<h2 class="mb-3 h6">LE DERNIER DIMANCHE DU MOIS</h2>
-							{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+							{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
 								{% if isThereSubs is empty %}
 								<button class="btn btn-primary" data-toggle="modal" data-target="#subsModal">S'inscrire</button>
 								{% else %}
 								<button class="btn btn-danger" data-toggle="modal" data-target="#unsubsModal">Se désinscrire</button>
 								{% endif %}
 							{% else %}
-								<button class="btn btn-primary" data-toggle="modal" data-target="#myModal">S'inscrire</button>
+								<button class="btn btn-primary" data-toggle="modal" data-target="#authModal">S'inscrire</button>
 							{% endif %}
 							<p class="mb-4 h5 pageMobile">Lorem ipsum dolor, sit amet consectetur adipisicing elit. <br> 
 							Ea corporis, eos illum a quam eius iusto dolorem veritatis laborum impedit! <br>
@@ -409,7 +409,7 @@
 							{% else %}
 								{% set startDate = dateStartAll %}
 							{% endif %}
-							{% if (startDate|date('d/m/Y') <= "now"|date('d/m/Y')) %}
+							{% if (startDate|date('Y-m-d') <= "now"|date('Y-m-d')) %}
 								{% if (app.user.licenceNumber is empty) %}
 									<p class="my-2 bg-warning text-justify"><i class="fas fa-exclamation-triangle"></i> <strong> Attention, vous n'avez pas renseigné votre numéro de licence. </strong>
 									Votre inscription sera annulée si vous ne complétez pas votre compte avant le {{ dateEnd | date("d/m/Y") }}.
@@ -422,7 +422,10 @@
 					</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-					<a href="{{ path('subscriptionManager') }}" class="btn btn-primary text-light">Inscription</a>
+					<form method="post" action="{{ path('subscriptionManager', {'event': currentEvent.id, 'user': app.user.id}) }}">
+						<input type="hidden" name="_token" value="{{ csrf_token('subs' ~ currentEvent.id ~ app.user.id) }}">
+						<button class="btn btn-primary text-light">Inscription</button>
+					</form>
 				</div>
 							{% else %}
 								<p>Vous ne pouvez pas encore vous inscrire à l'événement : "{{ currentEvent.name }}". <br>
@@ -443,7 +446,7 @@
 	<div class="modal fade" id="unsubsModal" tabindex="-1" role="dialog" aria-labelledby="Unsubscription modal" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+				{% if is_granted('IS_AUTHENTICATED_REMEMBERED') and not isThereSubs is empty %}
 					<div class="modal-header">
 						<h5 class="modal-title" id="exampleModalLabel">Désinscription</h5>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -458,7 +461,10 @@
 					</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-					<a href="{{ path('unsubscriptionManager') }}" class="btn btn-danger text-light">Désinscription</a>
+					<form method="post" action="{{ path('unsubscriptionManager', {'id': isThereSubs.id}) }}">
+						<input type="hidden" name="_token" value="{{ csrf_token('unsubs' ~ isThereSubs.id) }}">
+						<button class="btn btn-danger text-light">Désinscription</button>
+					</form>
 				</div>
 				{% endif %}
 			</div>

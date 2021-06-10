@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Contact;
+use App\Entity\Event;
 use App\Entity\Subscription;
+use App\Entity\User;
 use App\Form\ContactType;
 use App\Form\SubscriptionType;
 use App\Notification\ContactNotification;
@@ -37,6 +39,7 @@ class HomeController extends AbstractController
             $this->addFlash('success', "Votre message a bien été envoyé.");
             return $this->redirectToRoute("home", ['_fragment' => 'contact']);
         }
+        // Initialization of various dates + event
         $currentEvent = null;
         $isThereSubs = null;
         $dateEvent = null;
@@ -44,10 +47,12 @@ class HomeController extends AbstractController
         $dateStartAll = null;
         $dateEnd = null;
         $securityContext = $this->container->get('security.authorization_checker');
+        // Hydration of those variables in case the user is logged in
         if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
         {
             $user = $this->getUser();
-            $adultDate = new DateTime('-18Y');
+            $adultDate = new DateTime();
+            $adultDate->sub(new DateInterval('P18Y'));
             if ($user->getBirthDate() > $adultDate)
             {
                 $currentEvent = $eventRepo->findNextKid()[0];
@@ -64,13 +69,6 @@ class HomeController extends AbstractController
             $dateStartMember->sub(new DateInterval('P'.$currentEvent->getStartMemberSubs().'D'));
             $dateStartAll->sub(new DateInterval('P'.$currentEvent->getStartAllSubs().'D'));
             $dateEnd->sub(new DateInterval('P'.$currentEvent->getEndSubs().'D'));
-            // var_dump(new DateTime());
-            // var_dump($currentEvent);
-            // var_dump($dateEvent);
-            // var_dump($dateStartMember);
-            // var_dump($dateStartAll);
-            // var_dump($dateEnd);
-            // exit;
         }
         // Normal rendering:
         return $this->render('home/index.html.twig', [
@@ -87,61 +85,36 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/subs", name="subscriptionManager")
+     * @Route("/subs/{event}-{user}", name="subscriptionManager", methods={"POST"})
      */
-    public function subscriptionManager(Request $request, EventRepository $eventRepo, EntityManagerInterface $manager)
+    public function subscriptionManager(Request $request, EntityManagerInterface $manager, Event $event, User $user)
     {
-        // New subscription management:
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_REMEMBERED');
-        $user = $this->getUser();
-        $adultDate = new DateTime('-18Y');
-        if ($user->getBirthDate() > $adultDate)
-        {
-            $event = $eventRepo->findNextKid()[0];
+        if ($this->isCsrfTokenValid('subs' . $event->getId() . $user->getId(), $request->request->get('_token'))) {
+            $subs = new Subscription();
+            $formSubs = $this->createForm(SubscriptionType::class, $subs);
+            $formSubs->handleRequest($request);
+            $subs->setSubsDate(new DateTime());
+            $subs->setValidationState(!is_null($user->getLicenceNumber()));
+            $subs->setEvent($event);
+            $subs->setUser($user);
+            $manager->persist($subs);
+            $manager->flush();
+            $this->addFlash('success', "Vous êtes désormais inscrit.e à l'événement.");
         }
-        else
-        {
-            $event = $eventRepo->findNext()[0];
-        }
-        $subs = new Subscription();
-        $formSubs = $this->createForm(SubscriptionType::class, $subs);
-        $formSubs->handleRequest($request);
-        $subs->setSubsDate(new DateTime());
-        $subs->setValidationState(!is_null($user->getLicenceNumber()));
-        $subs->setEvent($event);
-        $subs->setUser($user);
-        $manager->persist($subs);
-        $manager->flush();
-        $this->addFlash('success', "Vous êtes désormais inscrit.e à l'événement.");
-        // else
-        // 
-        //     $this->addFlash('success', "Vous êtes déjà inscrit.e à l'événement.");
-        // }
         return $this->redirectToRoute("home");
     }
-    
+
     /**
-     * @Route("/unsubs", name="unsubscriptionManager")
+     * @Route("/unsubs/{id}", name="unsubscriptionManager", methods={"POST"})
      */
-    public function unsubscriptionManager(Request $request, EventRepository $eventRepo, SubscriptionRepository $subsRepo, EntityManagerInterface $manager)
+    public function unsubscriptionManager(Request $request, Subscription $subs)
     {
-        // New subscription management:
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_REMEMBERED');
-        $user = $this->getUser();
-        $adultDate = new DateTime('-18Y');
-        if ($user->getBirthDate() > $adultDate)
-        {
-            $event = $eventRepo->findNextKid()[0];
+        if ($this->isCsrfTokenValid('unsubs' . $subs->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($subs);
+            $entityManager->flush();
         }
-        else
-        {
-            $event = $eventRepo->findNext()[0];
-        }
-        $subs = $subsRepo->findOne($user, $event);
-        // if ($this->isCsrfTokenValid('delete' . $subs->getId(), $request->request->get('_token'))) {
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->remove($subs);
-        $entityManager->flush();
+
         $this->addFlash('success', "Vous êtes désinscrit.e de l'événement.");
         return $this->redirectToRoute("home");
     }
