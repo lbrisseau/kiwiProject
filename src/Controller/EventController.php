@@ -11,7 +11,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Fpdf\Fpdf;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class EventController extends AbstractController
 {
@@ -54,7 +55,7 @@ class EventController extends AbstractController
     public function show(Event $event, SubscriptionRepository $sub, Request $request): Response
     {
         $param = $request->query->get('from');
-        var_dump($param);
+        //var_dump($param);
         if ($param == 'admin') {
             return $this->render('event/show_admin.html.twig', [
                 'event' => $event,
@@ -88,7 +89,6 @@ class EventController extends AbstractController
             } else {
                 return $this->redirectToRoute('event_index');
             }
-            
         }
 
 
@@ -104,9 +104,6 @@ class EventController extends AbstractController
                 'form' => $form->createView(),
             ]);
         }
-
-
-        
     }
 
     /**
@@ -128,7 +125,7 @@ class EventController extends AbstractController
      */
     public function validate(Request $request, Event $event)
     {
-        if ($this->isCsrfTokenValid('delete' . $event->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('validate' . $event->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
 
             $tabSubs = $event->getSubscriptions();
@@ -143,5 +140,62 @@ class EventController extends AbstractController
         return $this->redirectToRoute('event_show', [
             'id' => $event->getId(),
         ]);
+    }
+
+    /**
+     * @Route("/admin/event/{id}/pdf", name="event_createpdf", methods={"POST"})
+     */
+    public function createPdf(Request $request, SubscriptionRepository $sub, Event $event)
+    {
+        if ($this->isCsrfTokenValid('pdf' . $event->getId(), $request->request->get('_token'))) {
+
+            // Création d'un tableau de personnes
+            $tabSubs = $event->getSubscriptions();
+            $tabUsers = [];
+
+            foreach ($tabSubs as $sub) {
+                $user = $sub->getUser();
+                $tabUsers[] = $user;
+            }
+
+            // Création d'un PDF
+            $pdf = new Fpdf();
+
+            $pdf->AliasNbPages();
+            $pdf->AddPage();
+
+            $pdf->SetFont('Arial', 'B', 14);
+            $pdf->MultiCell(150, 6, "Liste ".$event->getName());
+            $pdf->Ln(10);
+
+            $pdf->SetTextColor(0, 0, 0);
+            $pdf->SetFont('Arial', '', 12);
+            foreach ($tabUsers as $key => $personne) {
+
+                if ($key == 50)
+                    $pdf->SetXY(100, 25);
+                if ($key >= 50)
+                    $decalage = true;
+                else
+                    $decalage = false;
+
+                if ($key & 1) {
+                    if ($decalage == true)
+                        $pdf->Cell(100);
+                    $pdf->Cell(25);
+                    $pdf->SetFillColor(128, 128, 128);
+                    $pdf->Cell(25, 5, addslashes($personne->getFirstName()), 0, 0, 'L', true);
+                    $pdf->Cell(25, 5, addslashes($personne->getLastName()), 0, 1, 'C', true);
+                } else {
+                    if ($decalage == true)
+                        $pdf->Cell(100);
+                    $pdf->Cell(25);
+                    $pdf->Cell(25, 5, addslashes($personne->getFirstName()), 0, 0, 'L');
+                    $pdf->Cell(25, 5, addslashes($personne->getLastName()), 0, 1, 'C');
+                }
+            }
+
+            return new Response($pdf->Output("MX Trail - Liste Session ".addslashes($event->getName()).".pdf","D"), 200, array('Content-Type' => 'application/pdf'));
+        }
     }
 }
