@@ -59,37 +59,83 @@ class EventRepository extends ServiceEntityRepository
     public function findNext()
     {
         $date = new DateTime('now');
-        $nextDate = new DateTime('now');
-        $nextDate->add(new DateInterval('P1M'));
-        return $this->createQueryBuilder('e')
-            ->leftJoin('e.subscriptions', 's', Expr\Join::WITH, 's.event = e.id')
-            ->addSelect('COUNT(s.user) AS nbusers')
+        $twoNextEvents = $this->createQueryBuilder('e')
             ->andWhere('e.date >= :date')
-            ->andWhere('e.date < :nextDate')
             ->andWhere('e.type = 1')
-            ->setParameters(array('date'=> $date, 'nextDate' => $nextDate))
+            ->setParameter('date', $date)
             ->orderBy('e.date', 'ASC')
+            ->setMaxResults(2)
             ->getQuery()
-            ->getSingleResult()
+            ->getResult()
         ;
+        $stringDate = $twoNextEvents[0]->getEndSubs();
+        $newDate =  $twoNextEvents[0]->getDate()->sub(new DateInterval('P'.$stringDate.'D'));
+        if ($date < $newDate)
+        {
+            $nbusers = $this->createQueryBuilder('e')
+                ->select('COUNT(s.user)')
+                ->leftJoin('e.subscriptions', 's')
+                ->andWhere('s.event = :event')
+                ->setParameter('event', $twoNextEvents[0])
+                ->getQuery()
+                ->getOneOrNullResult()
+            ;
+            $res = ['0' => $twoNextEvents[0], 'nbusers' => $nbusers['1']];
+        }
+        else
+        {
+            $nbusers = $this->createQueryBuilder('e')
+                ->select('COUNT(s.user_id)')
+                ->leftJoin('e.subscriptions', 's')
+                ->andWhere('s.event = :event')
+                ->setParameters(['date' => $date, 'event' => $twoNextEvents[1]])
+                ->getQuery()
+                ->getOneOrNullResult()
+            ;
+            $res = ['0' => $twoNextEvents[1], 'nbusers' => $nbusers['1']];
+        }
+        return $res;
     }
 
     public function findNextKid()
     {
         $date = new DateTime('now');
-        $nextDate = new DateTime('now');
-        $nextDate->add(new DateInterval('P1M'));
-        return $this->createQueryBuilder('e')
-            ->leftJoin('e.subscriptions', 's', Expr\Join::WITH, 's.event = e.id')
-            ->addSelect('COUNT(s.user) AS nbusers')
+        $twoNextEvents = $this->createQueryBuilder('e')
             ->andWhere('e.date >= :date')
-            ->andWhere('e.date < :nextDate')
             ->andWhere('e.type = 0')
-            ->setParameters(array('date'=> $date, 'nextDate' => $nextDate))
+            ->setParameter('date', $date)
             ->orderBy('e.date', 'ASC')
+            ->setMaxResults(2)
             ->getQuery()
-            ->getSingleResult()
+            ->getResult()
         ;
+        $stringDate = $twoNextEvents[0]->getEndSubs();
+        $newDate =  $twoNextEvents[0]->getDate()->sub(new DateInterval('P'.$stringDate.'D'));
+        if ($date < $newDate)
+        {
+            $nbusers = $this->createQueryBuilder('e')
+                ->select('COUNT(s.user)')
+                ->leftJoin('e.subscriptions', 's')
+                ->andWhere('s.event = :event')
+                ->setParameter('event', $twoNextEvents[0])
+                ->getQuery()
+                ->getOneOrNullResult()
+            ;
+            $res = ['0' => $twoNextEvents[0], 'nbusers' => $nbusers['1']];
+        }
+        else
+        {
+            $nbusers = $this->createQueryBuilder('e')
+                ->select('COUNT(s.user_id)')
+                ->leftJoin('e.subscriptions', 's')
+                ->andWhere('s.event = :event')
+                ->setParameters(['date' => $date, 'event' => $twoNextEvents[1]])
+                ->getQuery()
+                ->getOneOrNullResult()
+            ;
+            $res = ['0' => $twoNextEvents[1], 'nbusers' => $nbusers['1']];
+        }
+        return $res;
     }
 
     // /**

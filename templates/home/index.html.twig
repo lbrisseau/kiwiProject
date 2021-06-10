@@ -75,10 +75,8 @@
 			</ul>
 			<div class="carousel-inner"> 
 				<div class="carousel-item active">
-					<a href="algo_tp8_devs.html">
-						<!-- Version moyens-grands écrans -->
-						<img class="img-fluid w-100 my-img" src="{{absolute_url(asset("/build/motocross-dimanche_960x200.jpg"))}}" alt="Moto Dimanche">
-					</a>
+					<!-- Version moyens-grands écrans -->
+					<img class="img-fluid w-100 my-img" src="{{absolute_url(asset("/build/motocross-dimanche_960x200.jpg"))}}" alt="Moto Dimanche">
 					<div class="carousel-caption">
 						<h1>
 							Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -86,9 +84,7 @@
 					</div>
 				</div>
 				<div class="carousel-item">
-					<a href="#">
-						<img class="img-fluid w-100 my-img" src="{{absolute_url(asset("/build/terrain1_960x200.jpg"))}}" alt="Terrain 1">
-					</a>
+					<img class="img-fluid w-100 my-img" src="{{absolute_url(asset("/build/terrain1_960x200.jpg"))}}" alt="Terrain 1">
 					<div class="carousel-caption">
 						<h1>
 							Lorem ipsum dolor sit amet consectetur, adipisicing elit.
@@ -96,9 +92,7 @@
 					</div>
 				</div>
 				<div class="carousel-item">
-					<a href="#">
-						<img class="img-fluid w-100 my-img" src="{{absolute_url(asset("/build/motocross-team_960x200.jpg"))}}" alt="Team">
-					</a>
+					<img class="img-fluid w-100 my-img" src="{{absolute_url(asset("/build/motocross-team_960x200.jpg"))}}" alt="Team">
 					<div class="carousel-caption">
 						<h1>
 							Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -106,9 +100,7 @@
 					</div>
 				</div>
 				<div class="carousel-item">
-					<a href="#">
-						<img class="img-fluid w-100 my-img" src="{{absolute_url(asset("/build/terrain2_960x200.jpg"))}}" alt="Terrain 2">
-					</a>
+					<img class="img-fluid w-100 my-img" src="{{absolute_url(asset("/build/terrain2_960x200.jpg"))}}" alt="Terrain 2">
 					<div class="carousel-caption">
 						<h1>
 							Lorem ipsum dolor, sit, amet consectetur adipisicing elit.
@@ -126,11 +118,15 @@
 			</a>
 		</div>
 		</div>
-		{# TODO link button to forms and do the magic #}
 		{# TODO automatic mailing #}
-		{# TODO Se désinscrire #}
+		{# TODO weird date subtraction here #}
+		{# TODO agenda #}
 		{# TODO bonus see request Lionel #}
-		{# TODO background scroll bug #}
+		{# TODO bonus flash lionel annulation événement #}
+		{# TODO bonus background scroll bug #}
+		{# TODO bonus taille de police titres responsive #}
+		{# TODO csrf token check on delete? #}
+		{# NOTA BENE on considère qu'il existe toujours de prochains événements #}
 		<div class="flex-container pageMobile">
     		<div class="flex-card pageMobileCard">
     		    <h1 class="flex-title">Événement</h1>
@@ -162,7 +158,11 @@
     		    </div>
     		    <div class="flex-footer">
 					{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+						{% if isThereSubs is empty %}
 						<button class="btn btn-primary" data-toggle="modal" data-target="#subsModal">S'inscrire</button>
+						{% else %}
+						<button class="btn btn-danger" data-toggle="modal" data-target="#unsubsModal">Se désinscrire</button>
+						{% endif %}
 					{% else %}
 						<button class="btn btn-primary" data-toggle="modal" data-target="#myModal">S'inscrire</button>
 					{% endif %}
@@ -220,7 +220,11 @@
 							<h1 class="mb-2">Entraînement de motocross</h1>
 							<h2 class="mb-3 h6">LE DERNIER DIMANCHE DU MOIS</h2>
 							{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+								{% if isThereSubs is empty %}
 								<button class="btn btn-primary" data-toggle="modal" data-target="#subsModal">S'inscrire</button>
+								{% else %}
+								<button class="btn btn-danger" data-toggle="modal" data-target="#unsubsModal">Se désinscrire</button>
+								{% endif %}
 							{% else %}
 								<button class="btn btn-primary" data-toggle="modal" data-target="#myModal">S'inscrire</button>
 							{% endif %}
@@ -233,7 +237,10 @@
 							<div class="text-left mt-3 mr-3">
 								<ul>
 									<li>Les inscriptions se font dans la limite des places disponibles.</li>
-									<li>Seuls les membres de l'association pourront s'inscrire pendant les [] premiers jours, <br> 
+									<li>Seuls les membres de l'association pourront s'inscrire pendant les 
+									{% if not currentEvent is empty %}
+									{% set firstDays = currentEvent.startMemberSubs - currentEvent.startAllSubs %}
+									{{firstDays}}{% endif %} premiers jours, <br> 
 									puis les inscriptions seront ouvertes aux non-membres.</li>
 									<li>Un compte sur le site est nécessaire pour l'inscription à l'événement.</li>
 									<li>Lors de l'inscription, les mineur.es seront automatiquement dirigées vers l'entraînement Kid.</li>
@@ -249,9 +256,9 @@
 							</div>
 							{% set waiting = max(-1,event.nbusers - 75) %}
 							{% if (waiting >= 0) %}
-								<p>L'entraînement est complet et {{ waiting }} personnes sont sur liste d'attente.</p>
+								<p>Entraînement complet, {{ waiting }} personne(s) sur liste d'attente.</p>
 							{% else %}
-								<p>{{ event.nbusers }} personnes sont inscrites à l'entraînement Kids.
+								<p>{{ event.nbusers }} personne(s) inscrite(s) à l'entraînement Kids.
 								</p>
 							{% endif %}
 						</div>
@@ -262,9 +269,9 @@
 							</div>
 							{% set waitingKids = max(-1,kids.nbusers - 15) %}
 							{% if (waitingKids >= 0) %}
-								<p>L'entraînement Kids est complet et {{ waitingKids }} personnes sont sur liste d'attente.</p>
+								<p>Entraînement Kids complet, {{ waitingKids }} personne(s) sur liste d'attente.</p>
 							{% else %}
-								<p>{{ kids.nbusers }} personnes sont inscrites à l'entraînement Kids.
+								<p>{{ kids.nbusers }} personne(s) inscrite(s) à l'entraînement Kids.
 								</p>
 							{% endif %}
 						</div>
@@ -283,7 +290,7 @@
     			        <div class="row pageMobile">
     			            <div class="col-md-6 mb-2">
 								{{ form_label(formContact.firstName) }}
-								{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+								{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
 							    	{{ form_widget(formContact.firstName, {'value' : app.user.firstName}) }}
 								{% else %}
 									{{ form_widget(formContact.firstName) }}
@@ -291,7 +298,7 @@
     			            </div>
 							<div class="col-md-6 mb-2">
 								{{ form_label(formContact.lastName) }}
-								{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+								{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
 							    	{{ form_widget(formContact.lastName, {'value' : app.user.lastName}) }}
 								{% else %}
 									{{ form_widget(formContact.lastName) }}
@@ -301,7 +308,7 @@
 						<div class="row pageMobile"> 
 							<div class="col-md-12 mb-2">
 								{{ form_label(formContact.email) }}
-								{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+								{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
 							    	{{ form_widget(formContact.email, {'value' : app.user.email}) }}
 								{% else %}
 									{{ form_widget(formContact.email) }}
@@ -387,12 +394,7 @@
 	<div class="modal fade" id="subsModal" tabindex="-1" role="dialog" aria-labelledby="Subscription modal" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-					{% if (app.user.birthDate|date('Y-m-d') > "-18years"|date('Y-m-d')) %}
-						{% set currentEvent = kids.0 %}
-					{% else %}
-						{% set currentEvent = event.0 %}
-					{% endif %}
+				{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
 					<div class="modal-header">
 						<h5 class="modal-title" id="exampleModalLabel">Inscription</h5>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -401,19 +403,63 @@
 					</div>
 					<div class="modal-body">
 						<div class="container text-center">
-							{% if (app.user.licenceNumber is empty) %}
-								<p class="my-2 bg-warning text-justify"><i class="fas fa-exclamation-triangle"></i> <strong> Attention, vous n'avez pas renseigné votre numéro de licence. </strong>
-								Votre inscription sera annulée si vous ne complétez pas votre compte avant le {{ currentEvent.date | date_modify("-" ~ currentEvent.endSubs ~ "day") | date("d/m/Y") }}.
-								</p>
-								<br>
+							{% if 'ROLE_MEMBER' in app.user.roles %}
+								{% set startDate = currentEvent.date|date_modify("-" ~ currentEvent.startMemberSubs ~ "day") %}
+								{{ "string : -" ~ currentEvent.startMemberSubs ~ "day" }} {{ " startDate : " ~ startDate|date('d/m/Y') }} {{ "now"|date('d/m/Y') }}
+							{% else %}
+								{% set startDate = currentEvent.date|date_modify("-" ~ currentEvent.startAllSubs ~ "day") %}
+								{{ "string : -" ~ currentEvent.startAllSubs ~ "day" }} {{ " startDate : " ~ startDate|date('d/m/Y') }} {{ "now"|date('d/m/Y') }}
 							{% endif %}
-							<p>Souhaitez-vous bien vous inscrire à l'événement : "{{ currentEvent.name }}" ?
-							</p>
+							{% if (startDate <= "now"|date('d/m/Y')) %}
+								{% if (app.user.licenceNumber is empty) %}
+									<p class="my-2 bg-warning text-justify"><i class="fas fa-exclamation-triangle"></i> <strong> Attention, vous n'avez pas renseigné votre numéro de licence. </strong>
+									Votre inscription sera annulée si vous ne complétez pas votre compte avant le {{ currentEvent.date | date_modify("-" ~ currentEvent.endSubs ~ "day") | date("d/m/Y") }}.
+									</p>
+									<br>
+								{% endif %}
+								<p>Souhaitez-vous bien vous inscrire à l'événement : "{{ currentEvent.name }}" ?
+								</p>
 						</div>
 					</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
 					<a href="{{ path('subscriptionManager') }}" class="btn btn-primary text-light">Inscription</a>
+				</div>
+							{% else %}
+								<p>Vous ne pouvez pas encore vous inscrire à l'événement : "{{ currentEvent.name }}". <br>
+								Les inscriptions démarrent le {{ startDate|date('d/m/Y') }} et se terminent le {{ currentEvent.date | date_modify("-" ~ currentEvent.endSubs ~ "day") | date("d/m/Y") }}.
+								</p>
+						</div>
+					</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+				</div>
+							{% endif %}
+				{% endif %}
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal for unsubscription -->
+	<div class="modal fade" id="unsubsModal" tabindex="-1" role="dialog" aria-labelledby="Unsubscription modal" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Désinscription</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="container text-center">
+							<p>Souhaitez-vous bien vous désinscrire de l'événement : "{{ currentEvent.name }}" ?
+							</p>
+						</div>
+					</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+					<a href="{{ path('unsubscriptionManager') }}" class="btn btn-danger text-light">Désinscription</a>
 				</div>
 				{% endif %}
 			</div>
