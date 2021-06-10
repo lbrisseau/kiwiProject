@@ -69,7 +69,8 @@ class EventRepository extends ServiceEntityRepository
             ->getResult()
         ;
         $stringDate = $twoNextEvents[0]->getEndSubs();
-        $newDate =  $twoNextEvents[0]->getDate()->sub(new DateInterval('P'.$stringDate.'D'));
+        $newDate =  clone $twoNextEvents[0]->getDate();
+        $newDate->sub(new DateInterval('P'.$stringDate.'D'));
         if ($date < $newDate)
         {
             $nbusers = $this->createQueryBuilder('e')
@@ -110,7 +111,8 @@ class EventRepository extends ServiceEntityRepository
             ->getResult()
         ;
         $stringDate = $twoNextEvents[0]->getEndSubs();
-        $newDate =  $twoNextEvents[0]->getDate()->sub(new DateInterval('P'.$stringDate.'D'));
+        $newDate =  clone $twoNextEvents[0]->getDate();
+        $newDate->sub(new DateInterval('P'.$stringDate.'D'));
         if ($date < $newDate)
         {
             $nbusers = $this->createQueryBuilder('e')

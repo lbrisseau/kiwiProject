@@ -405,16 +405,14 @@
 					<div class="modal-body">
 						<div class="container text-center">
 							{% if 'ROLE_MEMBER' in app.user.roles %}
-								{% set startDate = currentEvent.date|date_modify("-" ~ currentEvent.startMemberSubs ~ "day") %}
-								{{ "string : -" ~ currentEvent.startMemberSubs ~ "day" }} {{ " startDate : " ~ startDate|date('d/m/Y') }} {{ "now"|date('d/m/Y') }}
+								{% set startDate = dateStartMember %}
 							{% else %}
-								{% set startDate = currentEvent.date|date_modify("-" ~ currentEvent.startAllSubs ~ "day") %}
-								{{ "string : -" ~ currentEvent.startAllSubs ~ "day" }} {{ " startDate : " ~ startDate|date('d/m/Y') }} {{ "now"|date('d/m/Y') }}
+								{% set startDate = dateStartAll %}
 							{% endif %}
-							{% if (startDate <= "now"|date('d/m/Y')) %}
+							{% if (startDate|date('d/m/Y') <= "now"|date('d/m/Y')) %}
 								{% if (app.user.licenceNumber is empty) %}
 									<p class="my-2 bg-warning text-justify"><i class="fas fa-exclamation-triangle"></i> <strong> Attention, vous n'avez pas renseigné votre numéro de licence. </strong>
-									Votre inscription sera annulée si vous ne complétez pas votre compte avant le {{ currentEvent.date | date_modify("-" ~ currentEvent.endSubs ~ "day") | date("d/m/Y") }}.
+									Votre inscription sera annulée si vous ne complétez pas votre compte avant le {{ dateEnd | date("d/m/Y") }}.
 									</p>
 									<br>
 								{% endif %}
@@ -428,7 +426,7 @@
 				</div>
 							{% else %}
 								<p>Vous ne pouvez pas encore vous inscrire à l'événement : "{{ currentEvent.name }}". <br>
-								Les inscriptions démarrent le {{ startDate|date('d/m/Y') }} et se terminent le {{ currentEvent.date | date_modify("-" ~ currentEvent.endSubs ~ "day") | date("d/m/Y") }}.
+								Les inscriptions démarrent le {{ startDate|date('d/m/Y') }} et se terminent le {{ dateEnd | date("d/m/Y") }}.
 								</p>
 						</div>
 					</div>

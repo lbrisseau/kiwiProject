@@ -39,6 +39,10 @@ class HomeController extends AbstractController
         }
         $currentEvent = null;
         $isThereSubs = null;
+        $dateEvent = null;
+        $dateStartMember = null;
+        $dateStartAll = null;
+        $dateEnd = null;
         $securityContext = $this->container->get('security.authorization_checker');
         if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
         {
@@ -60,12 +64,13 @@ class HomeController extends AbstractController
             $dateStartMember->sub(new DateInterval('P'.$currentEvent->getStartMemberSubs().'D'));
             $dateStartAll->sub(new DateInterval('P'.$currentEvent->getStartAllSubs().'D'));
             $dateEnd->sub(new DateInterval('P'.$currentEvent->getEndSubs().'D'));
-            var_dump($currentEvent);
-            var_dump($dateEvent);
-            var_dump($dateStartMember);
-            var_dump($dateStartAll);
-            var_dump($dateEnd);
-            exit;
+            // var_dump(new DateTime());
+            // var_dump($currentEvent);
+            // var_dump($dateEvent);
+            // var_dump($dateStartMember);
+            // var_dump($dateStartAll);
+            // var_dump($dateEnd);
+            // exit;
         }
         // Normal rendering:
         return $this->render('home/index.html.twig', [
@@ -73,7 +78,11 @@ class HomeController extends AbstractController
             'event' => $eventRepo->findNext(),
             'kids' => $eventRepo->findNextKid(),
             'currentEvent' => $currentEvent,
-            'isThereSubs' => $isThereSubs
+            'isThereSubs' => $isThereSubs,
+            'dateEvent' => $dateEvent,
+            'dateStartMember' => $dateStartMember,
+            'dateStartAll' => $dateStartAll,
+            'dateEnd' => $dateEnd
         ]);
     }
 

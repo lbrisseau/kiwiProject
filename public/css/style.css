@@ -242,3 +242,6 @@ body {
 footer {
   scroll-snap-align: end;
 }
+.extra {
+  scroll-snap-align: start;
+}
