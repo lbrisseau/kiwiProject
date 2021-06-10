@@ -6,6 +6,7 @@ use App\Entity\Event;
 use App\Entity\Subscription;
 use App\Form\EventType;
 use App\Repository\EventRepository;
+use App\Repository\SettingsRepository;
 use App\Repository\SubscriptionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,8 +30,10 @@ class EventController extends AbstractController
     /**
      * @Route("/admin/event/new", name="event_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, SettingsRepository $settingsRepository): Response
     {
+        $settings = $settingsRepository->findFirst();
+        
         $event = new Event();
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
@@ -46,6 +49,7 @@ class EventController extends AbstractController
         return $this->render('event/new_admin.html.twig', [
             'event' => $event,
             'form' => $form->createView(),
+            'settings' => $settings,
         ]);
     }
 
@@ -55,7 +59,6 @@ class EventController extends AbstractController
     public function show(Event $event, SubscriptionRepository $sub, Request $request): Response
     {
         $param = $request->query->get('from');
-        //var_dump($param);
         if ($param == 'admin') {
             return $this->render('event/show_admin.html.twig', [
                 'event' => $event,
@@ -76,7 +79,7 @@ class EventController extends AbstractController
     public function edit(Request $request, Event $event): Response
     {
         $param = $request->query->get('from');
-        var_dump($param);
+        //var_dump($param);
 
 
         $form = $this->createForm(EventType::class, $event);
