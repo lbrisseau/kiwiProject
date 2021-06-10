@@ -1,0 +1,20 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block title %}MX Park | Admin | Settings{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <div class="row">
+      <div class="col-10 mx-auto">
+        <div class="d-flex  my-4">
+          <h1 class="h2">Paramètres par défaut</h1>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-10 mx-auto">
+        {{ include('admin/_form_settings.html.twig', {'button_label': 'Update'}) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}

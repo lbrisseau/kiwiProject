@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Event;
+use App\Entity\Settings;
 use App\Entity\Subscription;
 use App\Entity\User;
 use DateInterval;
@@ -26,6 +27,15 @@ class AppFixtures extends Fixture
 
         $nbUsers = 100;
         $nbEvents = 5;
+
+        // Initialisation des settings
+        $settings = new Settings;
+        $settings->setDefaultStartAllSubs('14');
+        $settings->setDefaultStartMemberSubs('21');
+        $settings->setDefaultEndSubs('2');
+        $settings->setDefaultLicenceRegistration('2');
+        $manager->persist($settings);
+        $manager->flush();
 
         // Creation d'un user Admin
 
