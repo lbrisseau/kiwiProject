@@ -66,22 +66,14 @@
 
 	<!-- Flash messages -->
 	{% for message in app.flashes('success')%}
-		<div class="alert alert-success mt-5">
+		<div class="alert alert-success">
 			{{ message }}
 		</div>
 	{% endfor %}
 
     {% block body %}{% endblock %}
 
-		<!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
-		<!-- Eeeet le footer ! -->
-		<footer class="page-footer my-footer my-nav-color text-dark py-5 w-100" id="myFooter">
-			<div class="container text-center">
-				<div class="footer-copyright"> Copyright © Your Website 2020</div>
-			</div>		
-		</footer>
-	</div>
-	{% block modals %}{% endblock %}
+
 
 	<!-- some links for animations like burger menu -->
 	<!-- bootstrap : -->
