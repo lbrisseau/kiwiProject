@@ -1,14 +1,4 @@
-{% extends 'form.html.twig' %}
-
-{% block title %}MX Park | Connexion au site{% endblock %}
-
-{% block body %}
-
-
-<div class="container">
-  <div class="row">
-    <div class="offset-3 col-6">
-  
+ 
         <form action="{{ path('app_login')}}" method="post">
           {% if error is defined and error %}
             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -21,8 +11,6 @@
               <a href="{{ path('app_logout') }}">Déconnexion</a>
             </div>
           {% endif %}
-
-          <h1 class="mt-5 mb-3 font-weight-normal">Connexion</h1>
 
           <label for="inputEmail">Adresse email</label>
           <input type="email" name="email" id="inputEmail" class="form-control" autocomplete="email" required="required" autofocus="autofocus">
@@ -42,16 +30,8 @@
               </label>
           </div>
           #}
-          <div class="mt-4 mb-5">
-          <button class="btn btn-primary " type="submit">Connexion</button>
-          </div>
 
-          <div class="my-5 text-center">
+          <div class="my-3 text-center">
           <a href="{{ path ('app_register') }}">Vous n'avez pas encore de compte ? Enregistrez-vous !</a>
           </div>
 
-    </div>
-  </div>
-</div>
-
-{% endblock %}
