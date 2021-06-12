@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email de contact</title>
+</head>
+<style>
+body {
+    font-family: Verdana, sans-serif;
+    color: #0c115e;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+header, footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 10px;
+    height: 100px;
+    flex-shrink: 0;
+}
+header > a {
+    text-decoration: none;
+    color: #0c115e;
+    display: flex;
+    align-items: center;
+}
+header > a > img {
+    padding-right: 10px;
+}
+main {
+    flex: 1 0 auto;
+    background-color: #ecebe6;
+    border-radius: 2%;
+    text-align: center;
+}
+h1 {
+    color: #0d126d;
+    padding: 50px;
+}
+p {
+    padding-bottom: 50px;
+}
+</style>
+<body>
+<header>
+    <a href="www.auribail-mx-park.local/#accueil">
+        <img src="{{absolute_url(asset("/build/motocross-logo.png"))}}" alt="Logo motocross"> 
+		Auribail MX Park
+    </a>
+</header>
+<main>
+    <h1>{{ contact.subject | nl2br }}</h1>
+    <p>{{ contact.message | nl2br }}</p>
+</main>
+<footer>
+    <div>L'équipe de Auribail MX Park vous souhaite de passer une belle journée !</div>	
+</footer>
+</body>
+</html>

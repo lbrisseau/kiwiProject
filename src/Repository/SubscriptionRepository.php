@@ -6,6 +6,7 @@ use App\Entity\Event;
 use App\Entity\Subscription;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Exception;
 
 /**
  * @method Subscription|null find($id, $lockMode = null, $lockVersion = null)
@@ -49,6 +50,26 @@ class SubscriptionRepository extends ServiceEntityRepository
             ->andWhere('s.user = :user')
             ->andWhere('s.event = :event')
             ->setParameters(array('user'=> $user, 'event' => $event))
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
+    // This function count all the subscriptions to an event before our user's.
+    // It should not be called if the user is not subscribed to this event.
+    public function countOrder($user, $event)
+    {
+        $subs = $this->findOne($user, $event);
+        if(is_null($subs))
+        {
+            return NULL;
+        }
+        $date = $subs->getSubsDate();
+        return $this->createQueryBuilder('s')
+            ->select('COUNT(s.user)')
+            ->andWhere('s.subsDate < :date')
+            ->andWhere('s.event = :event')
+            ->setParameters(array('date'=> $date, 'event' => $event))
             ->getQuery()
             ->getOneOrNullResult()
         ;
