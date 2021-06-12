@@ -12,6 +12,7 @@
         "doctrine/doctrine-bundle": "^2.3",
         "doctrine/doctrine-migrations-bundle": "^3.1",
         "doctrine/orm": "^2.8",
+        "fpdf/fpdf": "^1.83",
         "fzaninotto/faker": "^1.9",
         "phpdocumentor/reflection-docblock": "^5.2",
         "sensio/framework-extra-bundle": "^5.1",
@@ -23,6 +24,7 @@
         "symfony/flex": "^1.3.1",
         "symfony/form": "5.2.*",
         "symfony/framework-bundle": "5.2.*",
+        "symfony/google-mailer": "5.2.*",
         "symfony/http-client": "5.2.*",
         "symfony/intl": "5.2.*",
         "symfony/mailer": "5.2.*",
@@ -42,8 +44,7 @@
         "symfony/web-link": "5.2.*",
         "symfony/yaml": "5.2.*",
         "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^2.12|^3.0",
-        "fpdf/fpdf": "^1.83"
+        "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.4",

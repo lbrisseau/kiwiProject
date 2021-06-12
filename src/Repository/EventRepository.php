@@ -87,10 +87,10 @@ class EventRepository extends ServiceEntityRepository
         else
         {
             $nbusers = $this->createQueryBuilder('e')
-                ->select('COUNT(s.user_id)')
+                ->select('COUNT(s.user)')
                 ->leftJoin('e.subscriptions', 's')
                 ->andWhere('s.event = :event')
-                ->setParameters(['date' => $date, 'event' => $twoNextEvents[1]])
+                ->setParameter('event', $twoNextEvents[1])
                 ->getQuery()
                 ->getOneOrNullResult()
             ;
@@ -130,10 +130,10 @@ class EventRepository extends ServiceEntityRepository
         else
         {
             $nbusers = $this->createQueryBuilder('e')
-                ->select('COUNT(s.user_id)')
+                ->select('COUNT(s.user)')
                 ->leftJoin('e.subscriptions', 's')
                 ->andWhere('s.event = :event')
-                ->setParameters(['date' => $date, 'event' => $twoNextEvents[1]])
+                ->setParameter('event', $twoNextEvents[1])
                 ->getQuery()
                 ->getOneOrNullResult()
             ;

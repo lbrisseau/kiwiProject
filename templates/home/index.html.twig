@@ -1,5 +1,15 @@
 {% extends 'base.html.twig' %}
 
+{# TODO automatic mailing #}
+{# TODO agenda #}
+{# TODO enlever licence registration de l'entity settings #}
+{# TODO mettre en ligne -> vérifier si l'image logo est envoyée par mail là #}
+{# TODO bonus see request Lionel #}
+{# TODO bonus flash lionel annulation événement #}
+{# TODO bonus background scroll bug #}
+{# TODO bonus taille de police titres responsive #}
+
+
 {% block stylesheets %}
     
     <!-- links calendar (beware, the order jquery - popper - bootstrap.js - bootstrap is important as well as their presence in the header -->
@@ -100,13 +110,6 @@
 			</a>
 		</div>
 		</div>
-		{# TODO automatic mailing #}
-		{# TODO agenda #}
-		{# TODO bonus see request Lionel #}
-		{# TODO bonus flash lionel annulation événement #}
-		{# TODO bonus background scroll bug #}
-		{# TODO bonus taille de police titres responsive #}
-		{# TODO enlever licence registration de l'entity settings #}
 		{# NOTA BENE on considère qu'il existe toujours de prochains événements #}
 		<div class="flex-container pageMobile">
     		<div class="flex-card pageMobileCard">

@@ -29,8 +29,8 @@ class ContactNotification {
     public function notify (Contact $contact)
     {
         $email = (new Email())
-            ->from('noreply@mxpark.com')
-            ->to('contact@mxpark.com')
+            ->from('contact.auribail@gmail.com')
+            ->to('contact.auribail@gmail.com')
             //->cc('cc@example.com')
             //->bcc('bcc@example.com')
             ->replyTo($contact->getEmail())
@@ -66,11 +66,11 @@ class ContactNotification {
             \n\nMerci de votre fidélité,\n\nL'équipe de Auribail MX Park");
         }
         $email = (new Email())
-            ->from('noreply@mxpark.com')
+            ->from('contact.auribail@gmail.com')
             ->to($user->getEmail())
             //->cc('cc@example.com')
             //->bcc('bcc@example.com')
-            ->replyTo('contact@mxpark.com')
+            ->replyTo('contact.auribail@gmail.com')
             //->priority(Email::PRIORITY_HIGH)
             ->subject($contact->getSubject())
             ->text($contact->getMessage())
@@ -91,11 +91,11 @@ class ContactNotification {
         $contact->setMessage("Bonjour ".$user->getFirstName().",\n\nVous vous êtes désinscrit.e de l'événement : ".
         $nameEvent.".\n\nNous espérons vous revoir très vite,\n\nL'équipe de Auribail MX Park");
         $email = (new Email())
-            ->from('noreply@mxpark.com')
+            ->from('contact.auribail@gmail.com')
             ->to($user->getEmail())
             //->cc('cc@example.com')
             //->bcc('bcc@example.com')
-            ->replyTo('contact@mxpark.com')
+            ->replyTo('contact.auribail@gmail.com')
             //->priority(Email::PRIORITY_HIGH)
             ->subject($contact->getSubject())
             ->text($contact->getMessage())
