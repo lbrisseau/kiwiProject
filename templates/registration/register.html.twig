@@ -29,6 +29,10 @@
 
             {{ form_start(registrationForm) }}
 
+            {# {% set terms_link %}<a title="{% trans %}Lire les conditions générales d'utilisation{% endtrans %}" href="{{ path('cgu') }}">{% trans %}conditions générales d'utilisation.{% endtrans %}</a>{% endset %}
+            {% set general_terms_and_conditions %}{{ 'J\'ai lu et j\'accepte les %general_terms_and_conditions%'|trans({ '%general_terms_and_conditions%': terms_link })|raw }}{% endset %}
+            {{ form_errors(registrationForm.agreeTerms) }} #}
+
             {{ form_row(registrationForm.firstName) }}
             {{ form_row(registrationForm.lastName) }}
             {{ form_row(registrationForm.email) }}
@@ -38,7 +42,13 @@
             {{ form_row(registrationForm.plainPassword) }}
             {{ form_row(registrationForm.agreeTerms) }}
 
-            <button type="submit" class="btn btn-primary mb-5">Créer mon compte</button>
+            <p class="small ml-3">Cliquez <a href="{{ path('cgu') }}">ici</a> pour lire nos conditions générales d'utilisation</p>
+
+            {# {{ form_row(registrationForm.agreeTerms) }}
+            <label for="{{ registrationForm.agreeTerms.vars.id }}">{{ general_terms_and_conditions|raw }}</label> #} 
+
+
+            <button type="submit" class="btn btn-primary mt-3 mb-5">Créer mon compte</button>
 
             {{ form_end(registrationForm) }}
 
