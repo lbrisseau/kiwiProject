@@ -23,25 +23,6 @@ class SecurityController extends AbstractController
      */
     public function login(Request $request, Security $security, AuthenticationUtils $helper): Response
     {
-        // ajouter dans les paramètres : UserPasswordEncoderInterface $encoder, EntityManagerInterface $manager, 
-        // $user = new User();
-        // $user->setEmail("abcd@gmail.com")
-        // ->setRoles(["ROLE_USER"])
-        // ->setFirstName("Moi")
-        // ->setLastName("fkel")
-        // ->setBirthDate(new DateTime('now'))
-        // ->setPhone("456");
-        // $pass = $encoder->encodePassword($user, "abcd");
-        // $user->setPassword($pass);
-        // $manager->persist($user);
-        // $manager->flush();
-
-        // if ($security->isGranted('ROLE_ADMIN')){
-        //     return $this->redirectToRoute('subscription_index');
-        // } elseif ($security->isGranted('ROLE_USER')){
-        //     return $this->redirectToRoute('subscription_index');
-        // }
-
         // get the login error if there is one
         $error = $helper->getLastAuthenticationError();
         // last username entered by the user

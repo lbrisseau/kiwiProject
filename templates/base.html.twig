@@ -53,8 +53,10 @@
 							    <a href="{{ path('profil_show', {id: app.user.id}) }}" class="btn btn-primary mb-1 text-white"><i class="far fa-user"></i> Mon compte</a>
 								<a href="{{ path('app_logout') }}" class="btn btn-danger mb-1 text-white"><i class="fas fa-sign-out-alt"></i></a>
 							{% else %}
-								<a href="{{ path('app_login') }}" class="btn btn-primary text-white mb-1">Se connecter</a>
+							
+								<button class="btn btn-primary mb-1" data-toggle="modal" data-target="#authModal">Se connecter</button>
 								<a href="{{ path('app_register') }}" class="text-white btn btn-success mb-1">Créer un compte</a>
+							
 							{% endif %}
 						</li>
 					</ul>

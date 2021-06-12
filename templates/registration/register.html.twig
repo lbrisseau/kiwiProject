@@ -1,4 +1,4 @@
-{% extends 'form.html.twig' %}
+{% extends 'base-form.html.twig' %}
 
 {% block title %}MX Park | Créer mon compte{% endblock %}
 
@@ -12,9 +12,26 @@
                 <div class="alert alert-danger" role="alert">{{ flashError }}</div>
             {% endfor %}
 
-            <h1>Créer mon compte</h1>
+            <div class="row">
+            <div class="col-10">
+                <h1>Créer mon compte</h1>
+            </div>
+            <div class="col-2 mt-3 text-right">
+                <p class="ml-auto">
+                <a class="btn btn-primary" href="{{ path('home') }}">
+                <i class="fas fa-arrow-circle-left"></i>
+                </a>
+                </p>
+            </div>
+            </div>
+
+            
 
             {{ form_start(registrationForm) }}
+
+            {# {% set terms_link %}<a title="{% trans %}Lire les conditions générales d'utilisation{% endtrans %}" href="{{ path('cgu') }}">{% trans %}conditions générales d'utilisation.{% endtrans %}</a>{% endset %}
+            {% set general_terms_and_conditions %}{{ 'J\'ai lu et j\'accepte les %general_terms_and_conditions%'|trans({ '%general_terms_and_conditions%': terms_link })|raw }}{% endset %}
+            {{ form_errors(registrationForm.agreeTerms) }} #}
 
             {{ form_row(registrationForm.firstName) }}
             {{ form_row(registrationForm.lastName) }}
@@ -25,7 +42,13 @@
             {{ form_row(registrationForm.plainPassword) }}
             {{ form_row(registrationForm.agreeTerms) }}
 
-            <button type="submit" class="btn btn-primary mb-5">Créer mon compte</button>
+            <p class="small ml-3">Cliquez <a href="{{ path('cgu') }}">ici</a> pour lire nos conditions générales d'utilisation</p>
+
+            {# {{ form_row(registrationForm.agreeTerms) }}
+            <label for="{{ registrationForm.agreeTerms.vars.id }}">{{ general_terms_and_conditions|raw }}</label> #} 
+
+
+            <button type="submit" class="btn btn-primary mt-3 mb-5">Créer mon compte</button>
 
             {{ form_end(registrationForm) }}
 
