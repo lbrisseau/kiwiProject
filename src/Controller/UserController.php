@@ -105,6 +105,16 @@ class UserController extends AbstractController
     ////////////////////////////////  USER   ////////////////////////////////
 
     /**
+     * @Route("/user/{id}", name="profil_show", methods={"GET"})
+     */
+    public function showProfil(User $user): Response
+    {
+        return $this->render('user/show.html.twig', [
+            'user' => $user,
+        ]);
+    }
+
+    /**
      * @Route("/user/{id}/edit", name="profil_edit", methods={"GET","POST"})
      */
     public function editProfil(Request $request, User $user, UserPasswordEncoderInterface $encoder): Response
@@ -122,6 +132,9 @@ class UserController extends AbstractController
             }
 
             $this->getDoctrine()->getManager()->flush();
+
+            // flash messages for confirmation of profil edition
+            $this->addFlash('success', 'Vos modifications ont été enregistrées avec succès.');
 
             return $this->redirectToRoute('home');
         }
