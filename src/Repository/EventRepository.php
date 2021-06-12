@@ -68,6 +68,7 @@ class EventRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
+        // Are the subscriptions closed for the first event ? If so, take the second one.
         $stringDate = $twoNextEvents[0]->getEndSubs();
         $newDate =  clone $twoNextEvents[0]->getDate();
         $newDate->sub(new DateInterval('P'.$stringDate.'D'));
@@ -110,6 +111,7 @@ class EventRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
+        // Are the subscriptions closed for the first event ? If so, take the second one.
         $stringDate = $twoNextEvents[0]->getEndSubs();
         $newDate =  clone $twoNextEvents[0]->getDate();
         $newDate->sub(new DateInterval('P'.$stringDate.'D'));

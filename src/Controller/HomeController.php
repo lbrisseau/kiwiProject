@@ -27,7 +27,7 @@ class HomeController extends AbstractController
     /**
      * @Route("/", name="home", defaults={"_fragment"="accueil"}, requirements={"_fragment": "accueil|club|evenement|contact"})
      */
-    public function index(Request $request, ContactNotification $notification, SubscriptionRepository $subsRepo, EventRepository $eventRepo, EntityManagerInterface $manager): Response
+    public function index(Request $request, ContactNotification $notification, SubscriptionRepository $subsRepo, EventRepository $eventRepo): Response
     {
         // Contact form management:
         $contact = new Contact();
@@ -87,19 +87,35 @@ class HomeController extends AbstractController
     /**
      * @Route("/subs/{event}-{user}", name="subscriptionManager", methods={"POST"})
      */
-    public function subscriptionManager(Request $request, EntityManagerInterface $manager, Event $event, User $user)
+    public function subscriptionManager(Request $request, ContactNotification $notification, SubscriptionRepository $subsRepo, EntityManagerInterface $manager, Event $event, User $user)
     {
         if ($this->isCsrfTokenValid('subs' . $event->getId() . $user->getId(), $request->request->get('_token'))) {
-            $subs = new Subscription();
-            $formSubs = $this->createForm(SubscriptionType::class, $subs);
-            $formSubs->handleRequest($request);
-            $subs->setSubsDate(new DateTime());
-            $subs->setValidationState(!is_null($user->getLicenceNumber()));
-            $subs->setEvent($event);
-            $subs->setUser($user);
-            $manager->persist($subs);
-            $manager->flush();
+            // Creation of the subscription if none existed
+            $check = $subsRepo->findOne($user, $event);
+            if (is_null($check))
+            {
+                $subs = new Subscription();
+                $formSubs = $this->createForm(SubscriptionType::class, $subs);
+                $formSubs->handleRequest($request);
+                $subs->setSubsDate(new DateTime());
+                $subs->setValidationState(!is_null($user->getLicenceNumber()));
+                $subs->setEvent($event);
+                $subs->setUser($user);
+                $manager->persist($subs);
+                $manager->flush();
+            }
             $this->addFlash('success', "Vous êtes désormais inscrit.e à l'événement.");
+            // Email notification of the user
+            $allSubsBefore = $subsRepo->countOrder($user, $event);
+            if ($event->getType() == true) // if it is a normal event
+            {
+                $waitingList = max(-1,$allSubsBefore[1] - 75);
+            }
+            else // if it is a kid event
+            {
+                $waitingList = max(-1,$allSubsBefore[1] - 15);
+            }
+            $notification->subscription($user, $event->getName(), $event->getDate(), $waitingList);
         }
         return $this->redirectToRoute("home");
     }
@@ -107,9 +123,11 @@ class HomeController extends AbstractController
     /**
      * @Route("/unsubs/{id}", name="unsubscriptionManager", methods={"POST"})
      */
-    public function unsubscriptionManager(Request $request, Subscription $subs)
+    public function unsubscriptionManager(Request $request, ContactNotification $notification, Subscription $subs)
     {
         if ($this->isCsrfTokenValid('unsubs' . $subs->getId(), $request->request->get('_token'))) {
+            // Email notification of the user
+            $notification->unsubscription($subs);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($subs);
             $entityManager->flush();
