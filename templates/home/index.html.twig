@@ -119,13 +119,11 @@
 		</div>
 		</div>
 		{# TODO automatic mailing #}
-		{# TODO weird date subtraction here #}
 		{# TODO agenda #}
 		{# TODO bonus see request Lionel #}
 		{# TODO bonus flash lionel annulation événement #}
 		{# TODO bonus background scroll bug #}
 		{# TODO bonus taille de police titres responsive #}
-		{# TODO csrf token check on delete? #}
 		{# TODO enlever licence registration de l'entity settings #}
 		{# NOTA BENE on considère qu'il existe toujours de prochains événements #}
 		<div class="flex-container pageMobile">
@@ -133,7 +131,7 @@
     		    <h1 class="flex-title">Événement</h1>
     		    <!-- Intégration du calendrier (la date est en rouge et contient le lien vers l'événement sur google agenda) -->
     		    <div class="flex-element">
-    		        <div class="icalendar">
+    		        <div class="icalendar" data-tooltext='' data-day='' data-month='' data-year='' data-link=''>
     		            <div class="icalendar__month">
     		                <div class="icalendar__prev" onclick="moveDate('prev')">
     		                    <span>&#10094</span> <!-- petite flèche vers la gauche -->
