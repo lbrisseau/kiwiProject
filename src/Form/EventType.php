@@ -50,6 +50,12 @@ class EventType extends AbstractType
                     'placeholder' => 'Nombre de jours entre fermeture des inscriptions et entrainement',
                 ],
             ])
+            ->add('googleCalendarUrl', TextType::class, [
+                'label' => 'Lien Google Calendar',
+                'attr' => [
+                    'placeholder' => 'Url du lien',
+                ],
+            ])
         ;
     }
 

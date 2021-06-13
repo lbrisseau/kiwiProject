@@ -4,6 +4,9 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Notification\ContactNotification;
+use App\Repository\EventRepository;
+use App\Repository\SubscriptionRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -91,9 +94,33 @@ class UserController extends AbstractController
     /**
      * @Route("/admin/user/{id}", name="user_delete", methods={"POST"})
      */
-    public function delete(Request $request, User $user): Response
+    public function delete(Request $request, User $user, SubscriptionRepository $subsRepo, EventRepository $eventRepo, ContactNotification $notification): Response
     {
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+            // Notification of user
+            $notification->deletedAccount($user);
+            // Notification of users affected by the removal of that user's subscriptions
+            $allSubs = $subsRepo->findByUser($user, $eventRepo);
+            foreach ($allSubs as $subs)
+            {
+                $usersSubs = $subsRepo->findAfter($subs);
+                foreach ($usersSubs as $thisSub)
+                {
+                    $position = $subsRepo->countOrderSub($thisSub);
+                    if ($thisSub->getEvent()->getType() == true) // if it is a normal event
+                    {
+                        $waitingList = $position[1] - 75;
+                    }
+                    else // if it is a kid event
+                    {
+                        $waitingList = $position[1] - 15;
+                    }
+                    if ($waitingList >= 0)
+                    {
+                        $notification->waitingList($thisSub, $waitingList);
+                    }
+                }
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($user);
             $entityManager->flush();
@@ -148,10 +175,33 @@ class UserController extends AbstractController
     /**
      * @Route("/user/{id}", name="profil_delete", methods={"POST"})
      */
-    public function deleteProfil(Request $request, User $user): Response
+    public function deleteProfil(Request $request, User $user, SubscriptionRepository $subsRepo, EventRepository $eventRepo, ContactNotification $notification): Response
     {
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
-
+            // Notification of user
+            $notification->deletedAccount($user);
+            // Notification of users affected by the removal of that user's subscriptions
+            $allSubs = $subsRepo->findByUser($user, $eventRepo);
+            foreach ($allSubs as $subs)
+            {
+                $usersSubs = $subsRepo->findAfter($subs);
+                foreach ($usersSubs as $thisSub)
+                {
+                    $position = $subsRepo->countOrderSub($thisSub);
+                    if ($thisSub->getEvent()->getType() == true) // if it is a normal event
+                    {
+                        $waitingList = $position[1] - 75;
+                    }
+                    else // if it is a kid event
+                    {
+                        $waitingList = $position[1] - 15;
+                    }
+                    if ($waitingList >= 0)
+                    {
+                        $notification->waitingList($thisSub, $waitingList);
+                    }
+                }
+            }
             $this->container->get('security.token_storage')->setToken(null);
 
             $entityManager = $this->getDoctrine()->getManager();

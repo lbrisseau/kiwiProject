@@ -187,14 +187,14 @@ class EventController extends AbstractController
                         $pdf->Cell(100);
                     $pdf->Cell(25);
                     $pdf->SetFillColor(128, 128, 128);
-                    $pdf->Cell(25, 5, addslashes($personne->getFirstName()), 0, 0, 'L', true);
-                    $pdf->Cell(25, 5, addslashes($personne->getLastName()), 0, 1, 'C', true);
+                    $pdf->Cell(25, 5, addslashes(utf8_decode($personne->getFirstName())), 0, 0, 'L', true);
+                    $pdf->Cell(25, 5, addslashes(utf8_decode($personne->getLastName())), 0, 1, 'C', true);
                 } else {
                     if ($decalage == true)
                         $pdf->Cell(100);
                     $pdf->Cell(25);
-                    $pdf->Cell(25, 5, addslashes($personne->getFirstName()), 0, 0, 'L');
-                    $pdf->Cell(25, 5, addslashes($personne->getLastName()), 0, 1, 'C');
+                    $pdf->Cell(25, 5, addslashes(utf8_decode($personne->getFirstName())), 0, 0, 'L');
+                    $pdf->Cell(25, 5, addslashes(utf8_decode($personne->getLastName())), 0, 1, 'C');
                 }
             }
 
