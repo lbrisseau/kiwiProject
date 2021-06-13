@@ -2,6 +2,7 @@
 namespace App\Notification;
 
 use App\Entity\Contact;
+use App\Entity\Event;
 use App\Entity\Subscription;
 use App\Entity\User;
 use App\Repository\SubscriptionRepository;
@@ -163,52 +164,98 @@ class ContactNotification {
     }
 
     // when the subscriptions are closed for an event,
-    // this email is sent to previously suscribed users to notify them of their new subscribed/not status
-    // $waitingList must be equal to -1 if the user is not in the waiting list anymore
-    // 0 if they were unsubscribe because no licence number was given
-    // or 1 if they are the first in the waiting list, 2 if ... 3 4 etc
-    public function finalSubs (Subscription $subs, $waitingList)
+    // this email is sent to suscribed users to notify them of their new subscription status
+    public function finalSubs (Event $event, SubscriptionRepository $subsRepo)
     {
-        $user = $subs->getUser();
-        $nameEvent = $subs->getEvent()->getName();
-        if ($waitingList == -1)
+        $allSubs = $subsRepo->findByEvent($event);
+        // each validated subscription will increment the count until the limit is reached
+        $count = 0;
+        if ($event->getType() == true) // if it is a normal event
         {
-            $subject = "Vous êtes définitivement inscrit.e à l'événement prochain de motocross !";
-            $message = "Bonjour ".$user->getFirstName().",\n\nVous êtes définitivement inscrit.e à l'événement : ".
-            $nameEvent.".\nLes inscriptions et désinscriptions sont closes. Si vous avez un empêchement, merci d'appeler le club.
-            \n\nÀ très vite,\n\nL'équipe de Auribail MX Park";
+            $limit = 75;
         }
-        else if ($waitingList == 0)
+        else // if it is a kid event
         {
-            $subject = "Vous n'êtes plus inscrit.e à l'événement prochain de motocross";
-            $message = "Bonjour ".$user->getFirstName().",\n\nVous n'avez pas renseigné votre numéro de licence à temps.\n
-            Les inscriptions sont closes, vous êtes donc désinscrit.e de l'événement : ".
-            $nameEvent.".\n\nEn espérant vous revoir très vite,\n\nL'équipe de Auribail MX Park";
+            $limit = 15;
         }
-        else
+        foreach ($allSubs as $thisSub)
         {
-            $subject = "Vous n'êtes plus inscrit.e à l'événement prochain de motocross";
-            $message = "Bonjour ".$user->getFirstName().",\n\nLes inscriptions et désinscriptions sont closes pour l'événement : ".
-            $nameEvent."\nVous étiez toujours sur liste d'attente, vous n'êtes donc plus inscrit.e à l'événement.
-            \n\nEn espérant vous revoir très vite,\n\nL'équipe de Auribail MX Park";
+            $user = $thisSub->getUser();
+            $nameEvent = $event->getName();
+            // case 1: licence OK and position in the list OK
+            if ($count < $limit && $thisSub->getValidationState() == true)
+            {
+                $subject = "Vous êtes définitivement inscrit.e à l'événement prochain de motocross !";
+                $message = "Bonjour ".$user->getFirstName().",\n\nVous êtes définitivement inscrit.e à l'événement : ".
+                $nameEvent.".\nLes inscriptions et désinscriptions sont closes. Si vous avez un empêchement, merci d'appeler le club.
+                \n\nÀ très vite,\n\nL'équipe de Auribail MX Park";
+                $count += 1;
+            }
+            // case 2: licence not OK
+            else if ($thisSub->getValidationState() == false)
+            {
+                $subject = "Vous n'êtes plus inscrit.e à l'événement prochain de motocross";
+                $message = "Bonjour ".$user->getFirstName().",\n\nVous n'avez pas renseigné votre numéro de licence à temps.\n
+                Les inscriptions sont closes, vous êtes donc désinscrit.e de l'événement : ".
+                $nameEvent.".\n\nEn espérant vous revoir très vite,\n\nL'équipe de Auribail MX Park";
+            }
+            // case 3: all that is left: licence OK but not position in the list
+            else
+            {
+                $subject = "Vous n'êtes plus inscrit.e à l'événement prochain de motocross";
+                $message = "Bonjour ".$user->getFirstName().",\n\nLes inscriptions et désinscriptions sont closes pour l'événement : ".
+                $nameEvent."\nVous étiez toujours sur liste d'attente, vous n'êtes donc plus inscrit.e à l'événement.
+                \n\nEn espérant vous revoir très vite,\n\nL'équipe de Auribail MX Park";
+            }
+            $contact = new Contact();
+            $contact->setFirstName($user->getFirstName());
+            $contact->setLastName($user->getLastName());
+            $contact->setSubject($subject);
+            $contact->setMessage($message);
+            $email = (new Email())
+                ->from('contact.auribail@gmail.com')
+                ->to($user->getEmail())
+                //->cc('cc@example.com')
+                //->bcc('bcc@example.com')
+                ->replyTo('contact.auribail@gmail.com')
+                //->priority(Email::PRIORITY_HIGH)
+                ->subject($contact->getSubject())
+                ->text($contact->getMessage())
+                ->html($this->renderer->render('emails/classic.html.twig', ['contact' => $contact]))
+            ;
+            $this->mailer->send($email);
         }
-        $contact = new Contact();
-        $contact->setFirstName($user->getFirstName());
-        $contact->setLastName($user->getLastName());
-        $contact->setSubject($subject);
-        $contact->setMessage($message);
-        $email = (new Email())
-            ->from('contact.auribail@gmail.com')
-            ->to($user->getEmail())
-            //->cc('cc@example.com')
-            //->bcc('bcc@example.com')
-            ->replyTo('contact.auribail@gmail.com')
-            //->priority(Email::PRIORITY_HIGH)
-            ->subject($contact->getSubject())
-            ->text($contact->getMessage())
-            ->html($this->renderer->render('emails/classic.html.twig', ['contact' => $contact]))
-        ;
-        $this->mailer->send($email);
+    }
+
+    // this email is sent after the admin click on the correct button
+    // it warns users who are subscribed to an event to fill their licence number
+    public function checkLicence (Event $event, SubscriptionRepository $subsRepo)
+    {
+        $allSubs = $subsRepo->findByEventLicence($event);
+        foreach ($allSubs as $thisSub)
+        {
+            $user = $thisSub->getUser();
+            $nameEvent = $event->getName();
+            $contact = new Contact();
+            $contact->setFirstName($user->getFirstName());
+            $contact->setLastName($user->getLastName());
+            $contact->setSubject("Veuillez compléter votre compte avant le prochain événement");
+            $contact->setMessage("Bonjour ".$user->getFirstName().",\n\nVotre inscription à l'événement :\n".
+            $nameEvent."\nne peut être complète tant que vous n'avez pas renseigné votre numéro de licence.\n
+            Veuillez le faire avant le ".$event->getDate()->format('d/m').".\n\nEn espérant vous revoir très vite,\n\nL'équipe de Auribail MX Park");
+            $email = (new Email())
+                ->from('contact.auribail@gmail.com')
+                ->to($user->getEmail())
+                //->cc('cc@example.com')
+                //->bcc('bcc@example.com')
+                ->replyTo('contact.auribail@gmail.com')
+                //->priority(Email::PRIORITY_HIGH)
+                ->subject($contact->getSubject())
+                ->text($contact->getMessage())
+                ->html($this->renderer->render('emails/classic.html.twig', ['contact' => $contact]))
+            ;
+            $this->mailer->send($email);
+        }
     }
 
     // email sent automatically when a user account is deleted

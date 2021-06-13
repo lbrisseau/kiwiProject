@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Event;
 use App\Entity\Subscription;
 use App\Form\EventType;
+use App\Notification\ContactNotification;
 use App\Repository\EventRepository;
 use App\Repository\SettingsRepository;
 use App\Repository\SubscriptionRepository;
@@ -124,13 +125,24 @@ class EventController extends AbstractController
     }
 
     /**
+     * @Route("/admin/event/{id}/checklicence", name="event_check_licence")
+     */
+    public function checkLicence(Event $event, ContactNotification $notification, SubscriptionRepository $repo)
+    {
+        $notification->checkLicence($event, $repo);
+        return $this->redirectToRoute('event_show', [
+            'id' => $event->getId(),
+        ]);
+    }
+
+    /**
      * @Route("/admin/event/{id}/validate", name="event_validate", methods={"POST"})
      */
-    public function validate(Request $request, Event $event)
+    public function validate(Request $request, Event $event, ContactNotification $notification, SubscriptionRepository $repo)
     {
         if ($this->isCsrfTokenValid('validate' . $event->getId(), $request->request->get('_token'))) {
+            $notification->finalSubs($event, $repo);
             $entityManager = $this->getDoctrine()->getManager();
-
             $tabSubs = $event->getSubscriptions();
             //var_dump($tabSubs);
             foreach ($tabSubs as $sub) {

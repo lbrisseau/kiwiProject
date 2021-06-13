@@ -62,7 +62,8 @@
         <div class="d-flex align-items-center">
           <p class="h2 my-4">Liste des inscrits</p>
           <div class="ml-auto d-flex">
-            <form method="post" action="{{ path('event_validate', {id: event.id}) }}" onsubmit="return confirm('Etes-vous sûr(e) de vouloir clôturer les inscriptions ? Toutes les inscriptions non validées seront supprimées (les utilisateurs sont prévenus par un mail automatique).');">
+            <a href="{{ path('event_check_licence', {id: event.id}) }}" class="text-white btn btn-success">Rappel licence</a>
+            <form class="ml-4" method="post" action="{{ path('event_validate', {id: event.id}) }}" onsubmit="return confirm('Etes-vous sûr(e) de vouloir clôturer les inscriptions ? Toutes les inscriptions non validées seront supprimées (les utilisateurs sont prévenus par un mail automatique).');">
               <input type="hidden" name="_token" value="{{ csrf_token('validate' ~ event.id) }}">
               <button class="btn btn-danger">Clôture manuelle des inscriptions</button>
             </form>
