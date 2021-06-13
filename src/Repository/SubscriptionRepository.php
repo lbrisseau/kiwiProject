@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Event;
 use App\Entity\Subscription;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
@@ -95,6 +96,20 @@ class SubscriptionRepository extends ServiceEntityRepository
             ->andWhere('s.event = :event')
             ->setParameters(array('date'=> $subs->getSubsDate(), 'event' => $subs->getEvent()))
             ->setMaxResults(100)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    // This function returns all subscriptions at future events pertaining to one user.
+    public function findByUser($user, EventRepository $repo)
+    {
+        $events = $repo->findAllNext();
+        return $this->createQueryBuilder('s')
+            ->select('s')
+            ->andWhere('s.user = :user')
+            ->andWhere('s.event IN (:events)')
+            ->setParameters(array('user'=> $user, 'events' => $events))
             ->getQuery()
             ->getResult()
         ;

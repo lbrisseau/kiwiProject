@@ -56,6 +56,19 @@ class EventRepository extends ServiceEntityRepository
         return $stmt->fetchAllAssociative();
     }
 
+    public function findAllNext()
+    {
+        $date = new DateTime('now');
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.date >= :date')
+            ->setParameter('date', $date)
+            ->orderBy('e.date', 'ASC')
+            ->setMaxResults(6)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     public function findNext()
     {
         $date = new DateTime('now');
