@@ -54,6 +54,11 @@ class Event
      */
     private $subscriptions;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $googleCalendarUrl;
+
     public function __construct()
     {
         $this->subscriptions = new ArrayCollection();
@@ -162,6 +167,18 @@ class Event
                 $subscription->setEvent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getGoogleCalendarUrl(): ?string
+    {
+        return $this->googleCalendarUrl;
+    }
+
+    public function setGoogleCalendarUrl(?string $googleCalendarUrl): self
+    {
+        $this->googleCalendarUrl = $googleCalendarUrl;
 
         return $this;
     }
