@@ -171,7 +171,7 @@ class EventController extends AbstractController
             // Move to the right
             $pdf->Cell(80);
             // Title
-            $pdf->Cell(30,10,"Liste ".$event->getName(),0,0,'C');
+            $pdf->Cell(30,10,"Liste ".utf8_decode($event->getName()),0,0,'C');
             // Line break
             $pdf->Ln(20);
             $w = array(55, 50, 55, 50);
@@ -184,13 +184,13 @@ class EventController extends AbstractController
         	    // echo($i);
         	    if ($line)
         	    {
-    		    	$pdf->Cell($w[2],10, ($key+1)." : ".addslashes($personne->getFirstName())." ".addslashes($personne->getLastName()),1,0,'L',1);
+    		    	$pdf->Cell($w[2],10, ($key+1)." : ".utf8_decode($personne->getFirstName())." ".utf8_decode($personne->getLastName()),1,0,'L',1);
     		    	$pdf->Cell($w[3],10, "",1,0,'L',1);
     		    	$pdf->Ln();
         	    }
         	    else
         	    {
-        	    	$pdf->Cell($w[0],10, ($key+1)." : ".addslashes($personne->getFirstName())." ".addslashes($personne->getLastName()),1,0,'L',1);
+        	    	$pdf->Cell($w[0],10, ($key+1)." : ".utf8_decode($personne->getFirstName())." ".utf8_decode($personne->getLastName()),1,0,'L',1);
     		    	$pdf->Cell($w[1],10, "",1,0,'L',1);
     		    	$fill = !$fill;
         	    }
@@ -198,7 +198,7 @@ class EventController extends AbstractController
             }
             // Closing line
             $pdf->Cell(array_sum($w),0,'','T');
-            return new Response($pdf->Output("MX Trail - Liste Session ".addslashes($event->getName()).".pdf","D"), 200, array('Content-Type' => 'application/pdf'));
+            return new Response($pdf->Output("MX Trail - Liste Session ".utf8_decode($event->getName()).".pdf","D"), 200, array('Content-Type' => 'application/pdf'));
         }
     }
 }
