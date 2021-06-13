@@ -144,4 +144,19 @@ class UserController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    /**
+     * @Route("/user/{id}", name="profil_delete", methods={"POST"})
+     */
+    public function deleteProfil(Request $request, User $user): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($user);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('home');
+    }
+
 }
