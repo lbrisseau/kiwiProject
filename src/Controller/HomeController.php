@@ -129,23 +129,7 @@ class HomeController extends AbstractController
             // Email notification of the user
             $notification->unsubscription($subs);
             // Notification of users affected by the removal
-            $usersSubs = $subsRepo->findAfter($subs);
-            foreach ($usersSubs as $thisSub)
-            {
-                $position = $subsRepo->countOrderSub($thisSub);
-                if ($thisSub->getEvent()->getType() == true) // if it is a normal event
-                {
-                    $waitingList = $position[1] - 75;
-                }
-                else // if it is a kid event
-                {
-                    $waitingList = $position[1] - 15;
-                }
-                if ($waitingList >= 0)
-                {
-                    $notification->waitingList($thisSub, $waitingList);
-                }
-            }
+            $notification->waitingList($subs, $subsRepo);
             // Removal of subscription
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($subs);

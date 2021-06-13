@@ -100,26 +100,11 @@ class UserController extends AbstractController
             // Notification of user
             $notification->deletedAccount($user);
             // Notification of users affected by the removal of that user's subscriptions
-            $allSubs = $subsRepo->findByUser($user, $eventRepo);
+            $allSubs = $subsRepo->findByUser($user, $eventRepo); //find all subscriptions of future events of that user
             foreach ($allSubs as $subs)
             {
-                $usersSubs = $subsRepo->findAfter($subs);
-                foreach ($usersSubs as $thisSub)
-                {
-                    $position = $subsRepo->countOrderSub($thisSub);
-                    if ($thisSub->getEvent()->getType() == true) // if it is a normal event
-                    {
-                        $waitingList = $position[1] - 75;
-                    }
-                    else // if it is a kid event
-                    {
-                        $waitingList = $position[1] - 15;
-                    }
-                    if ($waitingList >= 0)
-                    {
-                        $notification->waitingList($thisSub, $waitingList);
-                    }
-                }
+                // Send a notification at each user affected by this, for each event
+                $notification->waitingList($subs, $subsRepo);
             }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($user);
@@ -181,26 +166,11 @@ class UserController extends AbstractController
             // Notification of user
             $notification->deletedAccount($user);
             // Notification of users affected by the removal of that user's subscriptions
-            $allSubs = $subsRepo->findByUser($user, $eventRepo);
+            $allSubs = $subsRepo->findByUser($user, $eventRepo); //find all subscriptions of future events of that user
             foreach ($allSubs as $subs)
             {
-                $usersSubs = $subsRepo->findAfter($subs);
-                foreach ($usersSubs as $thisSub)
-                {
-                    $position = $subsRepo->countOrderSub($thisSub);
-                    if ($thisSub->getEvent()->getType() == true) // if it is a normal event
-                    {
-                        $waitingList = $position[1] - 75;
-                    }
-                    else // if it is a kid event
-                    {
-                        $waitingList = $position[1] - 15;
-                    }
-                    if ($waitingList >= 0)
-                    {
-                        $notification->waitingList($thisSub, $waitingList);
-                    }
-                }
+                // Send a notification at each user affected by this, for each event
+                $notification->waitingList($subs, $subsRepo);
             }
             $this->container->get('security.token_storage')->setToken(null);
 

@@ -4,6 +4,7 @@ namespace App\Notification;
 use App\Entity\Contact;
 use App\Entity\Subscription;
 use App\Entity\User;
+use App\Repository\SubscriptionRepository;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Twig\Environment;
@@ -108,41 +109,57 @@ class ContactNotification {
     // this email is sent to users whose position has changed in the waiting list
     // $waitingList must be equal to 0 if the user is not in the waiting list anymore
     // or 1 if they are the first in the waiting list, 2 if ... 3 4 etc
-    public function waitingList (Subscription $subs, $waitingList)
+    public function waitingList (Subscription $subs, SubscriptionRepository $subsRepo)
     {
-        $user = $subs->getUser();
-        $nameEvent = $subs->getEvent()->getName();
-        if ($waitingList == 0)
+        $usersSubs = $subsRepo->findAfter($subs);
+        foreach ($usersSubs as $thisSub)
         {
-            $subject = "Vous n'êtes plus sur liste d'attente pour l'événement prochain de motocross !";
-            $message = "Bonjour ".$user->getFirstName().",\n\nVous êtes inscrit.e pour de bon à l'événement : ".
-            $nameEvent.".\nSi vous ne pouvez plus venir, n'oubliez-pas de vous désinscrire au plus vite sur notre site.
-            \n\nMerci de votre fidélité,\n\nL'équipe de Auribail MX Park";
+            $position = $subsRepo->countOrderSub($thisSub);
+            if ($thisSub->getEvent()->getType() == true) // if it is a normal event
+            {
+                $waitingList = $position[1] - 75;
+            }
+            else // if it is a kid event
+            {
+                $waitingList = $position[1] - 15;
+            }
+            if ($waitingList >= 0)
+            {
+                $user = $subs->getUser();
+                $nameEvent = $subs->getEvent()->getName();
+                if ($waitingList == 0)
+                {
+                    $subject = "Vous n'êtes plus sur liste d'attente pour l'événement prochain de motocross !";
+                    $message = "Bonjour ".$user->getFirstName().",\n\nVous êtes inscrit.e pour de bon à l'événement : ".
+                    $nameEvent.".\nSi vous ne pouvez plus venir, n'oubliez-pas de vous désinscrire au plus vite sur notre site.
+                    \n\nMerci de votre fidélité,\n\nL'équipe de Auribail MX Park";
+                }
+                else
+                {
+                    $subject = "Votre position en liste d'attente a évolué pour l'événement prochain de motocross !";
+                    $message = "Bonjour ".$user->getFirstName().",\n\nVous êtes désormais numéro ".$waitingList." en liste d'attente pour l'événement : ".
+                    $nameEvent.".\nSi vous ne pouvez plus venir, vous pouvez toujours vous désinscrire sur notre site.
+                    \n\nMerci de votre fidélité,\n\nL'équipe de Auribail MX Park";
+                }
+                $contact = new Contact();
+                $contact->setFirstName($user->getFirstName());
+                $contact->setLastName($user->getLastName());
+                $contact->setSubject($subject);
+                $contact->setMessage($message);
+                $email = (new Email())
+                    ->from('contact.auribail@gmail.com')
+                    ->to($user->getEmail())
+                    //->cc('cc@example.com')
+                    //->bcc('bcc@example.com')
+                    ->replyTo('contact.auribail@gmail.com')
+                    //->priority(Email::PRIORITY_HIGH)
+                    ->subject($contact->getSubject())
+                    ->text($contact->getMessage())
+                    ->html($this->renderer->render('emails/classic.html.twig', ['contact' => $contact]))
+                ;
+                $this->mailer->send($email);
+            }
         }
-        else
-        {
-            $subject = "Votre position en liste d'attente a évolué pour l'événement prochain de motocross !";
-            $message = "Bonjour ".$user->getFirstName().",\n\nVous êtes désormais numéro ".$waitingList." en liste d'attente pour l'événement : ".
-            $nameEvent.".\nSi vous ne pouvez plus venir, vous pouvez toujours vous désinscrire sur notre site.
-            \n\nMerci de votre fidélité,\n\nL'équipe de Auribail MX Park";
-        }
-        $contact = new Contact();
-        $contact->setFirstName($user->getFirstName());
-        $contact->setLastName($user->getLastName());
-        $contact->setSubject($subject);
-        $contact->setMessage($message);
-        $email = (new Email())
-            ->from('contact.auribail@gmail.com')
-            ->to($user->getEmail())
-            //->cc('cc@example.com')
-            //->bcc('bcc@example.com')
-            ->replyTo('contact.auribail@gmail.com')
-            //->priority(Email::PRIORITY_HIGH)
-            ->subject($contact->getSubject())
-            ->text($contact->getMessage())
-            ->html($this->renderer->render('emails/classic.html.twig', ['contact' => $contact]))
-        ;
-        $this->mailer->send($email);
     }
 
     // when the subscriptions are closed for an event,

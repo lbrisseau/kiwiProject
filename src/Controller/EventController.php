@@ -160,44 +160,44 @@ class EventController extends AbstractController
                 $user = $sub->getUser();
                 $tabUsers[] = $user;
             }
-
             // Création d'un PDF
             $pdf = new Fpdf();
-
             $pdf->AliasNbPages();
             $pdf->AddPage();
-
-            $pdf->SetFont('Arial', 'B', 14);
-            $pdf->MultiCell(150, 6, "Liste ".$event->getName());
-            $pdf->Ln(10);
-
+            $pdf->SetLeftMargin(0);
+            $pdf->SetAutoPageBreak(true, 15);
             $pdf->SetTextColor(0, 0, 0);
             $pdf->SetFont('Arial', '', 12);
-            foreach ($tabUsers as $key => $personne) {
-
-                if ($key == 50)
-                    $pdf->SetXY(100, 25);
-                if ($key >= 50)
-                    $decalage = true;
-                else
-                    $decalage = false;
-
-                if ($key & 1) {
-                    if ($decalage == true)
-                        $pdf->Cell(100);
-                    $pdf->Cell(25);
-                    $pdf->SetFillColor(128, 128, 128);
-                    $pdf->Cell(25, 5, addslashes($personne->getFirstName()), 0, 0, 'L', true);
-                    $pdf->Cell(25, 5, addslashes($personne->getLastName()), 0, 1, 'C', true);
-                } else {
-                    if ($decalage == true)
-                        $pdf->Cell(100);
-                    $pdf->Cell(25);
-                    $pdf->Cell(25, 5, addslashes($personne->getFirstName()), 0, 0, 'L');
-                    $pdf->Cell(25, 5, addslashes($personne->getLastName()), 0, 1, 'C');
-                }
+            // Move to the right
+            $pdf->Cell(80);
+            // Title
+            $pdf->Cell(30,10,"Liste ".$event->getName(),0,0,'C');
+            // Line break
+            $pdf->Ln(20);
+            $w = array(55, 50, 55, 50);
+            $fill = true;
+            $line = false;
+            foreach ($tabUsers as $key => $personne)
+            {
+                if ($fill) {$pdf->SetFillColor(229,229,229);}
+        	    else {$pdf->SetFillColor(246,246,246);}
+        	    // echo($i);
+        	    if ($line)
+        	    {
+    		    	$pdf->Cell($w[2],10, ($key+1)." : ".addslashes($personne->getFirstName())." ".addslashes($personne->getLastName()),1,0,'L',1);
+    		    	$pdf->Cell($w[3],10, "",1,0,'L',1);
+    		    	$pdf->Ln();
+        	    }
+        	    else
+        	    {
+        	    	$pdf->Cell($w[0],10, ($key+1)." : ".addslashes($personne->getFirstName())." ".addslashes($personne->getLastName()),1,0,'L',1);
+    		    	$pdf->Cell($w[1],10, "",1,0,'L',1);
+    		    	$fill = !$fill;
+        	    }
+        	    $line = !$line;
             }
-
+            // Closing line
+            $pdf->Cell(array_sum($w),0,'','T');
             return new Response($pdf->Output("MX Trail - Liste Session ".addslashes($event->getName()).".pdf","D"), 200, array('Content-Type' => 'application/pdf'));
         }
     }
