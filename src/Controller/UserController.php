@@ -148,7 +148,9 @@ class UserController extends AbstractController
             // account edit confirmation message
             $this->addFlash('success', 'Vos modifications ont été enregistrées avec succès.');
 
-            return $this->redirectToRoute('home');
+            return $this->render('user/show.html.twig', [
+                'user' => $user
+            ]);
         }
 
         return $this->render('user/edit.html.twig', [
@@ -180,7 +182,7 @@ class UserController extends AbstractController
         }
 
         // account deletion confirmation message
-        $this->addFlash('success', 'Votre compte utilisateur a bien été supprimé !'); 
+        $this->addFlash('warning', 'Votre compte utilisateur a bien été supprimé !'); 
 
 
         return $this->redirectToRoute('home');
