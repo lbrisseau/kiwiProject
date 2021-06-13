@@ -3,70 +3,72 @@
 {% block title %}MX Park | Mes informations{% endblock %}
 
 {% block body %}
-  <div class="container mt-5">
-    <div class="row">
-      <div class="col-10 mx-auto">
-        <div class="d-flex  my-4">
-          <h1 class="h2">
-            Profil de
-            {{ user.firstName }}
-            {{ user.lastName }}
-          </h1>
 
-          <p class="ml-auto">
-            <a class="btn btn-primary" href="{{ path('home') }}">
-              <i class="fas fa-arrow-circle-left"></i>
-            </a>
-            <a class="btn btn-warning" href="{{ path('profil_edit', {'id': user.id}) }}">
-              <i class="far fa-edit"></i>
-            </a>
-          </p>
-        </div>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-10 mx-auto">
 
-        <div class="my-4">
+      <div class="d-flex my-4">
+        <h1 class="h2">
+          Profil de
+          {{ user.firstName }}
+          {{ user.lastName }}
+        </h1>
+
+        <p class="ml-auto">
+          <a class="btn btn-primary" href="{{ path('home') }}">
+            <i class="fas fa-arrow-circle-left"></i>
+          </a>
+          <a class="btn btn-warning" href="{{ path('profil_edit', {'id': user.id}) }}">
+            <i class="far fa-edit"></i>
+          </a>
+        </p>
+      </div>
+
+      <div class="my-4">
         <h2 class="h4 mb-4"><i class="far fa-address-card"></i> Mes informations</h2>
         <table class="table table-striped mb-5">
           <tbody>
             <tr>
-              <th>Prénom</th>
-              <td>{{ user.firstName }}</td>
+            <th>Prénom</th>
+            <td>{{ user.firstName }}</td>
             </tr>
             <tr>
-              <th>Nom</th>
-              <td>{{ user.lastName }}</td>
+            <th>Nom</th>
+            <td>{{ user.lastName }}</td>
             </tr>
             <tr>
-              <th>Age</th>
-              <td> {% set age = date().diff(date(user.birthDate)).y %}
-                  {{ age }} ans</td>
+            <th>Age</th>
+            <td> {% set age = date().diff(date(user.birthDate)).y %}
+                {{ age }} ans</td>
             </tr>
             <tr>
-              <th>Date de naissance</th>
-              <td>{{ user.birthDate ? user.birthDate|date('d/m/Y') : '' }}</td>
+            <th>Date de naissance</th>
+            <td>{{ user.birthDate ? user.birthDate|date('d/m/Y') : '' }}</td>
             </tr>
             <tr>
-              <th>Email</th>
-              <td>{{ user.email }}</td>
+            <th>Email</th>
+            <td>{{ user.email }}</td>
             </tr>
             <tr>
-              <th>Tel</th>
-              <td>{{ user.phone }}</td>
+            <th>Tel</th>
+            <td>{{ user.phone }}</td>
             </tr>
             <tr>
-              <th>Licence</th>
-              <td>{{ user.licenceNumber }}</td>
+            <th>Licence</th>
+            <td>{{ user.licenceNumber }}</td>
             </tr>
           </tbody>
         </table>
-        </div>
-
-        <div class="my-4">
-          <h2 class="h4 mb-4"><i class="far fa-calendar-alt"></i> Mes entraînements</h2>
-          <p class="text-black-50">Vous n'êtes actuellement inscrit à aucun entraînement.</p>
-        </div>
-
       </div>
+
+      <div class="my-4">
+        <h2 class="h4 mb-4"><i class="far fa-calendar-alt"></i> Mes entraînements</h2>
+        <p class="text-black-50">Vous n'êtes actuellement inscrit à aucun entraînement.</p>
+      </div>
+
     </div>
   </div>
+</div>
 
 {% endblock %}
