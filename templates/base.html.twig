@@ -78,7 +78,7 @@
         {# </div> #}
       </nav>
 
-      {# Alert for a successful mail sending #}
+      {# Alert for a successful action #}
       {% for message in app.flashes('success') %}
         <div class="flash-success alert alert-success alert-dismissible fade show mt-3" role="alert">
           {{ message }}
@@ -96,23 +96,25 @@
           </button>
         </div>
       {% endfor %}
+      {# Alert for an account deletion #}
+      {% for message in app.flashes('warning')%}
+		    <div class="alert alert-danger alert-dismissible fade show mt-4">
+			    {{ message }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+		    </div>
+	    {% endfor %}
+
+
 
       {% block body %}{% endblock %}
     </div>
     {% block modals %}{% endblock %}
 
 
-  <!-- Flash messages -->
-	{% for message in app.flashes('success')%}
-		<div class="alert alert-success">
-			{{ message }}
-		</div>
-	{% endfor %}
-  {% for message in app.flashes('warning')%}
-		<div class="alert alert-danger mt-5">
-			{{ message }}
-		</div>
-	{% endfor %}
+
+  
  
 
 
