@@ -115,6 +115,33 @@ class SubscriptionRepository extends ServiceEntityRepository
         ;
     }
 
+    // This function returns all subscriptions to one event.
+    public function findByEvent($event)
+    {
+        return $this->createQueryBuilder('s')
+            ->select('s')
+            ->andWhere('s.event = :event')
+            ->setParameter('event', $event)
+            ->orderBy('s.subsDate', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    // This function returns all subscriptions with validationState = false (no licence) to one event.
+    public function findByEventLicence($event)
+    {
+        return $this->createQueryBuilder('s')
+            ->select('s')
+            ->andWhere('s.event = :event')
+            ->andWhere('s.validationState = 0')
+            ->setParameter('event', $event)
+            ->orderBy('s.subsDate', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 
     // /**
     //  * @return Subscription[] Returns an array of Subscription objects
