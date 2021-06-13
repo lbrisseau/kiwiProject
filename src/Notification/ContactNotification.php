@@ -104,7 +104,7 @@ class ContactNotification {
         $this->mailer->send($email);
     }
 
-    // when a user unsubscribes to an event (or when the admin asks),
+    // when a user unsubscribes to an event,
     // this email is sent to users whose position has changed in the waiting list
     // $waitingList must be equal to 0 if the user is not in the waiting list anymore
     // or 1 if they are the first in the waiting list, 2 if ... 3 4 etc
@@ -131,6 +131,78 @@ class ContactNotification {
         $contact->setLastName($user->getLastName());
         $contact->setSubject($subject);
         $contact->setMessage($message);
+        $email = (new Email())
+            ->from('contact.auribail@gmail.com')
+            ->to($user->getEmail())
+            //->cc('cc@example.com')
+            //->bcc('bcc@example.com')
+            ->replyTo('contact.auribail@gmail.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject($contact->getSubject())
+            ->text($contact->getMessage())
+            ->html($this->renderer->render('emails/classic.html.twig', ['contact' => $contact]))
+        ;
+        $this->mailer->send($email);
+    }
+
+    // when the subscriptions are closed for an event,
+    // this email is sent to previously suscribed users to notify them of their new subscribed/not status
+    // $waitingList must be equal to -1 if the user is not in the waiting list anymore
+    // 0 if they were unsubscribe because no licence number was given
+    // or 1 if they are the first in the waiting list, 2 if ... 3 4 etc
+    public function finalSubs (Subscription $subs, $waitingList)
+    {
+        $user = $subs->getUser();
+        $nameEvent = $subs->getEvent()->getName();
+        if ($waitingList == -1)
+        {
+            $subject = "Vous êtes définitivement inscrit.e à l'événement prochain de motocross !";
+            $message = "Bonjour ".$user->getFirstName().",\n\nVous êtes définitivement inscrit.e à l'événement : ".
+            $nameEvent.".\nLes inscriptions et désinscriptions sont closes. Si vous avez un empêchement, merci d'appeler le club.
+            \n\nÀ très vite,\n\nL'équipe de Auribail MX Park";
+        }
+        else if ($waitingList == 0)
+        {
+            $subject = "Vous n'êtes plus inscrit.e à l'événement prochain de motocross";
+            $message = "Bonjour ".$user->getFirstName().",\n\nVous n'avez pas renseigné votre numéro de licence à temps.\n
+            Les inscriptions sont closes, vous êtes donc désinscrit.e de l'événement : ".
+            $nameEvent.".\n\nEn espérant vous revoir très vite,\n\nL'équipe de Auribail MX Park";
+        }
+        else
+        {
+            $subject = "Vous n'êtes plus inscrit.e à l'événement prochain de motocross";
+            $message = "Bonjour ".$user->getFirstName().",\n\nLes inscriptions et désinscriptions sont closes pour l'événement : ".
+            $nameEvent."\nVous étiez toujours sur liste d'attente, vous n'êtes donc plus inscrit.e à l'événement.
+            \n\nEn espérant vous revoir très vite,\n\nL'équipe de Auribail MX Park";
+        }
+        $contact = new Contact();
+        $contact->setFirstName($user->getFirstName());
+        $contact->setLastName($user->getLastName());
+        $contact->setSubject($subject);
+        $contact->setMessage($message);
+        $email = (new Email())
+            ->from('contact.auribail@gmail.com')
+            ->to($user->getEmail())
+            //->cc('cc@example.com')
+            //->bcc('bcc@example.com')
+            ->replyTo('contact.auribail@gmail.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject($contact->getSubject())
+            ->text($contact->getMessage())
+            ->html($this->renderer->render('emails/classic.html.twig', ['contact' => $contact]))
+        ;
+        $this->mailer->send($email);
+    }
+
+    // email sent automatically when a user account is deleted
+    public function deletedAccount (User $user)
+    {
+        $contact = new Contact();
+        $contact->setFirstName($user->getFirstName());
+        $contact->setLastName($user->getLastName());
+        $contact->setSubject("Votre compte a été supprimé");
+        $contact->setMessage("Bonjour ".$user->getFirstName().",\n\nVotre compte sur le site Auribail MX Park a été supprimé.
+        \n\nBonne continuation,\n\nL'équipe de Auribail MX Park");
         $email = (new Email())
             ->from('contact.auribail@gmail.com')
             ->to($user->getEmail())
