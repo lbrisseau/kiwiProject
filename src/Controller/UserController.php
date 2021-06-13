@@ -133,7 +133,7 @@ class UserController extends AbstractController
 
             $this->getDoctrine()->getManager()->flush();
 
-            // flash messages for confirmation of profil edition
+            // account edit confirmation message
             $this->addFlash('success', 'Vos modifications ont été enregistrées avec succès.');
 
             return $this->redirectToRoute('home');
@@ -151,12 +151,20 @@ class UserController extends AbstractController
     public function deleteProfil(Request $request, User $user): Response
     {
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+
+            $this->container->get('security.token_storage')->setToken(null);
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($user);
             $entityManager->flush();
         }
 
+        // account deletion confirmation message
+        $this->addFlash('success', 'Votre compte utilisateur a bien été supprimé !'); 
+
+
         return $this->redirectToRoute('home');
     }
 
 }
+
