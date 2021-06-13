@@ -5,7 +5,21 @@ body {
 }
 
 .my-nav-color {
-  background-color: #fde3e7;
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #2196f3, #2196f3);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+      background-position: 0% 30%;
+  }
+  50% {
+      background-position: 100% 30%;
+  }
+  100% {
+      background-position: 0% 30%;
+  }
 }
 .my-footer {
   font-size: 0.8rem;
@@ -17,11 +31,11 @@ body {
 /* Style de la navbar : */
 /* - boutons actifs ou non : */
 .navbar-nav li > a {
-  color: #333;
+  color: white;
   transition: background-color 0.2s, color 0.2s;
 }
 .navbar-nav li > a:hover {
-  color: #757575;
+  color: #bebebe;
 }
 .navbar-nav li.active > a {
   color: #fff;

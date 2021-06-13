@@ -1,97 +1,109 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}MX park{% endblock %}</title>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+      {% block title %}MX park{% endblock %}
+    </title>
+
+	{# description of the website for facebook sharer #}
+    <meta property="og:url" content="http://www.auribail-mx-park.local"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Auribail MX Park"/>
+    <meta property="og:description" content="Inscrivez-vous et réservez votre place pour une session d'entrainement de foooooolie"/>
+    <meta property="og:image" content="http://www.auribail-mx-park.local/build/motocross-logo.png"/>
+
     {# Run `composer require symfony/webpack-encore-bundle`
        and uncomment the following Encore helpers to start using Symfony UX #}
 
-	<link rel="icon" href="build/motocross-fav.png" type="image/png" sizes="32x32">
+    <link rel="icon" href="build/motocross-fav.png" type="image/png" sizes="32x32">
 
     <link rel="stylesheet" href="css/style.css" type="text/css">
 
     {% block stylesheets %}
-        {#{{ encore_entry_link_tags('app') }}#}
+      {#{{ encore_entry_link_tags('app') }}#}
     {% endblock %}
     {% block javascripts %}
-        {#{{ encore_entry_script_tags('app') }}#}
+      {#{{ encore_entry_script_tags('app') }}#}
     {% endblock %}
-	<!-- bootstrap (need to be after javascript for index twig to work): -->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-    
-	<!-- LEXEND font is made to be easily read -->
-	<link rel="preconnect" href="https://fonts.gstatic.com">
-	<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@500&display=swap" rel="stylesheet"> 
+    <!-- bootstrap (need to be after javascript for index twig to work): -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 
-	<!-- Font awesome for logos -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
-</head>
+    <!-- LEXEND font is made to be easily read -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@500&display=swap" rel="stylesheet">
 
-<!-- data-offset="50" -->
-<body>
-	<div data-spy="scroll" data-target=".navbar" data-offset=150 class="scroll-container" id="scrollContainer">
-		<!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
-		<!-- NAVBAR -->
-		<nav class="navbar navbar-expand-md fixed-top navbar-light my-nav-color my-0 py-0">
-			{# <div class="container"> #}
-				<a class="navbar-brand" href="{{ path('home') }}">
-					<img class="img-fluid my-logo" src="{{ absolute_url(asset("/build/motocross-logo.png")) }}" alt="Logo motocross"> 
-					Auribail MX Park
-				</a>
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<ul class="navbar-nav ml-auto">
-						{% block navbarButtons %}{% endblock %}
-						<li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-							{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-								{% if is_granted('ROLE_ADMIN') %}
-									<a class="text-white btn btn-warning mb-1" href="{{ path('admin') }}">Espace Admin</a>
-								{% endif %}
-							    <a href="{{ path('profil_show', {id: app.user.id}) }}" class="btn btn-primary mb-1 text-white"><i class="far fa-user"></i> Mon compte</a>
-								<a href="{{ path('app_logout') }}" class="btn btn-danger mb-1 text-white"><i class="fas fa-sign-out-alt"></i></a>
-							{% else %}
-							
-								<button class="btn btn-primary mb-1" data-toggle="modal" data-target="#authModal">Se connecter</button>
-								<a href="{{ path('app_register') }}" class="text-white btn btn-success mb-1">Créer un compte</a>
-							
-							{% endif %}
-						</li>
-					</ul>
-				</div>
-			{# </div> #}
-		</nav>
+    <!-- Font awesome for logos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous"/>
+  </head>
 
-		{# Alert for a successful mail sending #}
-		{% for message in app.flashes('success') %}
-		    <div class="flash-success alert alert-success alert-dismissible fade show mt-3" role="alert">
-		        {{ message }}
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			</button>
-		    </div>
-		{% endfor %}
-		{# Alert for the cancelling of an event or such things #}
-		{% for message in app.flashes('issueEvent') %}
-		    <div class="flash-issueEvent alert alert-primary alert-dismissible fade show mt-3" role="alert">
-		        {{ message }}
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			</button>
-		    </div>
-		{% endfor %}
+  <!-- data-offset="50" -->
+  <body>
+    <div data-spy="scroll" data-target=".navbar" data-offset="150" class="scroll-container" id="scrollContainer">
+      <!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+      <!-- NAVBAR -->
+      <nav class="navbar navbar-expand-md fixed-top navbar-light my-nav-color my-0 py-0">
+        {# <div class="container"> #}
+        <a class="navbar-brand" href="{{ path('home') }}">
+          <img class="img-fluid my-logo" src="{{ absolute_url(asset("/build/motocross-logo.png")) }}" alt="Logo motocross">
+          Auribail MX Park
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto">
+            {% block navbarButtons %}{% endblock %}
+            <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+              {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                {% if is_granted('ROLE_ADMIN') %}
+                  <a class="text-white btn btn-warning mb-1" href="{{ path('admin') }}">Espace Admin</a>
+                {% endif %}
+                <a href="{{ path('profil_show', {id: app.user.id}) }}" class="btn btn-primary mb-1 text-white">
+                  <i class="far fa-user"></i>
+                  Mon compte</a>
+                <a href="{{ path('app_logout') }}" class="btn btn-danger mb-1 text-white">
+                  <i class="fas fa-sign-out-alt"></i>
+                </a>
+              {% else %}
 
-    {% block body %}{% endblock %}
-	</div>
-	{% block modals %}{% endblock %}
+                <button class="btn btn-primary mb-1" data-toggle="modal" data-target="#authModal">Se connecter</button>
+                <a href="{{ path('app_register') }}" class="text-white btn btn-success mb-1">Créer un compte</a>
 
-	<!-- some links for animations like burger menu -->
-	<!-- bootstrap : -->
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous">
-	</script>
-    {% block bottomScript %}
-    {% endblock %}
-</body>
+              {% endif %}
+            </li>
+          </ul>
+        </div>
+        {# </div> #}
+      </nav>
+
+      {# Alert for a successful mail sending #}
+      {% for message in app.flashes('success') %}
+        <div class="flash-success alert alert-success alert-dismissible fade show mt-3" role="alert">
+          {{ message }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endfor %}
+      {# Alert for the cancelling of an event or such things #}
+      {% for message in app.flashes('issueEvent') %}
+        <div class="flash-issueEvent alert alert-primary alert-dismissible fade show mt-3" role="alert">
+          {{ message }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endfor %}
+
+      {% block body %}{% endblock %}
+    </div>
+    {% block modals %}{% endblock %}
+
+    <!-- some links for animations like burger menu -->
+    <!-- bootstrap : -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+    {% block bottomScript %}{% endblock %}
+  </body>
 </html>

@@ -42,7 +42,7 @@
             {{ form_row(registrationForm.plainPassword) }}
             {{ form_row(registrationForm.agreeTerms) }}
 
-            <p class="small ml-3">Cliquez <a href="{{ path('cgu') }}" target="_blank">ici</a> pour lire nos conditions générales d'utilisation</p>
+            <p class="small ml-3">Cliquez <a href="#tcsModal" data-toggle="modal" data-target="#tcsModal">ici</a> pour lire nos conditions générales d'utilisation</p>
 
             {# {{ form_row(registrationForm.agreeTerms) }}
             <label for="{{ registrationForm.agreeTerms.vars.id }}">{{ general_terms_and_conditions|raw }}</label> #} 
@@ -55,4 +55,30 @@
         </div>
     </div>
 </div>
+
+
+{# Tems and Conditions Modal #}
+
+<div class="modal fade tcsModal" id="tcsModal" data-backdrop="static" tabindex="-1" aria-labelledby="tcsModal" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+            <h2 class="modal-title w-100" id="exampleModalLabel">Conditions générales d'utilisation</h2>
+            <div class="row">
+            {# <p class="w-100">En vigueur au 16/06/2021</p> #}
+            </div>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{ include('registration/cgu.html.twig') }}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
