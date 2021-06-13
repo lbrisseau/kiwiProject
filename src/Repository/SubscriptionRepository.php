@@ -55,8 +55,8 @@ class SubscriptionRepository extends ServiceEntityRepository
         ;
     }
 
-    // This function count all the subscriptions to an event before our user's.
-    // It should not be called if the user is not subscribed to this event.
+    // These functions count all the subscriptions to an event before our user's.
+    // The first one should not be called if the user is not subscribed to this event.
     public function countOrder($user, $event)
     {
         $subs = $this->findOne($user, $event);
@@ -72,6 +72,31 @@ class SubscriptionRepository extends ServiceEntityRepository
             ->setParameters(array('date'=> $date, 'event' => $event))
             ->getQuery()
             ->getOneOrNullResult()
+        ;
+    }
+    public function countOrderSub($subs)
+    {
+        return $this->createQueryBuilder('s')
+            ->select('COUNT(s.user)')
+            ->andWhere('s.subsDate < :date')
+            ->andWhere('s.event = :event')
+            ->setParameters(array('date'=> $subs->getSubsDate(), 'event' => $subs->getEvent()))
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
+    // This function find max 100 subscriptions to an event after our user's.
+    public function findAfter($subs)
+    {
+        return $this->createQueryBuilder('s')
+            ->select('s')
+            ->andWhere('s.subsDate > :date')
+            ->andWhere('s.event = :event')
+            ->setParameters(array('date'=> $subs->getSubsDate(), 'event' => $subs->getEvent()))
+            ->setMaxResults(100)
+            ->getQuery()
+            ->getResult()
         ;
     }
 

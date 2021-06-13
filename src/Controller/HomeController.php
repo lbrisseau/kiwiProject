@@ -123,17 +123,36 @@ class HomeController extends AbstractController
     /**
      * @Route("/unsubs/{id}", name="unsubscriptionManager", methods={"POST"})
      */
-    public function unsubscriptionManager(Request $request, ContactNotification $notification, Subscription $subs)
+    public function unsubscriptionManager(Request $request, ContactNotification $notification, Subscription $subs, SubscriptionRepository $subsRepo)
     {
         if ($this->isCsrfTokenValid('unsubs' . $subs->getId(), $request->request->get('_token'))) {
             // Email notification of the user
             $notification->unsubscription($subs);
+            // Notification of users affected by the removal
+            $usersSubs = $subsRepo->findAfter($subs);
+            foreach ($usersSubs as $thisSub)
+            {
+                $position = $subsRepo->countOrderSub($thisSub);
+                if ($thisSub->getEvent()->getType() == true) // if it is a normal event
+                {
+                    $waitingList = $position[1] - 75;
+                }
+                else // if it is a kid event
+                {
+                    $waitingList = $position[1] - 15;
+                }
+                if ($waitingList >= 0)
+                {
+                    $notification->waitingList($thisSub, $waitingList);
+                }
+            }
+            // Removal of subscription
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($subs);
             $entityManager->flush();
+            // Little flash message of success
+            $this->addFlash('success', "Vous êtes désinscrit.e de l'événement.");
         }
-
-        $this->addFlash('success', "Vous êtes désinscrit.e de l'événement.");
         return $this->redirectToRoute("home");
     }
 }

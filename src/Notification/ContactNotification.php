@@ -55,7 +55,7 @@ class ContactNotification {
         {
             $contact->setSubject("En file d'attente pour l'entraînement prochain de motocross");
             $contact->setMessage("Bonjour ".$user->getFirstName()."\n\nL'événement auquel vous avez essayé de vous inscrire (".
-            $nameEvent.") est complet.\nVous êtes inscrit.e en numéro ".($waitingList + 1)."en liste d'attente.\nVous serez notifié.e 
+            $nameEvent.") est complet.\nVous êtes inscrit.e en numéro ".($waitingList + 1)." en liste d'attente.\nVous serez notifié.e 
             par email dans le cas où une place se libérerait pour vous.\n\nMerci de votre fidélité,\n\nL'équipe de Auribail MX Park");
         }
         else
@@ -74,7 +74,7 @@ class ContactNotification {
             //->priority(Email::PRIORITY_HIGH)
             ->subject($contact->getSubject())
             ->text($contact->getMessage())
-            ->html($this->renderer->render('emails/subscription.html.twig', ['contact' => $contact]))
+            ->html($this->renderer->render('emails/classic.html.twig', ['contact' => $contact]))
         ;
         $this->mailer->send($email);
     }
@@ -99,7 +99,48 @@ class ContactNotification {
             //->priority(Email::PRIORITY_HIGH)
             ->subject($contact->getSubject())
             ->text($contact->getMessage())
-            ->html($this->renderer->render('emails/subscription.html.twig', ['contact' => $contact]))
+            ->html($this->renderer->render('emails/classic.html.twig', ['contact' => $contact]))
+        ;
+        $this->mailer->send($email);
+    }
+
+    // when a user unsubscribes to an event (or when the admin asks),
+    // this email is sent to users whose position has changed in the waiting list
+    // $waitingList must be equal to 0 if the user is not in the waiting list anymore
+    // or 1 if they are the first in the waiting list, 2 if ... 3 4 etc
+    public function waitingList (Subscription $subs, $waitingList)
+    {
+        $user = $subs->getUser();
+        $nameEvent = $subs->getEvent()->getName();
+        if ($waitingList == 0)
+        {
+            $subject = "Vous n'êtes plus sur liste d'attente pour l'événement prochain de motocross !";
+            $message = "Bonjour ".$user->getFirstName().",\n\nVous êtes inscrit.e pour de bon à l'événement : ".
+            $nameEvent.".\nSi vous ne pouvez plus venir, n'oubliez-pas de vous désinscrire au plus vite sur notre site.
+            \n\nMerci de votre fidélité,\n\nL'équipe de Auribail MX Park";
+        }
+        else
+        {
+            $subject = "Votre position en liste d'attente a évolué pour l'événement prochain de motocross !";
+            $message = "Bonjour ".$user->getFirstName().",\n\nVous êtes désormais numéro ".$waitingList." en liste d'attente pour l'événement : ".
+            $nameEvent.".\nSi vous ne pouvez plus venir, vous pouvez toujours vous désinscrire sur notre site.
+            \n\nMerci de votre fidélité,\n\nL'équipe de Auribail MX Park";
+        }
+        $contact = new Contact();
+        $contact->setFirstName($user->getFirstName());
+        $contact->setLastName($user->getLastName());
+        $contact->setSubject($subject);
+        $contact->setMessage($message);
+        $email = (new Email())
+            ->from('contact.auribail@gmail.com')
+            ->to($user->getEmail())
+            //->cc('cc@example.com')
+            //->bcc('bcc@example.com')
+            ->replyTo('contact.auribail@gmail.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject($contact->getSubject())
+            ->text($contact->getMessage())
+            ->html($this->renderer->render('emails/classic.html.twig', ['contact' => $contact]))
         ;
         $this->mailer->send($email);
     }
