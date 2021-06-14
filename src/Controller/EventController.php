@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Contact;
 use App\Entity\Event;
 use App\Entity\Subscription;
 use App\Form\EventType;
@@ -125,6 +126,28 @@ class EventController extends AbstractController
     }
 
     /**
+     * @Route("/admin/event/{id}/announcement", name="event_announcement")
+     */
+    public function announcement(Request $request, Event $event, ContactNotification $notification)
+    {
+        // Contact form management:
+        $contact = new Contact();
+        $formContact = $this->createForm(ContactType::class, $contact);
+        $formContact->handleRequest($request);
+        if ($formContact->isSubmitted())
+        {
+            $subject = $contact->getSubject();
+            $message = $contact->getMessage();
+            $notification->cancelledEvent($event, $subject, $message);
+            return $this->redirectToRoute("event_show", ['id' => $event->getId()]);
+        }
+        return $this->render('event/announcement_admin.html.twig', [
+            'event' => $event,
+            'form' => $formContact->createView(),
+        ]);
+    }
+
+    /**
      * @Route("/admin/event/{id}/checklicence", name="event_check_licence")
      */
     public function checkLicence(Event $event, ContactNotification $notification, SubscriptionRepository $repo)
@@ -138,10 +161,10 @@ class EventController extends AbstractController
     /**
      * @Route("/admin/event/{id}/validate", name="event_validate", methods={"POST"})
      */
-    public function validate(Request $request, Event $event, ContactNotification $notification, SubscriptionRepository $repo)
+    public function validate(Request $request, Event $event, ContactNotification $notification)
     {
         if ($this->isCsrfTokenValid('validate' . $event->getId(), $request->request->get('_token'))) {
-            $notification->finalSubs($event, $repo);
+            $notification->finalSubs($event);
             $entityManager = $this->getDoctrine()->getManager();
             $tabSubs = $event->getSubscriptions();
             //var_dump($tabSubs);
@@ -151,6 +174,7 @@ class EventController extends AbstractController
                     $entityManager->flush();
                 }
             }
+            $notification->finalListAdmin($event);
         }
         return $this->redirectToRoute('event_show', [
             'id' => $event->getId(),

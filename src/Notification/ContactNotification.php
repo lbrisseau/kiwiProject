@@ -6,6 +6,7 @@ use App\Entity\Event;
 use App\Entity\Subscription;
 use App\Entity\User;
 use App\Repository\SubscriptionRepository;
+use Fpdf\Fpdf;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Twig\Environment;
@@ -165,9 +166,9 @@ class ContactNotification {
 
     // when the subscriptions are closed for an event,
     // this email is sent to suscribed users to notify them of their new subscription status
-    public function finalSubs (Event $event, SubscriptionRepository $subsRepo)
+    public function finalSubs (Event $event)
     {
-        $allSubs = $subsRepo->findByEvent($event);
+        $allSubs = $event->getSubscriptions();
         // each validated subscription will increment the count until the limit is reached
         $count = 0;
         if ($event->getType() == true) // if it is a normal event
@@ -227,6 +228,74 @@ class ContactNotification {
         }
     }
 
+    // this email is sent to the admin when the subscriptions are closed
+    // it contains the list of users who are definitely subscribed to the event
+    public function finalListAdmin (Event $event)
+    {
+        $tabSubs = $event->getSubscriptions();
+        $message = "Bonjour admin :)\n\nL'événement ".$event->getName()." arrive à grands pas.\nVoici la liste finale de participant.es :\n";
+        $tabUsers = [];
+        foreach ($tabSubs as $thisSub)
+        {
+            $user = $thisSub->getUser();
+            $tabUsers[] = $user;
+            $message .= $user->getFirstName()." ".$user->getFirstName()."\n";
+        }
+        $message .= "\nCi-joint la feuille d'émargement.\nOk ciao !\n\nTon double omniscient.";
+        // now creation of the pdf list// Création d'un tableau de personnes
+        $pdf = new Fpdf();
+        $pdf->AliasNbPages();
+        $pdf->AddPage();
+        $pdf->SetLeftMargin(0);
+        $pdf->SetAutoPageBreak(true, 15);
+        $pdf->SetTextColor(0, 0, 0);
+        $pdf->SetFont('Arial', '', 12);
+        $pdf->Cell(80);
+        $pdf->Cell(30,10,"Liste ".utf8_decode($event->getName()),0,0,'C');
+        $pdf->Ln(20);
+        $w = array(55, 50, 55, 50);
+        $fill = true;
+        $line = false;
+        foreach ($tabUsers as $key => $personne)
+        {
+            if ($fill) {$pdf->SetFillColor(229,229,229);}
+            else {$pdf->SetFillColor(246,246,246);}
+            if ($line)
+            {
+    	    	$pdf->Cell($w[2],10, ($key+1)." : ".utf8_decode($personne->getFirstName())." ".utf8_decode($personne->getLastName()),1,0,'L',1);
+    	    	$pdf->Cell($w[3],10, "",1,0,'L',1);
+    	    	$pdf->Ln();
+            }
+            else
+            {
+            	$pdf->Cell($w[0],10, ($key+1)." : ".utf8_decode($personne->getFirstName())." ".utf8_decode($personne->getLastName()),1,0,'L',1);
+    	    	$pdf->Cell($w[1],10, "",1,0,'L',1);
+    	    	$fill = !$fill;
+            }
+            $line = !$line;
+        }
+        $pdf->Cell(array_sum($w),0,'','T');
+        // Creation of the contact and sending of email
+        $contact = new Contact();
+        $contact->setFirstName("Admin");
+        $contact->setLastName("Auribail");
+        $contact->setSubject("Liste de participant.es au prochain événement");
+        $contact->setMessage($message);
+        $email = (new Email())
+            ->from('contact.auribail@gmail.com')
+            ->to('contact.auribail@gmail.com')
+            //->cc('cc@example.com')
+            //->bcc('bcc@example.com')
+            ->replyTo('contact.auribail@gmail.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject($contact->getSubject())
+            ->text($contact->getMessage())
+            ->html($this->renderer->render('emails/classic.html.twig', ['contact' => $contact]))
+            ->attach($pdf->Output("MX Trail - Liste Session ".utf8_decode($event->getName()).".pdf","S"), "MX Trail - Liste Session ".utf8_decode($event->getName()), 'application/pdf')
+        ;
+        $this->mailer->send($email);
+    }
+
     // this email is sent after the admin click on the correct button
     // it warns users who are subscribed to an event to fill their licence number
     public function checkLicence (Event $event, SubscriptionRepository $subsRepo)
@@ -279,5 +348,31 @@ class ContactNotification {
             ->html($this->renderer->render('emails/classic.html.twig', ['contact' => $contact]))
         ;
         $this->mailer->send($email);
+    }
+
+    // email sent automatically when an event is cancelled or its date changed
+    public function cancelledEvent (Event $event, $subject, $message)
+    {
+        $allSubs = $event->getSubscriptions();
+        foreach ($allSubs as $subs)
+        {
+            $contact = new Contact();
+            $contact->setFirstName($subs->getUser()->getFirstName());
+            $contact->setLastName($subs->getUser()->getLastName());
+            $contact->setSubject($subject);
+            $contact->setMessage($message);
+            $email = (new Email())
+                ->from('contact.auribail@gmail.com')
+                ->to($subs->getUser()->getEmail())
+                //->cc('cc@example.com')
+                //->bcc('bcc@example.com')
+                ->replyTo('contact.auribail@gmail.com')
+                //->priority(Email::PRIORITY_HIGH)
+                ->subject($contact->getSubject())
+                ->text($contact->getMessage())
+                ->html($this->renderer->render('emails/classic.html.twig', ['contact' => $contact]))
+            ;
+            $this->mailer->send($email);
+        }
     }
 }
