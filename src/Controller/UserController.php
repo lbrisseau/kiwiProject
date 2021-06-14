@@ -2,16 +2,18 @@
 
 namespace App\Controller;
 
+use DateTime;
+use DateInterval;
 use App\Entity\User;
 use App\Form\UserType;
-use App\Notification\ContactNotification;
-use App\Repository\EventRepository;
-use App\Repository\SubscriptionRepository;
 use App\Repository\UserRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\EventRepository;
+use App\Notification\ContactNotification;
+use App\Repository\SubscriptionRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
@@ -121,12 +123,22 @@ class UserController extends AbstractController
      */
     public function showProfil(User $user, SubscriptionRepository $subsRepo, EventRepository $eventRepo): Response
     {
+        $adultDate = new DateTime();
+        $adultDate->sub(new DateInterval('P18Y'));
+        if ($user->getBirthDate() > $adultDate)
+        {
+        $currentEvent = $eventRepo->findNextKid()[0];
+        }
+        else
+        {
         $currentEvent = $eventRepo->findNext()[0];
+        }
         $isThereSubs = $subsRepo->findOne($user, $currentEvent);
+        // dump($currentEvent);
         return $this->render('user/show.html.twig', [
-            'user' => $user,
-            'event' => $eventRepo->findNext(),
             'isThereSubs' => $isThereSubs,
+            'user' => $user,
+            'event' => $currentEvent,
         ]);
     }
 

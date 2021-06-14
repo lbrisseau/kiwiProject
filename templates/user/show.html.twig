@@ -4,7 +4,7 @@
 
 {% block body %}
 
-<div class="container mt-5">
+<div class="container my-5">
   <div class="row">
     <div class="col-10 mx-auto">
 
@@ -53,11 +53,11 @@
             <td>{{ user.email }}</td>
             </tr>
             <tr>
-            <th>Tel</th>
+            <th>Téléphone</th>
             <td>{{ user.phone }}</td>
             </tr>
             <tr>
-            <th>Licence</th>
+            <th>Numéro de licence</th>
             <td>{{ user.licenceNumber }}</td>
             </tr>
           </tbody>
@@ -72,23 +72,25 @@
 					{% if isThereSubs is empty %}
 					<p class="text-black-50">Vous n'êtes actuellement inscrit.e à aucun entraînement.</p>
 					{% else %}
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Nom</th>
-                  <th>Type</th>
-                  {# <th>Actions</th> #}
-                </tr>
-              </thead>
-              <tbody>
-                  <tr>
-                    {# <td>{{ event.date ? event.date|date('d/m/Y H:i:s') : '' }}</td>
-                    <td>{{ event.name }}</td>
-                    <td>{{ event.type ? 'Adulte' : 'Kids' }}</td> #}
-                    {# <td>button unsubs</td> #}
-                  </tr>
-            </table>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Nom de l'événement</th>
+                <th>Type</th>
+                <th>Se désinscrire</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{ event.date ? event.date|date('d/m/Y') : '' }}</td>
+                <td>{{ event.name }}</td>
+                <td>{{ event.type ? 'Adulte' : 'Kids' }}</td>
+                <td><button class="btn btn-danger" data-toggle="modal" data-target="#unsubsModal"><i class="fas fa-user-times"></i></button></td>
+                
+              </tr>
+            </tbody>
+          </table>
 					{% endif %}
 				{% endif %}
       </div>
@@ -96,5 +98,37 @@
     </div>
   </div>
 </div>
+
+
+
+{# -------------------------- Modal for unsubscription --------------------------------------- #}
+
+	<div class="modal fade" id="unsubsModal" tabindex="-1" role="dialog" aria-labelledby="Unsubscription modal" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				{% if is_granted('IS_AUTHENTICATED_REMEMBERED') and not isThereSubs is empty %}
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Désinscription</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="container text-center">
+							<p>Souhaitez-vous bien vous désinscrire de l'événement : "{{ event.name }}" ?
+							</p>
+						</div>
+					</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+					<form method="post" action="{{ path('unsubscriptionManager', {'id': isThereSubs.id}) }}">
+						<input type="hidden" name="_token" value="{{ csrf_token('unsubs' ~ isThereSubs.id) }}">
+						<button class="btn btn-danger text-light">Désinscription</button>
+					</form>
+				</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
 
 {% endblock %}
