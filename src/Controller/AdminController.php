@@ -19,7 +19,7 @@ class AdminController extends AbstractController
     public function index(EventRepository $eventRepository): Response
     {
         return $this->render('admin/index.html.twig', [
-            'events' => $eventRepository->findFourNext(),
+            'events' => $eventRepository->findTwoNext(),
         ]);
     }
 
