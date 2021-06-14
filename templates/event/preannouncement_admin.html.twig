@@ -1,0 +1,77 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block title %}MX Park | Admin | Notification{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <div class="row">
+      <div class="col-10 mx-auto">
+        <div class="d-flex  my-4">
+          <h1 class="h2">Notification des inscrit.es à l'entrainement : {{ event.name }}
+          </h1>
+          <p class="ml-auto">
+            {% if origin is defined %}
+              {% if (origin == 'admin') %}
+                <a class="btn btn-primary" href="{{ path('admin') }}">
+                  <i class="fas fa-arrow-circle-left"></i>
+                </a>
+              {% endif %}
+            {% else %}
+              <a class="btn btn-primary" href="{{ path('event_index') }}">
+                <i class="fas fa-arrow-circle-left"></i>
+              </a>
+            {% endif %}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-10 mx-auto">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="report" name="whichNotif" checked>
+          <label class="form-check-label" for="report">Report de l'événement</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="annulation" name="whichNotif">
+          <label class="form-check-label" for="annulation">Annulation de l'événement</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="autre" name="whichNotif">
+          <label class="form-check-label" for="autre">Autre</label>
+        </div>
+        <div id="jsChange">
+          <a href="{{ path('event_announcement', {id: event.id, element: '0'}) }}" class="text-white btn btn-warning">OK</a>
+        </div>
+      </div>
+    </div>
+  </div>
+<script>
+// ........................................Cancelled event notification form management.........................................
+let button = document.querySelector("#jsChange");
+
+let report = document.querySelector("#report");
+report.addEventListener('change', function() {
+  if (this.checked) {
+    console.log("here in report");
+    let url = "{{ path('event_announcement', {id: event.id, element: '0'})|escape('js') }}";
+    button.innerHTML = '<a href="'+url+'" class="text-white btn btn-warning">OK</a>';
+  }
+});
+let annulation = document.querySelector("#annulation");
+annulation.addEventListener('change', function() {
+  if (this.checked) {
+    console.log("here in annulation");
+    let url = "{{ path('event_announcement', {id: event.id, element: '1'})|escape('js') }}";
+    button.innerHTML = '<a href="'+url+'" class="text-white btn btn-warning">OK</a>';
+  }
+});
+let autre = document.querySelector("#autre");
+autre.addEventListener('change', function() {
+  if (this.checked) {
+    console.log("here in autre");
+    let url = "{{ path('event_announcement', {id: event.id, element: '2'})|escape('js') }}";
+    button.innerHTML = '<a href="'+url+'" class="text-white btn btn-warning">OK</a>';
+  }
+});
+</script>
+{% endblock %}

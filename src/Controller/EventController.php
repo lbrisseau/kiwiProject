@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Contact;
 use App\Entity\Event;
 use App\Entity\Subscription;
+use App\Form\ContactType;
 use App\Form\EventType;
 use App\Notification\ContactNotification;
 use App\Repository\EventRepository;
@@ -126,9 +127,19 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/admin/event/{id}/announcement", name="event_announcement")
+     * @Route("/admin/event/{id}/announcement", name="event_preannouncement")
      */
-    public function announcement(Request $request, Event $event, ContactNotification $notification)
+    public function preannouncement(Event $event)
+    {
+        return $this->render('event/preannouncement_admin.html.twig', [
+            'event' => $event
+        ]);
+    }
+
+    /**
+     * @Route("/admin/event/{id}/{element}/announcement", name="event_announcement")
+     */
+    public function announcement(Request $request, Event $event, $element, ContactNotification $notification)
     {
         // Contact form management:
         $contact = new Contact();
@@ -138,11 +149,34 @@ class EventController extends AbstractController
         {
             $subject = $contact->getSubject();
             $message = $contact->getMessage();
+            if (is_null($message))
+            {
+                if ($element == '0')
+                {
+                    $message = "Bonjour,\n\nÀ cause des intempéries, l'événement '".
+                    $event->getName()."' a été reporté au ".
+                    $event->getDate()->format('d/m/Y').
+                    ".\nN'oubliez pas de vous désinscrire sur notre site si jamais vous n'étiez pas disponible à cette date.
+                    \n\nÀ très vite !\n\nL'équipe de Auribail MX Park.";
+                }
+                else if ($element == '1')
+                {
+                    $message = "Bonjour,\n\nÀ cause des intempéries, l'événement '".
+                    $event->getName()."' a été annulé.\n\nNous espérons vous revoir très vite !
+                    \n\nL'équipe de Auribail MX Park.";
+                }
+                else
+                {
+                    $message = "Bonjour,\n\nCeci est une mauvaise manip de la part de notre amour d'admin.
+                    \n\nMerci de votre compréhension,\n\nL'équipe de Auribail MX Park.";
+                }
+            }
             $notification->cancelledEvent($event, $subject, $message);
             return $this->redirectToRoute("event_show", ['id' => $event->getId()]);
         }
         return $this->render('event/announcement_admin.html.twig', [
             'event' => $event,
+            'element' => $element,
             'form' => $formContact->createView(),
         ]);
     }

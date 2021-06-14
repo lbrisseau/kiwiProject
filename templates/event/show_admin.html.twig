@@ -62,12 +62,13 @@
         <div class="d-flex align-items-center">
           <p class="h2 my-4">Liste des inscrits</p>
           <div class="ml-auto d-flex">
-            <a href="{{ path('event_check_licence', {id: event.id}) }}" class="text-white btn btn-success">Rappel licence</a>
-            <form class="ml-4" method="post" action="{{ path('event_validate', {id: event.id}) }}" onsubmit="return confirm('Etes-vous sûr(e) de vouloir clôturer les inscriptions ? Toutes les inscriptions non validées seront supprimées (les utilisateurs sont prévenus par un mail automatique).');">
+            <a href="{{ path('event_check_licence', {id: event.id}) }}" class="text-white btn btn-success"><i class="far fa-envelope"></i> Licence</a>
+            <a href="{{ path('event_preannouncement', {id: event.id}) }}" class="text-white ml-3 btn btn-success"><i class="far fa-envelope"></i> Autres</a>
+            <form class="ml-3" method="post" action="{{ path('event_validate', {id: event.id}) }}" onsubmit="return confirm('Etes-vous sûr(e) de vouloir clôturer les inscriptions ? Toutes les inscriptions non validées seront supprimées (les utilisateurs sont prévenus par un mail automatique).');">
               <input type="hidden" name="_token" value="{{ csrf_token('validate' ~ event.id) }}">
-              <button class="btn btn-danger">Clôture manuelle des inscriptions</button>
+              <button class="btn btn-danger">Clôture des inscriptions</button>
             </form>
-            <form class="ml-4" method="post" action="{{ path('event_createpdf', {id: event.id}) }}" >
+            <form class="ml-3" method="post" action="{{ path('event_createpdf', {id: event.id}) }}" >
               <input type="hidden" name="_token" value="{{ csrf_token('pdf' ~ event.id) }}">
               <button class="btn btn-warning"><i class="fas fa-file-pdf"></i> &nbsp; PDF</button>
             </form>
