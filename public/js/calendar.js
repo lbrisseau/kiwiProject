@@ -1,16 +1,30 @@
 "use strict";
 let dt = new Date();
-let tooltip_text = "motocross<br>10h30-16h30"; // "" empty text to hide the tooltip
-let jour_event = 25;
-let mois_event = 4; // Mois - 1
-let annee_event = 2021;
-// google event
-let lien =
-    "https://calendar.google.com/event?action=TEMPLATE&amp;tmeid=MHZvZTZ1MzZ1MXNqZGxlYzBldGs2bWtuNnAgbm8za3B1Zm8zaGE5MnBkOTRiMTlrdGUwa29AZw&amp;tmsrc=no3kpufo3ha92pd94b19kte0ko%40group.calendar.google.com";
-
+let my_data = document.getElementById('hereData');
+console.log(my_data.dataset);
+let tooltip_text1 = "";
+let tooltip_text2 = "";
+let lien1 = "#";
+let lien2 = "#";
+if (my_data.dataset.date1.localeCompare(my_data.dataset.date2) == 0)
+{
+  tooltip_text1 = "motocross<br>adultes&kids"; // "" empty text to hide the tooltip
+}
+else
+{
+  tooltip_text1 = "motocross<br>adultes";
+  tooltip_text2 = "motocross<br>kids";
+}
+// google events
+if (my_data.dataset.link1)
+{
+  lien1 = my_data.dataset.link1;
+}
+if (my_data.dataset.link2)
+{
+  lien2 = my_data.dataset.link2;
+}
 function renderDate() {
-    let dateString = new Date();
-
     dt.setDate(1);
     let day = dt.getDay();
 
@@ -23,7 +37,8 @@ function renderDate() {
     let prevDate = new Date(dt.getFullYear(), dt.getMonth(), 0).getDate();
 
     let today = new Date();
-    let event = new Date(annee_event, mois_event, jour_event);
+    let event1 = new Date(my_data.dataset.date1);
+    let event2 = new Date(my_data.dataset.date2);
 
     let months = [
       "Janvier",
@@ -55,20 +70,36 @@ function renderDate() {
 
     for (let i = 1; i <= endDate; i++) {
       if (
-        i === event.getDate() &&
-        dt.getMonth() === event.getMonth() &&
-        dt.getFullYear() === event.getFullYear()
+        i === event1.getDate() &&
+        dt.getMonth() === event1.getMonth() &&
+        dt.getFullYear() === event1.getFullYear()
       ) {
         cells +=
           "<div class='icalendar__event'" +
           " data-html='true' data-toggle='tooltip' data-placement='top' title='" +
-          tooltip_text +
+          tooltip_text1 +
           "' ><a class='text-white' href='" +
-          lien +
+          lien1 +
           "'>" +
           i +
-          "</a></div>"; // tooltip'>" + i + tooltip_string +
-      } else if (
+          "</a></div>";
+      } 
+      else if (
+        i === event2.getDate() &&
+        dt.getMonth() === event2.getMonth() &&
+        dt.getFullYear() === event2.getFullYear()
+      ) {
+        cells +=
+          "<div class='icalendar__event'" +
+          " data-html='true' data-toggle='tooltip' data-placement='top' title='" +
+          tooltip_text2 +
+          "' ><a class='text-white' href='" +
+          lien2 +
+          "'>" +
+          i +
+          "</a></div>";
+      }
+      else if (
         i === today.getDate() &&
         dt.getMonth() === today.getMonth() &&
         dt.getFullYear() === today.getFullYear()

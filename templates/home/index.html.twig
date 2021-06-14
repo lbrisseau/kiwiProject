@@ -116,7 +116,7 @@
     		    <h1 class="flex-title">Événement</h1>
     		    <!-- Intégration du calendrier (la date est en rouge et contient le lien vers l'événement sur google agenda) -->
     		    <div class="flex-element">
-    		        <div class="icalendar" data-tooltext='' data-day='' data-month='' data-year='' data-link=''>
+    		        <div class="icalendar" id='hereData' data-date1='{{ event.0.date|date("Y/m/d") }}' data-date2='{{ kids.0.date|date("Y/m/d") }}' data-link1='{{ event.0.googleCalendarUrl }}' data-link2='{{ kids.0.googleCalendarUrl }}'>
     		            <div class="icalendar__month">
     		                <div class="icalendar__prev" onclick="moveDate('prev')">
     		                    <span>&#10094</span> <!-- petite flèche vers la gauche -->
