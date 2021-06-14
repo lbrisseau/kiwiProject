@@ -32,11 +32,6 @@ class Settings
      */
     private $defaultEndSubs;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $defaultLicenceRegistration;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -74,18 +69,6 @@ class Settings
     public function setDefaultEndSubs(int $defaultEndSubs): self
     {
         $this->defaultEndSubs = $defaultEndSubs;
-
-        return $this;
-    }
-
-    public function getDefaultLicenceRegistration(): ?int
-    {
-        return $this->defaultLicenceRegistration;
-    }
-
-    public function setDefaultLicenceRegistration(int $defaultLicenceRegistration): self
-    {
-        $this->defaultLicenceRegistration = $defaultLicenceRegistration;
 
         return $this;
     }
