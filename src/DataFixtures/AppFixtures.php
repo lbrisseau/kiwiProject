@@ -33,7 +33,6 @@ class AppFixtures extends Fixture
         $settings->setDefaultStartAllSubs('14');
         $settings->setDefaultStartMemberSubs('21');
         $settings->setDefaultEndSubs('2');
-        $settings->setDefaultLicenceRegistration('2');
         $manager->persist($settings);
         $manager->flush();
 
