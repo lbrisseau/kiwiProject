@@ -67,7 +67,7 @@
     {# -------------------------  Inscription en cours  -------------------------------- #}
 
       <div class="my-4">
-        <h2 class="h4 mb-4"><i class="far fa-calendar-alt"></i> Mes entrainements</h2>
+        <h2 class="h4 mb-4"><i class="fas fa-flag-checkered"></i> Mes entrainements</h2>
         {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
 					{% if isThereSubs is empty %}
 					<p class="text-black-50">Vous n'êtes actuellement inscrit.e à aucun entraînement.</p>
@@ -86,8 +86,7 @@
                 <td>{{ event.date ? event.date|date('d/m/Y') : '' }}</td>
                 <td>{{ event.name }}</td>
                 <td>{{ event.type ? 'Adulte' : 'Kids' }}</td>
-                <td><button class="btn btn-danger" data-toggle="modal" data-target="#unsubsModal"><i class="fas fa-user-times"></i></button></td>
-                
+                <td><button class="btn btn-danger ml-4" data-toggle="modal" data-target="#unsubsModal"><i class="fas fa-user-times"></i></button></td>
               </tr>
             </tbody>
           </table>
