@@ -1,7 +1,6 @@
 "use strict";
 let dt = new Date();
 let my_data = document.getElementById('hereData');
-console.log(my_data.dataset);
 let tooltip_text1 = "";
 let tooltip_text2 = "";
 let lien1 = "#";
