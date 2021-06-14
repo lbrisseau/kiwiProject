@@ -52,6 +52,7 @@ class EventType extends AbstractType
             ])
             ->add('googleCalendarUrl', TextType::class, [
                 'label' => 'Lien Google Calendar',
+                'required' => false,
                 'attr' => [
                     'placeholder' => 'Url du lien',
                 ],
