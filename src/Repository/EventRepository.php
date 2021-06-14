@@ -56,6 +56,31 @@ class EventRepository extends ServiceEntityRepository
         return $stmt->fetchAllAssociative();
     }
 
+    public function findTwoNext()
+    {
+        $date = new DateTime('now');
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = '
+        SELECT
+            *,
+            (
+            SELECT
+            COUNT(s.user_id)
+            FROM subscription s
+            WHERE s.event_id = e.id
+            ) AS nbusers
+        FROM event e
+        WHERE e.date > :now
+        ORDER BY e.date ASC
+        LIMIT 2
+        ';
+        $stmt = $conn->prepare($sql);
+        $stmt->executeQuery(['now' => $date->format('Y-m-d')]);
+
+        // returns an array of arrays (i.e. a raw data set)
+        return $stmt->fetchAllAssociative();
+    }
+
     public function findAllNext()
     {
         $date = new DateTime('now');

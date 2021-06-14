@@ -4,26 +4,29 @@
 
 {% block body %}
 
-<div class="container mt-5">
+<div class="container my-5">
   <div class="row">
     <div class="col-10 mx-auto">
 
-      <div class="d-flex my-4">
-        <h1 class="h2">
-          Profil de
-          {{ user.firstName }}
-          {{ user.lastName }}
-        </h1>
-
-        <p class="ml-auto">
-          <a class="btn btn-primary" href="{{ path('home') }}">
-            <i class="fas fa-arrow-circle-left"></i>
-          </a>
-          <a class="btn btn-warning" href="{{ path('profil_edit', {'id': user.id}) }}">
-            <i class="far fa-edit"></i>
-          </a>
-        </p>
+      <div class="row mt-4">
+        <div class="col-10">
+          <h1 class="h2">Profil de {{ user.firstName }} {{ user.lastName }} </h1>
+        </div>
+        <div class="col-2">
+          <p class="ml-auto">
+            <a class="btn btn-primary" href="{{ path('home') }}">
+              <i class="fas fa-arrow-circle-left"></i>
+            </a>
+            <a class="btn btn-warning" href="{{ path('profil_edit', {'id': user.id}) }}">
+              <i class="far fa-edit"></i>
+            </a>
+          </p>
+        </div>
       </div>
+
+      {# </div> #}
+
+      {# ---------------------  Récapitulatif des infos utilisateurs  ------------------------- #}
 
       <div class="my-4">
         <h2 class="h4 mb-4"><i class="far fa-address-card"></i> Mes informations</h2>
@@ -51,24 +54,81 @@
             <td>{{ user.email }}</td>
             </tr>
             <tr>
-            <th>Tel</th>
+            <th>Téléphone</th>
             <td>{{ user.phone }}</td>
             </tr>
             <tr>
-            <th>Licence</th>
+            <th>Numéro de licence</th>
             <td>{{ user.licenceNumber }}</td>
             </tr>
           </tbody>
         </table>
       </div>
 
+    {# -------------------------  Inscription en cours  -------------------------------- #}
+
       <div class="my-4">
-        <h2 class="h4 mb-4"><i class="far fa-calendar-alt"></i> Mes entraînements</h2>
-        <p class="text-black-50">Vous n'êtes actuellement inscrit à aucun entraînement.</p>
+        <h2 class="h4 mb-4"><i class="fas fa-flag-checkered"></i> Mes entrainements</h2>
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+					{% if isThereSubs is empty %}
+					<p class="text-black-50">Vous n'êtes actuellement inscrit.e à aucun entraînement.</p>
+					{% else %}
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Nom de l'événement</th>
+                <th>Type</th>
+                <th>Se désinscrire</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{ event.date ? event.date|date('d/m/Y') : '' }}</td>
+                <td>{{ event.name }}</td>
+                <td>{{ event.type ? 'Adulte' : 'Kids' }}</td>
+                <td><button class="btn btn-danger ml-4" data-toggle="modal" data-target="#unsubsModal"><i class="fas fa-user-times"></i></button></td>
+              </tr>
+            </tbody>
+          </table>
+					{% endif %}
+				{% endif %}
       </div>
 
     </div>
   </div>
 </div>
+
+
+
+{# -------------------------- Modal for unsubscription --------------------------------------- #}
+
+	<div class="modal fade" id="unsubsModal" tabindex="-1" role="dialog" aria-labelledby="Unsubscription modal" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				{% if is_granted('IS_AUTHENTICATED_REMEMBERED') and not isThereSubs is empty %}
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Désinscription</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="container text-center">
+							<p>Souhaitez-vous bien vous désinscrire de l'événement : "{{ event.name }}" ?
+							</p>
+						</div>
+					</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+					<form method="post" action="{{ path('unsubscriptionManager', {'id': isThereSubs.id}) }}">
+						<input type="hidden" name="_token" value="{{ csrf_token('unsubs' ~ isThereSubs.id) }}">
+						<button class="btn btn-danger text-light">Désinscription</button>
+					</form>
+				</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
 
 {% endblock %}
