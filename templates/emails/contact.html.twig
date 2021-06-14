@@ -6,23 +6,23 @@
     <title>Email de contact</title>
 </head>
 <body>
-    <table style="font-family: Verdana, sans-serif; color: #0c115e; width: 100%;">
+    <table style="font-family: Verdana, sans-serif; color: #00055d; background-color: #f9f9ff; width: 100%;">
         <tr>
             <th align='center' style="min-height: 90px;">
-                <a style="text-decoration: none !important; color: #0c115e;" href="www.auribail-mx-park.local/">
-                    <img style="display: block; padding-right: 10px;" src="{{ absolute_url(asset("/build/motocross-logo.png")) }}" alt=""> 
+                <a style="text-decoration: none !important; color: #00055d;" href="www.auribail-mx-park.local/">
+                    <img style="display: block; padding-bottom: 5px;" src="{{ email.image('@images/motocross-logo.png') }}" alt="Logo">
         	    	Auribail MX Park
                 </a>
             </th>
         </tr>
-        <tr style="width: 95%;">
-            <td style="background-color: #ecebe6; border-radius: 2%; min-height: 180px;">
+        <tr style="width: 75%;">
+            <td style="background-color: #00055d; border-radius: 2%; min-height: 180px;">
                 <table style="width: 100%;">
                     <tr align='center'>
-                        <td><h1 style="color: #0d126d;">{{ contact.firstName }} {{ contact.lastName }} a un message à vous faire passer !</h1></td>
+                        <td><h1 style="color: #f9f9ff;">{{ contact.firstName }} {{ contact.lastName }} a un message à vous faire passer !</h1></td>
                     </tr>
                     <tr align='center'>
-                        <td><p>{{ contact.message | nl2br }}</p></td>
+                        <td><p style="color: #f9f9ff;">{{ contact.message | nl2br }}</p></td>
                     </tr>
                 </table>
             </td>
