@@ -39,10 +39,10 @@ class UserType extends AbstractType
             ])
             
             ->add('phone', TextType::class, [
-                'label' => 'Tel',
+                'label' => 'Téléphone',
             ])
             ->add('licenceNumber', TextType::class, [
-                'label' => 'Licence',
+                'label' => 'Numéro de licence',
                 'required' => false,
             ]);
     }
