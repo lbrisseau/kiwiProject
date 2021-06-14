@@ -25,6 +25,8 @@
         </p>
       </div>
 
+      {# ---------------------  Récapitulatif des infos utilisateurs  ------------------------- #}
+
       <div class="my-4">
         <h2 class="h4 mb-4"><i class="far fa-address-card"></i> Mes informations</h2>
         <table class="table table-striped mb-5">
@@ -62,9 +64,33 @@
         </table>
       </div>
 
+    {# -------------------------  Inscription en cours  -------------------------------- #}
+
       <div class="my-4">
-        <h2 class="h4 mb-4"><i class="far fa-calendar-alt"></i> Mes entraînements</h2>
-        <p class="text-black-50">Vous n'êtes actuellement inscrit à aucun entraînement.</p>
+        <h2 class="h4 mb-4"><i class="far fa-calendar-alt"></i> Mes entrainements</h2>
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+					{% if isThereSubs is empty %}
+					<p class="text-black-50">Vous n'êtes actuellement inscrit.e à aucun entraînement.</p>
+					{% else %}
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Nom</th>
+                  <th>Type</th>
+                  {# <th>Actions</th> #}
+                </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                    {# <td>{{ event.date ? event.date|date('d/m/Y H:i:s') : '' }}</td>
+                    <td>{{ event.name }}</td>
+                    <td>{{ event.type ? 'Adulte' : 'Kids' }}</td> #}
+                    {# <td>button unsubs</td> #}
+                  </tr>
+            </table>
+					{% endif %}
+				{% endif %}
       </div>
 
     </div>

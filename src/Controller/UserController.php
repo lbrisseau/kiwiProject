@@ -119,10 +119,14 @@ class UserController extends AbstractController
     /**
      * @Route("/user/{id}", name="profil_show", methods={"GET"})
      */
-    public function showProfil(User $user): Response
+    public function showProfil(User $user, SubscriptionRepository $subsRepo, EventRepository $eventRepo): Response
     {
+        $currentEvent = $eventRepo->findNext()[0];
+        $isThereSubs = $subsRepo->findOne($user, $currentEvent);
         return $this->render('user/show.html.twig', [
             'user' => $user,
+            'event' => $eventRepo->findNext(),
+            'isThereSubs' => $isThereSubs,
         ]);
     }
 
