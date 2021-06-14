@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Form\ContactType;
 use App\Form\SubscriptionType;
 use App\Notification\ContactNotification;
+use App\Repository\AnimationRepository;
 use App\Repository\EventRepository;
 use App\Repository\SubscriptionRepository;
 use DateInterval;
@@ -27,7 +28,7 @@ class HomeController extends AbstractController
     /**
      * @Route("/", name="home", defaults={"_fragment"="accueil"}, requirements={"_fragment": "accueil|club|evenement|contact"})
      */
-    public function index(Request $request, ContactNotification $notification, SubscriptionRepository $subsRepo, EventRepository $eventRepo): Response
+    public function index(Request $request, ContactNotification $notification, SubscriptionRepository $subsRepo, EventRepository $eventRepo, AnimationRepository $animationRepo): Response
     {
         // Contact form management:
         $contact = new Contact();
@@ -80,7 +81,8 @@ class HomeController extends AbstractController
             'dateEvent' => $dateEvent,
             'dateStartMember' => $dateStartMember,
             'dateStartAll' => $dateStartAll,
-            'dateEnd' => $dateEnd
+            'dateEnd' => $dateEnd,
+            'animation' => $animationRepo->findFirst()
         ]);
     }
 

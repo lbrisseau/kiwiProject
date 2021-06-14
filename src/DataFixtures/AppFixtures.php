@@ -39,10 +39,10 @@ class AppFixtures extends Fixture
 
         // Initialisation Animation
         $animation = new Animation;
-        $animation->setCarouselMessage1('Ceci est un exemple de message 1');
-        $animation->setCarouselMessage2('Ceci est un exemple de message 2');
-        $animation->setCarouselMessage3('Ceci est un exemple de message 3');
-        $animation->setCarouselMessage4('Ceci est un exemple de message 4');
+        $animation->setCarouselMessage1("Clôture imminente des inscriptions pour la session Kids du 22/06 !");
+        $animation->setCarouselMessage2("Attention les sessions d'entrainement sont susceptibles d'être annulées en cas d'intempéries. Surveillez-bien vos mails !");
+        $animation->setCarouselMessage3("Envie de rejoindre la dream team des pilotes du MX Park ? Allez hop hop hop, on s'inscrit !");
+        $animation->setCarouselMessage4("Je ne sais plus quoi dire, alors je vais sourire :)");
         $manager->persist($animation);
         $manager->flush();
 
