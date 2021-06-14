@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Animation;
 use App\Entity\Event;
 use App\Entity\Settings;
 use App\Entity\Subscription;
@@ -34,6 +35,15 @@ class AppFixtures extends Fixture
         $settings->setDefaultStartMemberSubs('21');
         $settings->setDefaultEndSubs('2');
         $manager->persist($settings);
+        $manager->flush();
+
+        // Initialisation Animation
+        $animation = new Animation;
+        $animation->setCarouselMessage1('Ceci est un exemple de message 1');
+        $animation->setCarouselMessage2('Ceci est un exemple de message 2');
+        $animation->setCarouselMessage3('Ceci est un exemple de message 3');
+        $animation->setCarouselMessage4('Ceci est un exemple de message 4');
+        $manager->persist($animation);
         $manager->flush();
 
         // Creation d'un user Admin

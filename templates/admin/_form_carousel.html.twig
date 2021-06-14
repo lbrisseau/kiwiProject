@@ -1,23 +1,8 @@
 {{ form_start(form) }}
-
-{{ form_label(form.carouselMessages) }}
-{{ form_errors(form.carouselMessages) }}
-  {% for message in form.carouselMessages %}
-      <div class="mb-2">
-      {{ form_errors(message) }}
-      {{ form_widget(message) }}
-      </div>
-  {% endfor %}
-
-{{ form_widget(form.defaultStartMemberSubs, { 'attr': {'class': 'd-none'} }) }}
-{{ form_widget(form.defaultStartAllSubs, { 'attr': {'class': 'd-none'} }) }}
-{{ form_widget(form.defaultEndSubs, { 'attr': {'class': 'd-none'} }) }}
-
-<div class="row">
-  <div class="ml-auto">
-    <button class="btn btn-warning mb-2 mr-3">Sauvegarder
-      <i class="far fa-save"></i>
-    </button>
-  </div>
-</div>
-{{ form_end(form, {'render_rest': false}) }}
+    {{ form_widget(form) }}
+    <div class="row">
+    <div class="ml-auto">
+        <button class="btn btn-warning mb-2 mr-3">Sauvegarder <i class="far fa-save"></i></button>
+    </div>
+    </div>
+{{ form_end(form) }}
