@@ -32,12 +32,6 @@ class SettingsType extends AbstractType
                     'placeholder' => 'Nombre de jours entre entrainement et fermeture des inscriptions',
                 ],
             ])
-            ->add('defaultLicenceRegistration', HiddenType::class, [
-                'label' => 'Fermeture Licence : Nombre de jours entre entrainement et possibilité de renseigner la licence',
-                'attr' => [
-                    'placeholder' => 'Nombre de jours entre entrainement et possibilité de renseigner la licence',
-                ],
-            ])
         ;
     }
 

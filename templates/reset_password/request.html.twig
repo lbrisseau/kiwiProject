@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}MX Park | Demande d'un nouveau mot de passe{% endblock %}
+
+{% block body %}
+    {% for flashError in app.flashes('reset_password_error') %}
+        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+    {% endfor %}
+
+<div class="container mt-5">
+<div class="row">
+<div class="col-6 mx-auto">
+
+    <h1 class="h3 mb-5">Demande d'un nouveau mot de passe</h1>
+
+    {{ form_start(requestForm) }}
+        {{ form_row(requestForm.email) }}
+        <div>
+            <small>
+                Entrer votre adresse email et nous vous enverrons un lien
+                pour générer un nouveau mot de passe.
+            </small>
+        </div>
+
+        <button class="btn btn-primary mt-5">Envoyer</button>
+    {{ form_end(requestForm) }}
+
+</div>
+</div>
+</div>
+{% endblock %}

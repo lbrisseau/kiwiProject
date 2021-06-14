@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Animation;
 use App\Entity\Event;
 use App\Entity\Settings;
 use App\Entity\Subscription;
@@ -33,8 +34,16 @@ class AppFixtures extends Fixture
         $settings->setDefaultStartAllSubs('14');
         $settings->setDefaultStartMemberSubs('21');
         $settings->setDefaultEndSubs('2');
-        $settings->setDefaultLicenceRegistration('2');
         $manager->persist($settings);
+        $manager->flush();
+
+        // Initialisation Animation
+        $animation = new Animation;
+        $animation->setCarouselMessage1("Clôture imminente des inscriptions pour la session Kids du 22/06 !");
+        $animation->setCarouselMessage2("Attention les sessions d'entrainement sont susceptibles d'être annulées en cas d'intempéries. Surveillez-bien vos mails !");
+        $animation->setCarouselMessage3("Envie de rejoindre la dream team des pilotes du MX Park ? Allez hop hop hop, on s'inscrit !");
+        $animation->setCarouselMessage4("Je ne sais plus quoi dire, alors je vais sourire :)");
+        $manager->persist($animation);
         $manager->flush();
 
         // Creation d'un user Admin

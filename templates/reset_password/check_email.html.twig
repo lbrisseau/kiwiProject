@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}MX Park | Réinitialisation du mot de passe{% endblock %}
+
+{% block body %}
+
+<div class="container mt-5">
+
+    <p>
+        S'il existe un compte correspondant à votre email, un mail vous sera envoyé. Il contient un lien que vous pourrez utiliser pour réinitialiser votre mot de passe.
+        Ce lien expirera dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+    </p>
+    <p>Si vous ne recevez pas d'e-mail, veuillez vérifier votre dossier spam ou <a href="{{ path('app_forgot_password_request') }}">essayer encore</a>.</p>
+
+</div>
+{% endblock %}
