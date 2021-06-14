@@ -9,459 +9,498 @@
 {# TODO bonus background scroll bug #}
 {# TODO bonus taille de police titres responsive #}
 
-
 {% block stylesheets %}
-    
-    <!-- links calendar (beware, the order jquery - popper - bootstrap.js - bootstrap is important as well as their presence in the header -->
-    <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="css/calendar.css" type="text/css">
+
+  <!-- links calendar (beware, the order jquery - popper - bootstrap.js - bootstrap is important as well as their presence in the header -->
+  <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="css/calendar.css" type="text/css">
 {% endblock %}
 {% block javascripts %}
-    <!-- jquery -->
-	<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous">
-	</script>
-	<!-- Popper old version to make tooltips work with bootstrap -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-	<!-- bootstrap.js -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js" integrity="sha512-XKa9Hemdy1Ui3KSGgJdgMyYlUg1gM+QhL6cnlyTe2qzMCYm4nAZ1PsVerQzTTXzonUR+dmswHqgJPuwCq1MaAg==" crossorigin="anonymous"></script>
-    
+  <!-- jquery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+  <!-- Popper old version to make tooltips work with bootstrap -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+  <!-- bootstrap.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js" integrity="sha512-XKa9Hemdy1Ui3KSGgJdgMyYlUg1gM+QhL6cnlyTe2qzMCYm4nAZ1PsVerQzTTXzonUR+dmswHqgJPuwCq1MaAg==" crossorigin="anonymous"></script>
+
 {% endblock %}
 
 {% block navbarButtons %}
-<li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-	<a class="nav-link" href="#accueil" id="navaccueil">Accueil<span class="sr-only"></span></a>
-</li>
-<li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-	<a class="nav-link" href="#club" id="navclub">Le Club</a>
-</li>
-<li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-	<a class="nav-link" href="#evenement" id="navevenement">Événement</a>
-</li>
-<li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-	<a class="nav-link" href="#contact" id="navcontact">Contact</a>
-</li>
+  <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+    <a class="nav-link" href="#accueil" id="navaccueil">Accueil<span class="sr-only"></span></a>
+  </li>
+  <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+    <a class="nav-link" href="#club" id="navclub">Le Club</a>
+  </li>
+  <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+    <a class="nav-link" href="#evenement" id="navevenement">Événement</a>
+  </li>
+  <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+    <a class="nav-link" href="#contact" id="navcontact">Contact</a>
+  </li>
 {% endblock %}
 
 {% block body %}
-		<!-- <div class="alert alert-primary alert-dismissible fade show" role="alert">
-			<strong>Pas d'événement dimanche prochain !</strong> L'événement est reporté au dimanche ../.... à cause des intempéries prévues ce dimanche.
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			</button>
-		</div> -->
-		<!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
-		<!-- PAGE D'ACCUEIL -->
-		<section class="flex-section container page" id="accueil">
-		<!-- Le carousel de posters :) -->
-		<div class="flex-carousel">
-		<div class="carousel slide pt-2 mt-2 mb-0" id="my-carousel">
-			<ul class="carousel-indicators">
-				<li data-slide-to="0" data-target="#my-carousel" class="active">
-				</li>
-				<li data-slide-to="1" data-target="#my-carousel">
-				</li>
-				<li data-slide-to="2" data-target="#my-carousel">
-				</li>
-				<li data-slide-to="3" data-target="#my-carousel">
-				</li>
-			</ul>
-			<div class="carousel-inner"> 
-				<div class="carousel-item active">
-					<!-- Version moyens-grands écrans -->
-					<img class="img-fluid w-100 my-img" src="{{absolute_url(asset("/build/motocross-dimanche_960x200.jpg"))}}" alt="Moto Dimanche">
-					<div class="carousel-caption">
-						<h1>
-							{{ animation.carouselMessage1 }}
-						</h1>
-					</div>
-				</div>
-				<div class="carousel-item">
-					<img class="img-fluid w-100 my-img" src="{{absolute_url(asset("/build/terrain1_960x200.jpg"))}}" alt="Terrain 1">
-					<div class="carousel-caption">
-						<h1>
-							{{ animation.carouselMessage2 }}
-						</h1>
-					</div>
-				</div>
-				<div class="carousel-item">
-					<img class="img-fluid w-100 my-img" src="{{absolute_url(asset("/build/motocross-team_960x200.jpg"))}}" alt="Team">
-					<div class="carousel-caption">
-						<h1>
-							{{ animation.carouselMessage3 }}
-						</h1>
-					</div>
-				</div>
-				<div class="carousel-item">
-					<img class="img-fluid w-100 my-img" src="{{absolute_url(asset("/build/terrain2_960x200.jpg"))}}" alt="Terrain 2">
-					<div class="carousel-caption">
-						<h1>
-							{{ animation.carouselMessage4 }}
-						</h1>
-					</div>
-				</div>
-			</div> 
-			<a class="carousel-control-prev" href="#my-carousel" data-slide="prev">
-				<span class="carousel-control-prev-icon"></span>
-				<span class="sr-only">Previous</span>
-			</a>
-			<a class="carousel-control-next" href="#my-carousel" data-slide="next">
-				<span class="carousel-control-next-icon"></span>
-				<span class="sr-only">Next</span>
-			</a>
-		</div>
-		</div>
-		{# NOTA BENE on considère qu'il existe toujours de prochains événements #}
-		<div class="flex-container pageMobile">
-    		<div class="flex-card pageMobileCard">
-    		    <h1 class="flex-title">Événement</h1>
-    		    <!-- Intégration du calendrier (la date est en rouge et contient le lien vers l'événement sur google agenda) -->
-    		    <div class="flex-element">
-    		        <div class="icalendar" id='hereData' data-date1='{{ event.0.date|date("Y/m/d") }}' data-date2='{{ kids.0.date|date("Y/m/d") }}' data-link1='{{ event.0.googleCalendarUrl }}' data-link2='{{ kids.0.googleCalendarUrl }}'>
-    		            <div class="icalendar__month">
-    		                <div class="icalendar__prev" onclick="moveDate('prev')">
-    		                    <span>&#10094</span> <!-- petite flèche vers la gauche -->
-    		                </div>
-    		                <div class="icalendar__current-date">
-    		                    <h2 id="icalendarMonth"></h2>
-    		                </div>
-    		                <div class="icalendar__next" onclick="moveDate('next')">
-    		                    <span>&#10095</span> <!-- petite flèche vers la droite -->
-    		                </div>
-    		            </div>
-    		            <div class="icalendar__week-days">
-    		                <div>Lun</div>
-    		                <div>Mar</div>
-    		                <div>Mer</div>
-    		                <div>Jeu</div>
-    		                <div>Ven</div>
-    		                <div>Sam</div>
-    		                <div>Dim</div>
-    		            </div>
-    		            <div class="icalendar__days"></div>
-    		        </div>
-    		    </div>
-    		    <div class="flex-footer">
-					{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-						{% if isThereSubs is empty %}
-						<button class="btn btn-primary" data-toggle="modal" data-target="#subsModal">S'inscrire</button>
-						{% else %}
-						<button class="btn btn-danger" data-toggle="modal" data-target="#unsubsModal">Se désinscrire</button>
-						{% endif %}
-					{% else %}
-						<button class="btn btn-primary" data-toggle="modal" data-target="#authModal">S'inscrire</button>
-					{% endif %}
-				</div>
-    		</div>
-			<div class="flex-card pageMobileCard">
-  		    	<h1 class="flex-title">Les lieux</h1>
-  		    	<div class="flex-element">
-					<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2662.802138413488!2d-1.641914684472197!3d48.133338979223076!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDjCsDA4JzAwLjAiTiAxwrAzOCcyMy4wIlc!5e0!3m2!1sfr!2sfr!4v1622392853947!5m2!1sfr!2sfr" width="270" height="250" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-  		    	</div>
-  		    	<div class="flex-footer"><button class="btn btn-primary">Voir plus !</button></div>
-  			</div>
-  		</div>
-		<div class="row my-scroll-down-arrow">
-			<div class="col-12 d-flex flex-column align-text-right" >
-				<i class="fas fa-arrow-down p-1"></i>
-			</div>
-		</div>
-		</section>
-		<!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
-		<!-- PAGE CLUB -->
-		<section class="container-fluid page flex-section super-light-bg" id="club">
-			<div class="flex-container super-light-bg-inside">
-				<div class="pageMobile text-center flex-divider">
-					<h1>Auribail MX Park</h1>
-					<div class="flex-element">
-						<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2662.802138413488!2d-1.641914684472197!3d48.133338979223076!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDjCsDA4JzAwLjAiTiAxwrAzOCcyMy4wIlc!5e0!3m2!1sfr!2sfr!4v1622392853947!5m2!1sfr!2sfr" width="270" height="250" class="border border-dark" allowfullscreen="" loading="lazy"></iframe>
-  		    		</div>
-				</div>
-				<div class="ml-2 pl-2 pt-2 flex-divider">
-					<p class="pageMobile">Lorem ipsum dolor, sit amet consectetur adipisicing elit. <br>
-					Ea corporis, eos illum a quam eius iusto dolorem veritatis laborum impedit! <br>
-					Adipisci ducimus illum odio ratione perferendis animi ipsam fuga esse. <br><br>
-					Lorem, ipsum dolor sit amet consectetur adipisicing elit. <br>
-					Sit consequatur ratione molestias necessitatibus. <br>
-					Voluptatem maxime architecto iusto earum quibusdam non facere necessitatibus. <br>
-					Sint, natus? Accusantium est ipsam illum quaerat. Doloribus!
-					</p>
-					<ul class="pageMobile">
-						<li>Respecter les consignes de sécurité lors de l'utilisation du terrain</li>
-						<li>Mettre une tenue réglementaire, y compris un casque aux normes UE</li>
-						<li>Avoir une licence <strong>à jour</strong></li>
-						<li>Venir avec sa bonne humeur :)</li>
-					</ul>
-				</div>
-			</div>
-		</section>
-		<!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
-		<!-- PAGE EVENEMENT -->
-		<section class="container page flex-section" id="evenement">
-			<div class="flex-container">
-				<div class="row">
-					<div class="col col-lg-9 flex-divider">
-						<div class="pageMobile text-center">
-							<h1 class="mb-2">Entraînement de motocross</h1>
-							<h2 class="mb-3 h6">LE DERNIER DIMANCHE DU MOIS</h2>
-							{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-								{% if isThereSubs is empty %}
-								<button class="btn btn-primary" data-toggle="modal" data-target="#subsModal">S'inscrire</button>
-								{% else %}
-								<button class="btn btn-danger" data-toggle="modal" data-target="#unsubsModal">Se désinscrire</button>
-								{% endif %}
-							{% else %}
-								<button class="btn btn-primary" data-toggle="modal" data-target="#authModal">S'inscrire</button>
-							{% endif %}
-							<p class="mb-4 h5 pageMobile">Lorem ipsum dolor, sit amet consectetur adipisicing elit. <br> 
-							Ea corporis, eos illum a quam eius iusto dolorem veritatis laborum impedit! <br>
-							Adipisci ducimus illum odio ratione perferendis animi ipsam fuga esse.
-							</p>
-						</div>
-						<div class="pageMobileCard flex-card">
-							<div class="text-left mt-3 mr-3">
-								<ul>
-									<li>Les inscriptions se font dans la limite des places disponibles.</li>
-									<li>Seuls les membres de l'association pourront s'inscrire pendant les 
-									{% if not currentEvent is empty %}
-									{% set firstDays = currentEvent.startMemberSubs - currentEvent.startAllSubs %}
-									{{firstDays}}{% endif %} premiers jours, <br> 
-									puis les inscriptions seront ouvertes aux non-membres.</li>
-									<li>Un compte sur le site est nécessaire pour l'inscription à l'événement.</li>
-									<li>Lors de l'inscription, les mineur.es seront automatiquement dirigées vers l'entraînement Kid.</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-3 pageMobile flex-divider d-flex align-content-center">
-						<div class="flex-card flex-gauge">
-							{% set percent = min(event.nbusers,75)/75*100 %}
-							<div class="progress">
-								<div class="progress-bar bg-warning" role="progressbar" style="width: {{ percent }}%" aria-valuenow="{{ event.nbusers }}" aria-valuemin="0" aria-valuemax="75"></div>
-							</div>
-							{% set waiting = max(-1,event.nbusers - 75) %}
-							{% if (waiting >= 0) %}
-								<p>Entraînement complet, {{ waiting }} personne(s) sur liste d'attente.</p>
-							{% else %}
-								<p>{{ event.nbusers }} personne(s) inscrite(s) à l'entraînement Adulte.
-								</p>
-							{% endif %}
-						</div>
-						<div class="flex-card flex-gauge pb-3">
-							{% set percentKids = min(kids.nbusers,15)/15*100 %}
-							<div class="progress">
-								<div class="progress-bar bg-warning" role="progressbar" style="width: {{ percentKids }}%" aria-valuenow="{{ kids.nbusers }}" aria-valuemin="0" aria-valuemax="15"></div>
-							</div>
-							{% set waitingKids = max(-1,kids.nbusers - 15) %}
-							{% if (waitingKids >= 0) %}
-								<p>Entraînement Kids complet, {{ waitingKids }} personne(s) sur liste d'attente.</p>
-							{% else %}
-								<p>{{ kids.nbusers }} personne(s) inscrite(s) à l'entraînement Kids.
-								</p>
-							{% endif %}
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
-		<!-- PAGE CONTACT -->
-		<section class="container-fluid page flex-section genius-light-bg pt-5" id="contact">
-			<div class="container genius-light-bg-inside">
-    			<h1 class="text-center my-3">Contactez-nous</h1>
-    			<div class="row">
-    			    <div class="col-md-9 mb-md-0 mb-5" id="contactForm">
-						{{ form_start(formContact) }}
-    			        <div class="row pageMobile">
-    			            <div class="col-md-6 mb-2">
-								{{ form_label(formContact.firstName) }}
-								{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-							    	{{ form_widget(formContact.firstName, {'value' : app.user.firstName}) }}
-								{% else %}
-									{{ form_widget(formContact.firstName) }}
-								{% endif %}
-    			            </div>
-							<div class="col-md-6 mb-2">
-								{{ form_label(formContact.lastName) }}
-								{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-							    	{{ form_widget(formContact.lastName, {'value' : app.user.lastName}) }}
-								{% else %}
-									{{ form_widget(formContact.lastName) }}
-								{% endif %}
-    			            </div>
-    			        </div>
-						<div class="row pageMobile"> 
-							<div class="col-md-12 mb-2">
-								{{ form_label(formContact.email) }}
-								{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-							    	{{ form_widget(formContact.email, {'value' : app.user.email}) }}
-								{% else %}
-									{{ form_widget(formContact.email) }}
-								{% endif %}
-							</div>
-						</div>
-    			        <div class="row">
-    			            <div class="col-md-12 mb-2">
-								{{ form_label(formContact.subject) }}
-								{{ form_widget(formContact.subject) }}
-    			            </div>
-    			        </div>
-    			        <div class="row pageMobile">
-    			            <div class="col-md-12 mb-2">
-								{{ form_label(formContact.message) }}
-								{{ form_widget(formContact.message) }}
-    			            </div>
-    			        </div>
-						{{ form_rest(formContact) }}
-    			        <div class="text-center text-md-left form-group">
-    			            <button class="btn btn-primary">Envoyer</button>
-    			        </div>
-    			        <div class="status"></div>
-						{{ form_end(formContact) }}
-    			    </div>
-    			    <div class="col-md-3 text-center pageMobile">
-    			        <ul class="list-unstyled mb-0">
-    			            <li><i class="fas fa-map-marker-alt fa-2x"></i>
-    			                <p>Ceci est notre adresse postale</p>
-    			            </li>
-    			            <li><i class="fas fa-phone mt-4 fa-2x"></i>
-    			                <p>numéro tel</p>
-    			            </li>
-    			            <li><i class="fas fa-envelope mt-4 fa-2x"></i>
-    			                <p>contact@mxpark.com</p>
-    			            </li>
-    			        </ul>
-    			    </div>
-    			</div>
-			</div>
-		</section>
-		<!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
-		<!-- Eeeet le footer ! -->
-		<footer class="page-footer my-footer my-nav-color text-dark py-5 w-100" id="myFooter">
-			<div class="container text-center">
-				<div class="footer-copyright"> Copyright © Motocross Auribail 2021</div>
-			</div>		
-		</footer>
+  <!-- <div class="alert alert-primary alert-dismissible fade show" role="alert"> <strong>Pas d'événement dimanche prochain !</strong> L'événement est reporté au dimanche ../.... à cause des intempéries prévues ce dimanche. <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> </div> -->
+  <!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+  <!-- PAGE D'ACCUEIL -->
+  <section class="flex-section container page" id="accueil">
+    <!-- Le carousel de posters :) -->
+    <div class="flex-carousel">
+      <div class="carousel slide pt-2 mt-2 mb-0" id="my-carousel">
+        <ul class="carousel-indicators">
+          <li data-slide-to="0" data-target="#my-carousel" class="active"></li>
+          <li data-slide-to="1" data-target="#my-carousel"></li>
+          <li data-slide-to="2" data-target="#my-carousel"></li>
+          <li data-slide-to="3" data-target="#my-carousel"></li>
+        </ul>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <!-- Version moyens-grands écrans -->
+            <img class="img-fluid w-100 my-img" src="{{absolute_url(asset("/build/motocross-dimanche_960x200.jpg"))}}" alt="Moto Dimanche">
+            <div class="carousel-caption">
+              <h1>
+                {% if animation.carouselMessage1 is defined %}
+                  {{ animation.carouselMessage1 }}
+                {% else %}
+                  Entrainement tous les derniers dimanche du mois !
+                {% endif %}
+              </h1>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img class="img-fluid w-100 my-img" src="{{absolute_url(asset("/build/terrain1_960x200.jpg"))}}" alt="Terrain 1">
+            <div class="carousel-caption">
+              <h1>
+                {% if animation.carouselMessage2 is defined %}
+                  {{ animation.carouselMessage2 }}
+                {% else %}
+                  Entrainement tous les derniers dimanche du mois !
+                {% endif %}
+              </h1>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img class="img-fluid w-100 my-img" src="{{absolute_url(asset("/build/motocross-team_960x200.jpg"))}}" alt="Team">
+            <div class="carousel-caption">
+              <h1>
+                {% if animation.carouselMessage3 is defined %}
+                  {{ animation.carouselMessage3 }}
+                {% else %}
+                  Entrainement tous les derniers dimanche du mois !
+                {% endif %}
+              </h1>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img class="img-fluid w-100 my-img" src="{{absolute_url(asset("/build/terrain2_960x200.jpg"))}}" alt="Terrain 2">
+            <div class="carousel-caption">
+              <h1>
+                {% if animation.carouselMessage4 is defined %}
+                  {{ animation.carouselMessage4 }}
+                {% else %}
+                  Entrainement tous les derniers dimanche du mois !
+                {% endif %}
+              </h1>
+            </div>
+          </div>
+        </div>
+        <a class="carousel-control-prev" href="#my-carousel" data-slide="prev">
+          <span class="carousel-control-prev-icon"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#my-carousel" data-slide="next">
+          <span class="carousel-control-next-icon"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+    </div>
+    {# NOTA BENE on considère qu'il existe toujours de prochains événements #}
+    <div class="flex-container pageMobile">
+      <div class="flex-card pageMobileCard">
+        <h1 class="flex-title">Événement</h1>
+        <!-- Intégration du calendrier (la date est en rouge et contient le lien vers l'événement sur google agenda) -->
+        <div class="flex-element">
+          <div class="icalendar" id='hereData' data-date1='{{ event.0.date|date("Y/m/d") }}' data-date2='{{ kids.0.date|date("Y/m/d") }}' data-link1='{{ event.0.googleCalendarUrl }}' data-link2='{{ kids.0.googleCalendarUrl }}'>
+            <div class="icalendar__month">
+              <div class="icalendar__prev" onclick="moveDate('prev')">
+                <span>&#10094</span>
+                <!-- petite flèche vers la gauche -->
+              </div>
+              <div class="icalendar__current-date">
+                <h2 id="icalendarMonth"></h2>
+              </div>
+              <div class="icalendar__next" onclick="moveDate('next')">
+                <span>&#10095</span>
+                <!-- petite flèche vers la droite -->
+              </div>
+            </div>
+            <div class="icalendar__week-days">
+              <div>Lun</div>
+              <div>Mar</div>
+              <div>Mer</div>
+              <div>Jeu</div>
+              <div>Ven</div>
+              <div>Sam</div>
+              <div>Dim</div>
+            </div>
+            <div class="icalendar__days"></div>
+          </div>
+        </div>
+        <div class="flex-footer">
+          {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+            {% if isThereSubs is empty %}
+              <button class="btn btn-primary" data-toggle="modal" data-target="#subsModal">S'inscrire</button>
+            {% else %}
+              <button class="btn btn-danger" data-toggle="modal" data-target="#unsubsModal">Se désinscrire</button>
+            {% endif %}
+          {% else %}
+            <button class="btn btn-primary" data-toggle="modal" data-target="#authModal">S'inscrire</button>
+          {% endif %}
+        </div>
+      </div>
+      <div class="flex-card pageMobileCard">
+        <h1 class="flex-title">Les lieux</h1>
+        <div class="flex-element">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2662.802138413488!2d-1.641914684472197!3d48.133338979223076!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDjCsDA4JzAwLjAiTiAxwrAzOCcyMy4wIlc!5e0!3m2!1sfr!2sfr!4v1622392853947!5m2!1sfr!2sfr" width="270" height="250" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+        <div class="flex-footer">
+          <button class="btn btn-primary">Voir plus !</button>
+        </div>
+      </div>
+    </div>
+    <div class="row my-scroll-down-arrow">
+      <div class="col-12 d-flex flex-column align-text-right">
+        <i class="fas fa-arrow-down p-1"></i>
+      </div>
+    </div>
+  </section>
+  <!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+  <!-- PAGE CLUB -->
+  <section class="container-fluid page flex-section super-light-bg" id="club">
+    <div class="flex-container super-light-bg-inside">
+      <div class="pageMobile text-center flex-divider">
+        <h1>Auribail MX Park</h1>
+        <div class="flex-element">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2662.802138413488!2d-1.641914684472197!3d48.133338979223076!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDjCsDA4JzAwLjAiTiAxwrAzOCcyMy4wIlc!5e0!3m2!1sfr!2sfr!4v1622392853947!5m2!1sfr!2sfr" width="270" height="250" class="border border-dark" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+      </div>
+      <div class="ml-2 pl-2 pt-2 flex-divider">
+        <p class="pageMobile">Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+          <br>
+          Ea corporis, eos illum a quam eius iusto dolorem veritatis laborum impedit!
+          <br>
+          Adipisci ducimus illum odio ratione perferendis animi ipsam fuga esse.
+          <br><br>
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+          <br>
+          Sit consequatur ratione molestias necessitatibus.
+          <br>
+          Voluptatem maxime architecto iusto earum quibusdam non facere necessitatibus.
+          <br>
+          Sint, natus? Accusantium est ipsam illum quaerat. Doloribus!
+        </p>
+        <ul class="pageMobile">
+          <li>Respecter les consignes de sécurité lors de l'utilisation du terrain</li>
+          <li>Mettre une tenue réglementaire, y compris un casque aux normes UE</li>
+          <li>Avoir une licence
+            <strong>à jour</strong>
+          </li>
+          <li>Venir avec sa bonne humeur :)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+  <!-- PAGE EVENEMENT -->
+  <section class="container page flex-section" id="evenement">
+    <div class="flex-container">
+      <div class="row">
+        <div class="col col-lg-9 flex-divider">
+          <div class="pageMobile text-center">
+            <h1 class="mb-2">Entraînement de motocross</h1>
+            <h2 class="mb-3 h6">LE DERNIER DIMANCHE DU MOIS</h2>
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+              {% if isThereSubs is empty %}
+                <button class="btn btn-primary" data-toggle="modal" data-target="#subsModal">S'inscrire</button>
+              {% else %}
+                <button class="btn btn-danger" data-toggle="modal" data-target="#unsubsModal">Se désinscrire</button>
+              {% endif %}
+            {% else %}
+              <button class="btn btn-primary" data-toggle="modal" data-target="#authModal">S'inscrire</button>
+            {% endif %}
+            <p class="mb-4 h5 pageMobile">Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+              <br>
+              Ea corporis, eos illum a quam eius iusto dolorem veritatis laborum impedit!
+              <br>
+              Adipisci ducimus illum odio ratione perferendis animi ipsam fuga esse.
+            </p>
+          </div>
+          <div class="pageMobileCard flex-card">
+            <div class="text-left mt-3 mr-3">
+              <ul>
+                <li>Les inscriptions se font dans la limite des places disponibles.</li>
+                <li>Seuls les membres de l'association pourront s'inscrire pendant les
+                  {% if not currentEvent is empty %}
+                    {% set firstDays = currentEvent.startMemberSubs - currentEvent.startAllSubs %}
+                    {{firstDays}}
+                  {% endif %}
+                  premiers jours,
+                  <br>
+                  puis les inscriptions seront ouvertes aux non-membres.</li>
+                <li>Un compte sur le site est nécessaire pour l'inscription à l'événement.</li>
+                <li>Lors de l'inscription, les mineur.es seront automatiquement dirigées vers l'entraînement Kid.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 pageMobile flex-divider d-flex align-content-center">
+          <div class="flex-card flex-gauge">
+            {% set percent = min(event.nbusers, 75) / 75 * 100 %}
+            <div class="progress">
+              <div class="progress-bar bg-warning" role="progressbar" style="width: {{ percent }}%" aria-valuenow="{{ event.nbusers }}" aria-valuemin="0" aria-valuemax="75"></div>
+            </div>
+            {% set waiting = max(-1,event.nbusers - 75) %}
+            {% if (waiting >= 0) %}
+              <p>Entraînement complet,
+                {{ waiting }}
+                personne(s) sur liste d'attente.</p>
+            {% else %}
+              <p>{{ event.nbusers }}
+                personne(s) inscrite(s) à l'entraînement Adulte.
+              </p>
+            {% endif %}
+          </div>
+          <div class="flex-card flex-gauge pb-3">
+            {% set percentKids = min(kids.nbusers, 15) / 15 * 100 %}
+            <div class="progress">
+              <div class="progress-bar bg-warning" role="progressbar" style="width: {{ percentKids }}%" aria-valuenow="{{ kids.nbusers }}" aria-valuemin="0" aria-valuemax="15"></div>
+            </div>
+            {% set waitingKids = max(-1,kids.nbusers - 15) %}
+            {% if (waitingKids >= 0) %}
+              <p>Entraînement Kids complet,
+                {{ waitingKids }}
+                personne(s) sur liste d'attente.</p>
+            {% else %}
+              <p>{{ kids.nbusers }}
+                personne(s) inscrite(s) à l'entraînement Kids.
+              </p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+  <!-- PAGE CONTACT -->
+  <section class="container-fluid page flex-section genius-light-bg pt-5" id="contact">
+    <div class="container genius-light-bg-inside">
+      <h1 class="text-center my-3">Contactez-nous</h1>
+      <div class="row">
+        <div class="col-md-9 mb-md-0 mb-5" id="contactForm">
+          {{ form_start(formContact) }}
+          <div class="row pageMobile">
+            <div class="col-md-6 mb-2">
+              {{ form_label(formContact.firstName) }}
+              {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                {{ form_widget(formContact.firstName, {'value' : app.user.firstName}) }}
+              {% else %}
+                {{ form_widget(formContact.firstName) }}
+              {% endif %}
+            </div>
+            <div class="col-md-6 mb-2">
+              {{ form_label(formContact.lastName) }}
+              {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                {{ form_widget(formContact.lastName, {'value' : app.user.lastName}) }}
+              {% else %}
+                {{ form_widget(formContact.lastName) }}
+              {% endif %}
+            </div>
+          </div>
+          <div class="row pageMobile">
+            <div class="col-md-12 mb-2">
+              {{ form_label(formContact.email) }}
+              {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                {{ form_widget(formContact.email, {'value' : app.user.email}) }}
+              {% else %}
+                {{ form_widget(formContact.email) }}
+              {% endif %}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 mb-2">
+              {{ form_label(formContact.subject) }}
+              {{ form_widget(formContact.subject) }}
+            </div>
+          </div>
+          <div class="row pageMobile">
+            <div class="col-md-12 mb-2">
+              {{ form_label(formContact.message) }}
+              {{ form_widget(formContact.message) }}
+            </div>
+          </div>
+          {{ form_rest(formContact) }}
+          <div class="text-center text-md-left form-group">
+            <button class="btn btn-primary">Envoyer</button>
+          </div>
+          <div class="status"></div>
+          {{ form_end(formContact) }}
+        </div>
+        <div class="col-md-3 text-center pageMobile">
+          <ul class="list-unstyled mb-0">
+            <li>
+              <i class="fas fa-map-marker-alt fa-2x"></i>
+              <p>Ceci est notre adresse postale</p>
+            </li>
+            <li>
+              <i class="fas fa-phone mt-4 fa-2x"></i>
+              <p>numéro tel</p>
+            </li>
+            <li>
+              <i class="fas fa-envelope mt-4 fa-2x"></i>
+              <p>contact@mxpark.com</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+  <!-- Eeeet le footer ! -->
+  <footer class="page-footer my-footer my-nav-color text-dark py-5 w-100" id="myFooter">
+    <div class="container text-center">
+      <div class="footer-copyright">
+        Copyright © Motocross Auribail 2021</div>
+    </div>
+  </footer>
 {% endblock %}
 
 {% block modals %}
-	<!-- Modal for authentication -->
-	
-	<div class="modal fade" id="authModal" tabindex="-1" role="dialog" aria-labelledby="Authentication modal" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
+  <!-- Modal for authentication -->
 
-				<div class="modal-header">
-					<h3 class="modal-title" id="exampleModalLabel">Connexion</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
+  <div class="modal fade" id="authModal" tabindex="-1" role="dialog" aria-labelledby="Authentication modal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
 
-				<div class="modal-body">
-					{{ include('security/login-modal.html.twig') }}
-				</div>
+        <div class="modal-header">
+          <h3 class="modal-title" id="exampleModalLabel">Connexion</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
 
-				<div class="modal-footer">
-				   	<div class="my-2 text-right">
-          				<button type="button" class="btn btn-secondary" data-dismiss="modal">Annulation</button>
-          				<button class="btn btn-primary " type="submit">Connexion</button>
-          			</div>
-				</div>
+        <div class="modal-body">
+          {{ include('security/login-modal.html.twig') }}
+        </div>
 
-					</form> 
+        <div class="modal-footer">
+          <div class="my-2 text-right">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulation</button>
+            <button class="btn btn-primary " type="submit">Connexion</button>
+          </div>
+        </div>
 
-				</div>
-			</div>
-		</div>
-	</div>
-	
+      </form>
 
-	<!-- Modal for subscription -->
-	<div class="modal fade" id="subsModal" tabindex="-1" role="dialog" aria-labelledby="Subscription modal" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Inscription</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<div class="container text-center">
-							{% if 'ROLE_MEMBER' in app.user.roles %}
-								{% set startDate = dateStartMember %}
-							{% else %}
-								{% set startDate = dateStartAll %}
-							{% endif %}
-							{% if (startDate|date('Y-m-d') <= "now"|date('Y-m-d')) %}
-								{% if (app.user.licenceNumber is empty) %}
-									<p class="my-2 bg-warning text-justify"><i class="fas fa-exclamation-triangle"></i> <strong> Attention, vous n'avez pas renseigné votre numéro de licence. </strong>
-									Votre inscription sera annulée si vous ne complétez pas votre compte avant le {{ dateEnd | date("d/m/Y") }}.
-									</p>
-									<br>
-								{% endif %}
-								<p>Souhaitez-vous bien vous inscrire à l'événement : "{{ currentEvent.name }}" ?
-								</p>
-						</div>
-					</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-					<form method="post" action="{{ path('subscriptionManager', {'event': currentEvent.id, 'user': app.user.id}) }}">
-						<input type="hidden" name="_token" value="{{ csrf_token('subs' ~ currentEvent.id ~ app.user.id) }}">
-						<button class="btn btn-primary text-light">Inscription</button>
-					</form>
-				</div>
-							{% else %}
-								<p>Vous ne pouvez pas encore vous inscrire à l'événement : "{{ currentEvent.name }}". <br>
-								Les inscriptions démarrent le {{ startDate|date('d/m/Y') }} et se terminent le {{ dateEnd | date("d/m/Y") }}.
-								</p>
-						</div>
-					</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
-				</div>
-							{% endif %}
-				{% endif %}
-			</div>
-		</div>
-	</div>
+    </div>
+  </div>
+</div>
+</div>
 
+<!-- Modal for subscription -->
+<div class="modal fade" id="subsModal" tabindex="-1" role="dialog" aria-labelledby="Subscription modal" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Inscription</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container text-center">
+          {% if 'ROLE_MEMBER' in app.user.roles %}
+            {% set startDate = dateStartMember %}
+          {% else %}
+            {% set startDate = dateStartAll %}
+          {% endif %}
+          {% if (startDate|date('Y-m-d') <= "now"|date('Y-m-d')) %}
+            {% if (app.user.licenceNumber is empty) %}
+              <p class="my-2 bg-warning text-justify">
+                <i class="fas fa-exclamation-triangle"></i>
+                <strong>
+                  Attention, vous n'avez pas renseigné votre numéro de licence.
+                </strong>
+                Votre inscription sera annulée si vous ne complétez pas votre compte avant le
+                {{ dateEnd | date("d/m/Y") }}.
+              </p>
+              <br>
+            {% endif %}
+            <p>Souhaitez-vous bien vous inscrire à l'événement : "{{ currentEvent.name }}" ?
+            </p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+          <form method="post" action="{{ path('subscriptionManager', {'event': currentEvent.id, 'user': app.user.id}) }}">
+            <input type="hidden" name="_token" value="{{ csrf_token('subs' ~ currentEvent.id ~ app.user.id) }}">
+            <button class="btn btn-primary text-light">Inscription</button>
+          </form>
+        </div>
+      {% else %}
+        <p>Vous ne pouvez pas encore vous inscrire à l'événement : "{{ currentEvent.name }}".
+          <br>
+          Les inscriptions démarrent le
+          {{ startDate|date('d/m/Y') }}
+          et se terminent le
+          {{ dateEnd | date("d/m/Y") }}.
+        </p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+    </div>
+  {% endif %}
+{% endif %}
+</div>
+</div>
+</div>
 
-	<!-- Modal for unsubscription -->
-	<div class="modal fade" id="unsubsModal" tabindex="-1" role="dialog" aria-labelledby="Unsubscription modal" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				{% if is_granted('IS_AUTHENTICATED_REMEMBERED') and not isThereSubs is empty %}
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Désinscription</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<div class="container text-center">
-							<p>Souhaitez-vous bien vous désinscrire de l'événement : "{{ currentEvent.name }}" ?
-							</p>
-						</div>
-					</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-					<form method="post" action="{{ path('unsubscriptionManager', {'id': isThereSubs.id}) }}">
-						<input type="hidden" name="_token" value="{{ csrf_token('unsubs' ~ isThereSubs.id) }}">
-						<button class="btn btn-danger text-light">Désinscription</button>
-					</form>
-				</div>
-				{% endif %}
-			</div>
-		</div>
-	</div>
+<!-- Modal for unsubscription -->
+<div class="modal fade" id="unsubsModal" tabindex="-1" role="dialog" aria-labelledby="Unsubscription modal" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+{% if is_granted('IS_AUTHENTICATED_REMEMBERED')and not isThereSubs is empty %}
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Désinscription</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container text-center">
+      <p>Souhaitez-vous bien vous désinscrire de l'événement : "{{ currentEvent.name }}" ?
+      </p>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+    <form method="post" action="{{ path('unsubscriptionManager', {'id': isThereSubs.id}) }}">
+      <input type="hidden" name="_token" value="{{ csrf_token('unsubs' ~ isThereSubs.id) }}">
+      <button class="btn btn-danger text-light">Désinscription</button>
+    </form>
+  </div>
+{% endif %}
+</div>
+</div>
+</div>
 {% endblock %}
 
 {% block bottomScript %}
-    <!-- This was at the bottom of the body so if calendar doesn't work, move it -->
-	<!-- Essential or the calendar disappear -->
-	<script src="js/calendar.js" type="text/javascript"></script>
-	{# Trying to get the scroll icon function to work made me move this link here: #}
-	<script src="js/home.js" type="text/javascript"></script>
+<!-- This was at the bottom of the body so if calendar doesn't work, move it -->
+<!-- Essential or the calendar disappear -->
+<script src="js/calendar.js" type="text/javascript"></script>
+{# Trying to get the scroll icon function to work made me move this link here: #}
+<script src="js/home.js" type="text/javascript"></script>
 {% endblock %}
