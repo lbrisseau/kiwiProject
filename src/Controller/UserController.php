@@ -164,9 +164,7 @@ class UserController extends AbstractController
             // account edit confirmation message
             $this->addFlash('success', 'Vos modifications ont été enregistrées avec succès.');
 
-            return $this->render('user/show.html.twig', [
-                'user' => $user
-            ]);
+            return $this->redirectToRoute('profil_show', ['id' => $user->getId()]);
         }
 
         return $this->render('user/edit.html.twig', [
