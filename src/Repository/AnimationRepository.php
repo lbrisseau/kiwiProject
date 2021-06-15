@@ -23,7 +23,7 @@ class AnimationRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('s')
             ->getQuery()
-            ->getSingleResult()
+            ->getOneOrNullResult()
         ;
     }
     // /**

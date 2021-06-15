@@ -8,16 +8,19 @@
 <body>
     <table style="font-family: Verdana, sans-serif; color: #00055d; background-color: #f9f9ff; width: 100%;">
         <tr>
+            <th></th>
             <th align='center' style="min-height: 90px;">
                 <a style="text-decoration: none !important; color: #00055d;" href="www.auribail-mx-park.local/">
                     <img style="display: block; padding-bottom: 5px;" src="{{ email.image('@images/motocross-logo.png') }}" alt="Logo">
         	    	Auribail MX Park
                 </a>
             </th>
+            <th></th>
         </tr>
-        <tr style="width: 75%;">
-            <td style="background-color: #00055d; border-radius: 2%; min-height: 180px;">
-                <table style="width: 100%;">
+        <tr>
+            <td></td>
+            <td align='center' style="background-color: #00055d; border-radius: 2%; min-height: 180px; width: 80%;">
+                <table style="width: 100%">
                     <tr align='center'>
                         <td><h1 style="color: #f9f9ff;">{{ contact.firstName }} {{ contact.lastName }} a un message à vous faire passer !</h1></td>
                     </tr>
@@ -26,9 +29,12 @@
                     </tr>
                 </table>
             </td>
+            <td></td>
         </tr>
         <tr>
+            <td></td>
             <td align='center' style="min-height: 80px;">Répondez à {{ contact.firstName }} à l'adresse {{ contact.email }}</div>	
+            <td></td>
         </tr>
     </table>
 </body>
