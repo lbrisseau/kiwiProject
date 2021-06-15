@@ -73,10 +73,7 @@ body {
   filter: brightness(50%);
 }
 .super-light-bg {
-  width: 100vw;
   background-image: url('/build/wallpaper-motocross.png');
-  /* Full height */
-  height: 100%;
   /* Create the parallax scrolling effect */
   background-attachment: fixed;
   background-position: top;
@@ -84,16 +81,12 @@ body {
   background-size: cover;
 }
 .genius-light-bg {
-  width: 100vw;
   background-image: url('/build/motocross-sky.png');
-  /* Full height */
-  height: 100%;
   /* Create the parallax scrolling effect */
   background-attachment: fixed;
   background-position: top;
   background-repeat: no-repeat;
   background-size: cover;
-  z-index: 0;
 }
 /* Borders for the divider */
 .line-left {
@@ -211,10 +204,10 @@ body {
     padding-top: 2vh;
   }
   /* Turn off parallax scrolling for all tablets and phones. Increase/decrease the pixels if needed */
-  .super-light-bg::before {
+  .super-light-bg {
     background-attachment: scroll;
   }
-  .genius-light-bg::before {
+  .genius-light-bg {
     background-attachment: scroll;
   }
 }

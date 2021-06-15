@@ -60,13 +60,13 @@ class ContactNotification {
         {
             $contact->setSubject("En file d'attente pour l'entraînement prochain de motocross");
             $contact->setMessage("Bonjour ".$user->getFirstName()."\n\nL'événement auquel vous avez essayé de vous inscrire (".
-            $nameEvent.") est complet.\nVous êtes inscrit.e en numéro ".($waitingList + 1)." en liste d'attente.\nVous serez notifié.e 
+            $nameEvent.") est complet.\nVous êtes inscrit·e en numéro ".($waitingList + 1)." en liste d'attente.\nVous serez notifié·e 
             par email dans le cas où une place se libérerait pour vous.\n\nMerci de votre fidélité,\n\nL'équipe de Auribail MX Park");
         }
         else
         {
             $contact->setSubject("Inscription à l'entraînement prochain de motocross");
-            $contact->setMessage("Bonjour ".$user->getFirstName().",\n\nVous êtes bien inscrit.e à l'événement prochain : ".
+            $contact->setMessage("Bonjour ".$user->getFirstName().",\n\nVous êtes bien inscrit·e à l'événement prochain : ".
             $nameEvent.".\nNous vous attendons le ".$dateEvent->format('d/m')." au terrain de motocross d'Auribail.
             \n\nMerci de votre fidélité,\n\nL'équipe de Auribail MX Park");
         }
@@ -97,7 +97,7 @@ class ContactNotification {
         $contact->setFirstName($user->getFirstName());
         $contact->setLastName($user->getLastName());
         $contact->setSubject("Désinscription de l'entraînement prochain de motocross");
-        $contact->setMessage("Bonjour ".$user->getFirstName().",\n\nVous vous êtes désinscrit.e de l'événement : ".
+        $contact->setMessage("Bonjour ".$user->getFirstName().",\n\nVous vous êtes désinscrit·e de l'événement : ".
         $nameEvent.".\n\nNous espérons vous revoir très vite,\n\nL'équipe de Auribail MX Park");
         $email = (new TemplatedEmail())
             ->from('contact.auribail@gmail.com')
@@ -142,7 +142,7 @@ class ContactNotification {
                 if ($waitingList == 0)
                 {
                     $subject = "Vous n'êtes plus sur liste d'attente pour l'événement prochain de motocross !";
-                    $message = "Bonjour ".$user->getFirstName().",\n\nVous êtes inscrit.e pour de bon à l'événement : ".
+                    $message = "Bonjour ".$user->getFirstName().",\n\nVous êtes inscrit·e pour de bon à l'événement : ".
                     $nameEvent.".\nSi vous ne pouvez plus venir, n'oubliez-pas de vous désinscrire au plus vite sur notre site.
                     \n\nMerci de votre fidélité,\n\nL'équipe de Auribail MX Park";
                 }
@@ -200,8 +200,8 @@ class ContactNotification {
             // case 1: licence OK and position in the list OK
             if ($count < $limit && $thisSub->getValidationState() == true)
             {
-                $subject = "Vous êtes définitivement inscrit.e à l'événement prochain de motocross !";
-                $message = "Bonjour ".$user->getFirstName().",\n\nVous êtes définitivement inscrit.e à l'événement : ".
+                $subject = "Vous êtes définitivement inscrit·e à l'événement prochain de motocross !";
+                $message = "Bonjour ".$user->getFirstName().",\n\nVous êtes définitivement inscrit·e à l'événement : ".
                 $nameEvent.".\nLes inscriptions et désinscriptions sont closes. Si vous avez un empêchement, merci d'appeler le club.
                 \n\nÀ très vite,\n\nL'équipe de Auribail MX Park";
                 $count += 1;
@@ -209,17 +209,17 @@ class ContactNotification {
             // case 2: licence not OK
             else if ($thisSub->getValidationState() == false)
             {
-                $subject = "Vous n'êtes plus inscrit.e à l'événement prochain de motocross";
+                $subject = "Vous n'êtes plus inscrit·e à l'événement prochain de motocross";
                 $message = "Bonjour ".$user->getFirstName().",\n\nVous n'avez pas renseigné votre numéro de licence à temps.\n
-                Les inscriptions sont closes, vous êtes donc désinscrit.e de l'événement : ".
+                Les inscriptions sont closes, vous êtes donc désinscrit·e de l'événement : ".
                 $nameEvent.".\n\nEn espérant vous revoir très vite,\n\nL'équipe de Auribail MX Park";
             }
             // case 3: all that is left: licence OK but not position in the list
             else
             {
-                $subject = "Vous n'êtes plus inscrit.e à l'événement prochain de motocross";
+                $subject = "Vous n'êtes plus inscrit·e à l'événement prochain de motocross";
                 $message = "Bonjour ".$user->getFirstName().",\n\nLes inscriptions et désinscriptions sont closes pour l'événement : ".
-                $nameEvent."\nVous étiez toujours sur liste d'attente, vous n'êtes donc plus inscrit.e à l'événement.
+                $nameEvent."\nVous étiez toujours sur liste d'attente, vous n'êtes donc plus inscrit·e à l'événement.
                 \n\nEn espérant vous revoir très vite,\n\nL'équipe de Auribail MX Park";
             }
             $contact = new Contact();
@@ -251,7 +251,7 @@ class ContactNotification {
     public function finalListAdmin (Event $event)
     {
         $tabSubs = $event->getSubscriptions();
-        $message = "Bonjour admin :)\n\nL'événement ".$event->getName()." arrive à grands pas.\nVoici la liste finale de participant.es :\n";
+        $message = "Bonjour admin :)\n\nL'événement ".$event->getName()." arrive à grands pas.\nVoici la liste finale de participant·es :\n";
         $tabUsers = [];
         foreach ($tabSubs as $thisSub)
         {
@@ -297,7 +297,7 @@ class ContactNotification {
         $contact = new Contact();
         $contact->setFirstName("Admin");
         $contact->setLastName("Auribail");
-        $contact->setSubject("Liste de participant.es au prochain événement");
+        $contact->setSubject("Liste de participant·es au prochain événement");
         $contact->setMessage($message);
         $email = (new TemplatedEmail())
             ->from('contact.auribail@gmail.com')

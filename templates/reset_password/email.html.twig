@@ -1,10 +1,46 @@
-<h1>Bonjour</h1>
-
-<p>Pour changer votre mot de passe, veuillez suivre le lien suivant :</p>
-
-<a href="{{ url('app_reset_password', {token: resetToken.token}) }}">{{ url('app_reset_password', {token: resetToken.token}) }}</a>
-
-<p>Ce lien expirera dans une heure.
- {# {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.</p> #}
-
-<p>Bien cordialement,</p>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mot de passe</title>
+</head>
+<body>
+    <table style="font-family: Verdana, sans-serif; color: #00055d; background-color: #f9f9ff; width: 100%;">
+        <tr>
+            <th></th>
+            <th align='center' style="min-height: 90px;">
+                <a style="text-decoration: none !important; color: #00055d;" href="www.auribail-mx-park.local/">
+                    <img style="display: block; padding-bottom: 5px;" src="{{ email.image('@images/motocross-logo.png') }}" alt="Logo">
+        	    	Auribail MX Park
+                </a>
+            </th>
+            <th></th>
+        </tr>
+        <tr>
+            <td></td>
+            <td align='center' style="background-color: #00055d; border-radius: 2%; min-height: 180px; width: 80%;">
+                <table style="width: 100%">
+                    <tr align='center'>
+                        <td><h1 style="color: #f9f9ff;">Réinitialisation du mot de passe</h1></td>
+                    </tr>
+                    <tr align='center'>
+                        <td><p style="color: #f9f9ff;">Bonjour,</p>
+                        <p style="color: #f9f9ff;">Pour changer votre mot de passe, veuillez suivre le lien suivant :</p>
+                        <a style="color: #f9f9ff;" href="{{ url('app_reset_password', {token: resetToken.token}) }}">{{ url('app_reset_password', {token: resetToken.token}) }}</a>
+                        <p style="color: #f9f9ff;">Ce lien expirera dans une heure.
+                        <p style="color: #f9f9ff;">Bien cordialement,</p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td align='center' style="min-height: 80px;">L'équipe de Auribail MX Park vous souhaite de passer une belle journée !</div>	
+            <td></td>
+        </tr>
+    </table>
+</body>
+</html>
