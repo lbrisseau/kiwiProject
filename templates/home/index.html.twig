@@ -57,7 +57,7 @@
         <div class="carousel-inner">
           <div class="carousel-item active">
             <!-- Version moyens-grands écrans -->
-            <img class="img-fluid w-100 my-img" src="{{absolute_url(asset("/build/motocross-dimanche_960x200.jpg"))}}" alt="Moto Dimanche">
+            <img class="img-fluid w-100 my-img" src="{{absolute_url(asset(" /build/motocross-dimanche_960x200.jpg"))}}" alt="Moto Dimanche">
             <div class="carousel-caption">
               <h1>
                 {% if animation.carouselMessage1 is defined %}
@@ -69,7 +69,7 @@
             </div>
           </div>
           <div class="carousel-item">
-            <img class="img-fluid w-100 my-img" src="{{absolute_url(asset("/build/terrain1_960x200.jpg"))}}" alt="Terrain 1">
+            <img class="img-fluid w-100 my-img" src="{{absolute_url(asset(" /build/terrain1_960x200.jpg"))}}" alt="Terrain 1">
             <div class="carousel-caption">
               <h1>
                 {% if animation.carouselMessage2 is defined %}
@@ -81,7 +81,7 @@
             </div>
           </div>
           <div class="carousel-item">
-            <img class="img-fluid w-100 my-img" src="{{absolute_url(asset("/build/motocross-team_960x200.jpg"))}}" alt="Team">
+            <img class="img-fluid w-100 my-img" src="{{absolute_url(asset(" /build/motocross-team_960x200.jpg"))}}" alt="Team">
             <div class="carousel-caption">
               <h1>
                 {% if animation.carouselMessage3 is defined %}
@@ -93,7 +93,7 @@
             </div>
           </div>
           <div class="carousel-item">
-            <img class="img-fluid w-100 my-img" src="{{absolute_url(asset("/build/terrain2_960x200.jpg"))}}" alt="Terrain 2">
+            <img class="img-fluid w-100 my-img" src="{{absolute_url(asset(" /build/terrain2_960x200.jpg"))}}" alt="Terrain 2">
             <div class="carousel-caption">
               <h1>
                 {% if animation.carouselMessage4 is defined %}
@@ -118,7 +118,7 @@
     {# NOTA BENE on considère qu'il existe toujours de prochains événements #}
     <div class="flex-container pageMobile">
       <div class="flex-card pageMobileCard">
-        <h1 class="flex-title">Événement</h1>
+        <h1 class="flex-title">Événements</h1>
         <!-- Intégration du calendrier (la date est en rouge et contient le lien vers l'événement sur google agenda) -->
         <div class="flex-element">
           <div class="icalendar" id='hereData' data-date1='{{ event.0.date|date("Y/m/d") }}' data-date2='{{ kids.0.date|date("Y/m/d") }}' data-link1='{{ event.0.googleCalendarUrl }}' data-link2='{{ kids.0.googleCalendarUrl }}'>
@@ -186,19 +186,19 @@
         </div>
       </div>
       <div class="ml-2 pl-2 pt-2 flex-divider">
-        <p class="pageMobile">Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-          <br>
-          Ea corporis, eos illum a quam eius iusto dolorem veritatis laborum impedit!
-          <br>
-          Adipisci ducimus illum odio ratione perferendis animi ipsam fuga esse.
-          <br><br>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-          <br>
-          Sit consequatur ratione molestias necessitatibus.
-          <br>
-          Voluptatem maxime architecto iusto earum quibusdam non facere necessitatibus.
-          <br>
-          Sint, natus? Accusantium est ipsam illum quaerat. Doloribus!
+        <p class="pageMobile">
+          <strong>Circuit et commodités :</strong>
+          <br/>
+          Le club dispose d'un circuit d'entrainement exceptionnel d'une longueur de 1950 mètres
+          <br/>
+          par 8 mètres de large avec une terre argileuse de grande qualité.
+          <br/>
+          Sanitaire, douche, club house, électricité, terrain technique et école de pilotage sont à disposition.
+          <br/>
+          <br/>
+          <strong>Horaires d'ouverture :</strong>
+          <br/>
+          Le 1er dimanche de chaque mois de 10h à 12h et de 14h à 18h.
         </p>
         <ul class="pageMobile">
           <li>Respecter les consignes de sécurité lors de l'utilisation du terrain</li>
@@ -229,11 +229,11 @@
             {% else %}
               <button class="btn btn-primary" data-toggle="modal" data-target="#authModal">S'inscrire</button>
             {% endif %}
-            <p class="mb-4 h5 pageMobile">Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+            <p class="mb-4 h5 pageMobile">Inscrivez-vous à l'une de nos sessions d'entrainement !
               <br>
-              Ea corporis, eos illum a quam eius iusto dolorem veritatis laborum impedit!
+              Les membres du club sont prioritaires par rapport aux autres usagers.
               <br>
-              Adipisci ducimus illum odio ratione perferendis animi ipsam fuga esse.
+              Les enfants bénéficient d'une session d'entrainement dédiée (limitée à 15 places).
             </p>
           </div>
           <div class="pageMobileCard flex-card">
