@@ -80,7 +80,7 @@
 
       {# Alert for a successful action #}
       {% for message in app.flashes('success') %}
-        <div class="flash-success alert alert-success alert-dismissible fade show mt-3" role="alert">
+        <div class="flash-success alert alert-success alert-dismissible fade show" role="alert">
           {{ message }}
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -89,7 +89,7 @@
       {% endfor %}
       {# Alert for the cancelling of an event or such things #}
       {% for message in app.flashes('issueEvent') %}
-        <div class="flash-issueEvent alert alert-primary alert-dismissible fade show mt-3" role="alert">
+        <div class="flash-issueEvent alert alert-primary alert-dismissible fade show" role="alert">
           {{ message }}
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -98,7 +98,7 @@
       {% endfor %}
       {# Alert for an account deletion or other worrying thing #}
       {% for message in app.flashes('warning')%}
-		    <div class="flash-success alert alert-danger alert-dismissible fade show mt-4">
+		    <div class="flash-success alert alert-danger alert-dismissible fade show">
 			    {{ message }}
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
