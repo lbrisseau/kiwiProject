@@ -96,7 +96,7 @@
           </button>
         </div>
       {% endfor %}
-      {# Alert for an account deletion #}
+      {# Alert for an account deletion or other worrying thing #}
       {% for message in app.flashes('warning')%}
 		    <div class="flash-success alert alert-danger alert-dismissible fade show mt-4">
 			    {{ message }}
