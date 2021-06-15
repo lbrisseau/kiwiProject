@@ -40,6 +40,10 @@ class HomeController extends AbstractController
             $this->addFlash('success', "Votre message a bien été envoyé.");
             return $this->redirectToRoute("home", ['_fragment' => 'contact']);
         }
+        else if ($formContact->isSubmitted())
+        {
+            $this->addFlash('warning', "Le message n'a pas été envoyé.");
+        }
         // Initialization of various dates + event
         $currentEvent = null;
         $isThereSubs = null;
