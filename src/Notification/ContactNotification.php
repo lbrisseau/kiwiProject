@@ -251,13 +251,13 @@ class ContactNotification {
     public function finalListAdmin (Event $event)
     {
         $tabSubs = $event->getSubscriptions();
-        $message = "Bonjour admin :)\n\nL'événement ".$event->getName()." arrive à grands pas.\nVoici la liste finale de participant·es :\n";
+        $message = "Bonjour admin :)\n\nL'événement ".$event->getName()." arrive à grands pas.\nVoici la liste finale d'inscrit·es :\n";
         $tabUsers = [];
         foreach ($tabSubs as $thisSub)
         {
             $user = $thisSub->getUser();
             $tabUsers[] = $user;
-            $message .= $user->getFirstName()." ".$user->getFirstName()."\n";
+            $message .= $user->getFirstName()." ".$user->getLastName()."\n";
         }
         $message .= "\nCi-joint la feuille d'émargement.\nOk ciao !\n\nTon double omniscient.";
         // now creation of the pdf list// Création d'un tableau de personnes
@@ -297,7 +297,7 @@ class ContactNotification {
         $contact = new Contact();
         $contact->setFirstName("Admin");
         $contact->setLastName("Auribail");
-        $contact->setSubject("Liste de participant·es au prochain événement");
+        $contact->setSubject("Liste d'inscrit·es au prochain événement");
         $contact->setMessage($message);
         $email = (new TemplatedEmail())
             ->from('contact.auribail@gmail.com')
