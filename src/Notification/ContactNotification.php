@@ -8,7 +8,7 @@ use App\Entity\User;
 use App\Repository\SubscriptionRepository;
 use Fpdf\Fpdf;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Twig\Environment;
 
 class ContactNotification {
@@ -31,7 +31,7 @@ class ContactNotification {
 
     public function notify (Contact $contact)
     {
-        $email = (new Email())
+        $email = (new TemplatedEmail())
             ->from('contact.auribail@gmail.com')
             ->to('contact.auribail@gmail.com')
             //->cc('cc@example.com')
@@ -40,10 +40,12 @@ class ContactNotification {
             //->priority(Email::PRIORITY_HIGH)
             ->subject($contact->getSubject())
             ->text($contact->getMessage())
-            ->html($this->renderer->render('emails/contact.html.twig', [
-                'contact' => $contact
-            ]));
-
+            ->htmlTemplate('emails/contact.html.twig')
+            // pass variables (name => value) to the template
+            ->context([
+                'contact' => $contact,
+            ])
+        ;
         $this->mailer->send($email);
     }
 
@@ -68,7 +70,7 @@ class ContactNotification {
             $nameEvent.".\nNous vous attendons le ".$dateEvent->format('d/m')." au terrain de motocross d'Auribail.
             \n\nMerci de votre fidélité,\n\nL'équipe de Auribail MX Park");
         }
-        $email = (new Email())
+        $email = (new TemplatedEmail())
             ->from('contact.auribail@gmail.com')
             ->to($user->getEmail())
             //->cc('cc@example.com')
@@ -77,7 +79,11 @@ class ContactNotification {
             //->priority(Email::PRIORITY_HIGH)
             ->subject($contact->getSubject())
             ->text($contact->getMessage())
-            ->html($this->renderer->render('emails/classic.html.twig', ['contact' => $contact]))
+            ->htmlTemplate('emails/classic.html.twig')
+            // pass variables (name => value) to the template
+            ->context([
+                'contact' => $contact,
+            ])
         ;
         $this->mailer->send($email);
     }
@@ -93,7 +99,7 @@ class ContactNotification {
         $contact->setSubject("Désinscription de l'entraînement prochain de motocross");
         $contact->setMessage("Bonjour ".$user->getFirstName().",\n\nVous vous êtes désinscrit.e de l'événement : ".
         $nameEvent.".\n\nNous espérons vous revoir très vite,\n\nL'équipe de Auribail MX Park");
-        $email = (new Email())
+        $email = (new TemplatedEmail())
             ->from('contact.auribail@gmail.com')
             ->to($user->getEmail())
             //->cc('cc@example.com')
@@ -102,7 +108,11 @@ class ContactNotification {
             //->priority(Email::PRIORITY_HIGH)
             ->subject($contact->getSubject())
             ->text($contact->getMessage())
-            ->html($this->renderer->render('emails/classic.html.twig', ['contact' => $contact]))
+            ->htmlTemplate('emails/classic.html.twig')
+            // pass variables (name => value) to the template
+            ->context([
+                'contact' => $contact,
+            ])
         ;
         $this->mailer->send($email);
     }
@@ -148,7 +158,7 @@ class ContactNotification {
                 $contact->setLastName($user->getLastName());
                 $contact->setSubject($subject);
                 $contact->setMessage($message);
-                $email = (new Email())
+                $email = (new TemplatedEmail())
                     ->from('contact.auribail@gmail.com')
                     ->to($user->getEmail())
                     //->cc('cc@example.com')
@@ -157,7 +167,11 @@ class ContactNotification {
                     //->priority(Email::PRIORITY_HIGH)
                     ->subject($contact->getSubject())
                     ->text($contact->getMessage())
-                    ->html($this->renderer->render('emails/classic.html.twig', ['contact' => $contact]))
+                    ->htmlTemplate('emails/classic.html.twig')
+                    // pass variables (name => value) to the template
+                    ->context([
+                        'contact' => $contact,
+                    ])
                 ;
                 $this->mailer->send($email);
             }
@@ -213,7 +227,7 @@ class ContactNotification {
             $contact->setLastName($user->getLastName());
             $contact->setSubject($subject);
             $contact->setMessage($message);
-            $email = (new Email())
+            $email = (new TemplatedEmail())
                 ->from('contact.auribail@gmail.com')
                 ->to($user->getEmail())
                 //->cc('cc@example.com')
@@ -222,7 +236,11 @@ class ContactNotification {
                 //->priority(Email::PRIORITY_HIGH)
                 ->subject($contact->getSubject())
                 ->text($contact->getMessage())
-                ->html($this->renderer->render('emails/classic.html.twig', ['contact' => $contact]))
+                ->htmlTemplate('emails/classic.html.twig')
+                // pass variables (name => value) to the template
+                ->context([
+                    'contact' => $contact,
+                ])
             ;
             $this->mailer->send($email);
         }
@@ -281,7 +299,7 @@ class ContactNotification {
         $contact->setLastName("Auribail");
         $contact->setSubject("Liste de participant.es au prochain événement");
         $contact->setMessage($message);
-        $email = (new Email())
+        $email = (new TemplatedEmail())
             ->from('contact.auribail@gmail.com')
             ->to('contact.auribail@gmail.com')
             //->cc('cc@example.com')
@@ -290,7 +308,11 @@ class ContactNotification {
             //->priority(Email::PRIORITY_HIGH)
             ->subject($contact->getSubject())
             ->text($contact->getMessage())
-            ->html($this->renderer->render('emails/classic.html.twig', ['contact' => $contact]))
+            ->htmlTemplate('emails/classic.html.twig')
+            // pass variables (name => value) to the template
+            ->context([
+                'contact' => $contact,
+            ])
             ->attach($pdf->Output("MX Trail - Liste Session ".utf8_decode($event->getName()).".pdf","S"), "MX Trail - Liste Session ".utf8_decode($event->getName()), 'application/pdf')
         ;
         $this->mailer->send($email);
@@ -312,7 +334,7 @@ class ContactNotification {
             $contact->setMessage("Bonjour ".$user->getFirstName().",\n\nVotre inscription à l'événement :\n".
             $nameEvent."\nne peut être complète tant que vous n'avez pas renseigné votre numéro de licence.\n
             Veuillez le faire avant le ".$event->getDate()->format('d/m').".\n\nEn espérant vous revoir très vite,\n\nL'équipe de Auribail MX Park");
-            $email = (new Email())
+            $email = (new TemplatedEmail())
                 ->from('contact.auribail@gmail.com')
                 ->to($user->getEmail())
                 //->cc('cc@example.com')
@@ -321,7 +343,11 @@ class ContactNotification {
                 //->priority(Email::PRIORITY_HIGH)
                 ->subject($contact->getSubject())
                 ->text($contact->getMessage())
-                ->html($this->renderer->render('emails/classic.html.twig', ['contact' => $contact]))
+                ->htmlTemplate('emails/classic.html.twig')
+                // pass variables (name => value) to the template
+                ->context([
+                    'contact' => $contact,
+                ])
             ;
             $this->mailer->send($email);
         }
@@ -336,7 +362,7 @@ class ContactNotification {
         $contact->setSubject("Votre compte a été supprimé");
         $contact->setMessage("Bonjour ".$user->getFirstName().",\n\nVotre compte sur le site Auribail MX Park a été supprimé.
         \n\nBonne continuation,\n\nL'équipe de Auribail MX Park");
-        $email = (new Email())
+        $email = (new TemplatedEmail())
             ->from('contact.auribail@gmail.com')
             ->to($user->getEmail())
             //->cc('cc@example.com')
@@ -345,7 +371,11 @@ class ContactNotification {
             //->priority(Email::PRIORITY_HIGH)
             ->subject($contact->getSubject())
             ->text($contact->getMessage())
-            ->html($this->renderer->render('emails/classic.html.twig', ['contact' => $contact]))
+            ->htmlTemplate('emails/classic.html.twig')
+            // pass variables (name => value) to the template
+            ->context([
+                'contact' => $contact,
+            ])
         ;
         $this->mailer->send($email);
     }
@@ -361,7 +391,7 @@ class ContactNotification {
             $contact->setLastName($subs->getUser()->getLastName());
             $contact->setSubject($subject);
             $contact->setMessage($message);
-            $email = (new Email())
+            $email = (new TemplatedEmail())
                 ->from('contact.auribail@gmail.com')
                 ->to($subs->getUser()->getEmail())
                 //->cc('cc@example.com')
@@ -370,7 +400,12 @@ class ContactNotification {
                 //->priority(Email::PRIORITY_HIGH)
                 ->subject($contact->getSubject())
                 ->text($contact->getMessage())
-                ->html($this->renderer->render('emails/classic.html.twig', ['contact' => $contact]))
+                // path of the Twig template to render
+                ->htmlTemplate('emails/classic.html.twig')
+                // pass variables (name => value) to the template
+                ->context([
+                    'contact' => $contact,
+                ])
             ;
             $this->mailer->send($email);
         }
