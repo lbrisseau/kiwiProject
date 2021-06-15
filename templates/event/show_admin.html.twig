@@ -3,9 +3,9 @@
 {% block title %}MX Park | Admin | Détail entrainement{% endblock %}
 
 {% block body %}
-  <div class="container">
+  {# <div class="container"> #}
     <div class="row">
-      <div class="col-10 mx-auto">
+      <div class="col-12 col-lg-10 mx-auto">
         <div class="d-flex  my-4">
           <h1 class="h2">Détail entrainement du
             {{ event.date ? event.date|date('d/m/Y') : '' }}
@@ -59,8 +59,9 @@
             </tr>
           </tbody>
         </table>
-        <div class="d-flex align-items-center">
-          <p class="h2 my-4">Liste des inscrits</p>
+        <p class="h2 mt-4">Liste des inscrits</p>
+        <div class="d-flex align-items-center mb-4">
+          
           <div class="ml-auto d-flex">
             <a href="{{ path('event_check_licence', {id: event.id}) }}" class="text-white btn btn-success"><i class="far fa-envelope"></i> Licence</a>
             <a href="{{ path('event_preannouncement', {id: event.id}) }}" class="text-white ml-3 btn btn-success"><i class="far fa-envelope"></i> Autres</a>
@@ -79,7 +80,7 @@
             <th>#</th>
             <th>Nom</th>
             <th>Prénom</th>
-            <th>Date Inscription</th>
+            <th class="d-none d-lg-block">Date Inscription</th>
             <th>Inscription Validée ?</th>
           </thead>
           <tbody>
@@ -98,7 +99,7 @@
                 <td>{{ key + 1 }}</td>
                 <td>{{ user.firstname }}</td>
                 <td>{{ user.name }}</td>
-                <td>{{ user.subsdate ? user.subsdate|date('d/m/Y H:i:s') : ''  }}</td>
+                <td class="d-none d-lg-block">{{ user.subsdate ? user.subsdate|date('d/m/Y H:i:s') : ''  }}</td>
                 <td>{{ user.validationstate ? 'Oui' : 'Non' }}</td>
               </tr>
             {% else %}
@@ -111,6 +112,6 @@
         {{ include('event/_delete_form_admin.html.twig') }}
       </div>
     </div>
-  </div>
+  {# </div> #}
 
 {% endblock %}

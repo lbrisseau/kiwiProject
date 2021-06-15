@@ -3,9 +3,9 @@
 {% block title %}MX Park | Admin | Membres{% endblock %}
 
 {% block body %}
-  <div class="container">
+  {# <div class="container"> #}
     <div class="row">
-      <div class="col-10 mx-auto">
+      <div class="col-12 col-lg-10 mx-auto">
         <div class="d-flex  mt-4 mb-2">
           <h1 class="h2">Liste des membres</h1>
           <input id="myInput" class="form-control col-6 ml-auto" type="text" placeholder="Recherche...">
@@ -19,7 +19,7 @@
             <tr>
               <th>Nom</th>
               <th>Prénom</th>
-              <th>Age</th>
+              <th class="d-none d-lg-block">Age</th>
               <th>Role</th>
               <th>Actions</th>
             </tr>
@@ -33,7 +33,7 @@
                   {% set age = date().diff(date(user.birthDate)).y %}
                   {{ age }} ans
                 </td>
-                <td>
+                <td class="d-none d-lg-block">
                   <p class="text-break">
                     {% set string = user.roles | join(', ') %}
                     {% set string = string | replace({'ROLE_': ''}) %}
@@ -58,6 +58,6 @@
         </table>
       </div>
     </div>
-  </div>
+  {# </div> #}
 
 {% endblock %}

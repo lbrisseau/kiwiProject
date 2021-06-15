@@ -31,14 +31,14 @@ body {
 /* Style de la navbar : */
 /* - boutons actifs ou non : */
 .navbar-nav li > a {
-  color: white;
+  color:  white !important;
   transition: background-color 0.2s, color 0.2s;
 }
 .navbar-nav li > a:hover {
-  color: #bebebe;
+  color: #bebebe !important;
 }
 .navbar-nav li.active > a {
-  color: #fff;
+  color: white !important;
 }
 /* - comme le logo prend trop de place : */
 .my-logo {
